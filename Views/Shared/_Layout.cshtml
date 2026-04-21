@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Бишгүүр Сургалт</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <div class="app-wrapper">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <span class="app-logo">🎵</span>
+                <div>
+                    <div class="app-title">Бишгүүр Сургалт</div>
+                    <div class="app-subtitle">Recorder Learning System</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-label">Хичээлүүд</div>
+            <div class="nav-menu">
+                <button class="nav-btn active" onclick="loadLesson('notes', this)">
+                    <span>🎵</span> Нот сурах
+                </button>
+                <button class="nav-btn" onclick="loadLesson('fingering', this)">
+                    <span>🤲</span> Хурууны байрлал
+                </button>
+                <button class="nav-btn" onclick="loadLesson('breathing', this)">
+                    <span>💨</span> Амьсгалын техник
+                </button>
+                <button class="nav-btn" onclick="loadLesson('posture', this)">
+                    <span>🤖</span> Биеийн галбир
+                </button>
+                
+                <div class="sidebar-label" style="margin-top: 30px;">Хяналт</div>
+                <button class="nav-btn" onclick="loadLesson('sound', this)">
+                    <span>🔊</span> Дуу авианы хяналт
+                </button>
+                <button class="nav-btn" onclick="loadLesson('songs', this)">
+                    <span>🎶</span> Энгийн аянууд
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content" id="main-container">
+            <div class="content-card">
+                @RenderBody()
+            </div>
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>
