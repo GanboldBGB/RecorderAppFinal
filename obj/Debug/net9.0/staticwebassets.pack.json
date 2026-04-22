@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\fingering_lesson.html",
+      "PackagePath": "staticwebassets\\fingering_lesson.html"
+    },
+    {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\flute_trainer.html",
       "PackagePath": "staticwebassets\\flute_trainer.html"
     },
@@ -263,6 +267,10 @@
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\lib\\jquery\\dist\\jquery.slim.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.slim.min.map"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\notes_lesson.html",
+      "PackagePath": "staticwebassets\\notes_lesson.html"
     },
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\posture_coach.html",

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Хурууны байрлал</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg:   #0c0e14;
+    --s1:   #13151d;
+    --s2:   #191c28;
+    --s3:   #1f2235;
+    --bd:   #252840;
+    --ac:   #5b9cf6;
+    --ac2:  #7eb8ff;
+    --tx:   #eef0f8;
+    --tx2:  #9298b8;
+    --open: #1e293b;
+    --closed: #5b9cf6;
+    --thumb: #f59e0b;
+    --half: #a78bfa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--tx);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    padding: 24px 32px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, #1e3a5f, #0f1e35);
+    border: 1px solid var(--bd);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .header h1 { font-size: 22px; font-weight: 700; }
+  .header p  { font-size: 13px; color: var(--tx2); margin-top: 2px; }
+
+  /* ── Note Selector ── */
+  .note-selector {
+    display: flex;
+    gap: 8px;
+    padding: 20px 32px 0;
+    flex-wrap: wrap;
+  }
+
+  .note-btn {
+    position: relative;
+    width: 68px; height: 68px;
+    border-radius: 14px;
+    border: 2px solid var(--bd);
+    background: var(--s1);
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 2px;
+    overflow: hidden;
+  }
+  .note-btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(91,156,246,0.15), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .note-btn:hover { transform: translateY(-3px); border-color: var(--ac); }
+  .note-btn:hover::before { opacity: 1; }
+  .note-btn.active {
+    background: var(--s3);
+    border-color: var(--ac);
+    box-shadow: 0 0 20px rgba(91,156,246,0.3), 0 4px 16px rgba(0,0,0,0.4);
+    transform: translateY(-4px);
+  }
+  .note-btn.active::before { opacity: 1; }
+
+  .note-label {
+    font-size: 22px; font-weight: 700;
+    color: var(--tx);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+  }
+  .note-btn.active .note-label { color: var(--ac2); }
+  .note-sub {
+    font-size: 10px; color: var(--tx2);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Main layout ── */
+  .main {
+    display: flex;
+    gap: 28px;
+    padding: 24px 32px 32px;
+    align-items: flex-start;
+  }
+
+  /* ── Recorder Visual ── */
+  .recorder-container {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .recorder-wrap {
+    position: relative;
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* SVG recorder body */
+  .recorder-svg {
+    width: 120px;
+  }
+
+  /* Finger holes overlay */
+  .holes-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+  }
+
+  /* ── Hole circles ── */
+  .hole {
+    transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .hole.open {
+    fill: #0a0c14;
+    stroke: #3a4060;
+    stroke-width: 1.5;
+    filter: none;
+  }
+  .hole.closed {
+    fill: var(--closed);
+    stroke: var(--ac2);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 6px rgba(91,156,246,0.7));
+    animation: pulseHole 1.5s ease-in-out infinite;
+  }
+  .hole.half {
+    fill: var(--half);
+    stroke: #c4b5fd;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 6px rgba(167,139,250,0.7));
+    animation: pulseHalf 1.5s ease-in-out infinite;
+  }
+  .hole.thumb-closed {
+    fill: var(--thumb);
+    stroke: #fcd34d;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 8px rgba(245,158,11,0.8));
+    animation: pulseThumb 1.5s ease-in-out infinite;
+  }
+  .hole.thumb-open {
+    fill: #0a0c14;
+    stroke: #3a4060;
+    stroke-width: 1.5;
+    filter: none;
+  }
+  .hole.thumb-half {
+    fill: #f97316;
+    stroke: #fb923c;
+    stroke-width: 2;
+    filter: drop-shadow(0 0 8px rgba(249,115,22,0.8));
+    animation: pulseThumb 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulseHole {
+    0%,100% { filter: drop-shadow(0 0 6px rgba(91,156,246,0.7)); }
+    50%      { filter: drop-shadow(0 0 12px rgba(91,156,246,1)); }
+  }
+  @keyframes pulseHalf {
+    0%,100% { filter: drop-shadow(0 0 6px rgba(167,139,250,0.7)); }
+    50%      { filter: drop-shadow(0 0 12px rgba(167,139,250,1)); }
+  }
+  @keyframes pulseThumb {
+    0%,100% { filter: drop-shadow(0 0 8px rgba(245,158,11,0.8)); }
+    50%      { filter: drop-shadow(0 0 14px rgba(245,158,11,1)); }
+  }
+
+  /* ── Info panel ── */
+  .info-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .note-hero {
+    background: linear-gradient(135deg, #1a1d2e, #0f111a);
+    border: 1px solid var(--bd);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .note-hero::before {
+    content: attr(data-note);
+    position: absolute;
+    right: 20px; top: 50%; transform: translateY(-50%);
+    font-size: 120px; font-weight: 900;
+    color: rgba(91,156,246,0.07);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .note-hero-name {
+    font-size: 48px; font-weight: 700;
+    color: var(--ac2);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1;
+  }
+  .note-hero-mn   { font-size: 18px; color: var(--tx); margin-top: 4px; font-weight: 600; }
+  .note-hero-desc { font-size: 13px; color: var(--tx2); margin-top: 8px; line-height: 1.6; }
+
+  /* Finger diagram row */
+  .finger-grid {
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: 16px;
+    padding: 20px;
+  }
+  .finger-grid-title {
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--tx2); margin-bottom: 16px;
+  }
+
+  .finger-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .finger-chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    border: 1px solid transparent;
+    transition: all 0.3s;
+  }
+  .finger-chip.pressed {
+    background: rgba(91,156,246,0.12);
+    border-color: rgba(91,156,246,0.3);
+    color: var(--ac2);
+  }
+  .finger-chip.open-chip {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.06);
+    color: var(--tx2);
+  }
+  .finger-chip.half-chip {
+    background: rgba(167,139,250,0.12);
+    border-color: rgba(167,139,250,0.3);
+    color: #c4b5fd;
+  }
+  .finger-chip.thumb-chip {
+    background: rgba(245,158,11,0.12);
+    border-color: rgba(245,158,11,0.3);
+    color: #fcd34d;
+  }
+  .chip-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .chip-dot.pressed { background: var(--ac); }
+  .chip-dot.open    { background: var(--bd); border: 1px solid #3a4060; }
+  .chip-dot.half    { background: var(--half); }
+  .chip-dot.thumb   { background: var(--thumb); }
+
+  /* Legend */
+  .legend {
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--tx2);
+  }
+  .legend-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1.5px solid;
+  }
+  .legend-dot.l-closed { background: var(--ac); border-color: var(--ac2); }
+  .legend-dot.l-open   { background: #0a0c14; border-color: #3a4060; }
+  .legend-dot.l-half   { background: var(--half); border-color: #c4b5fd; }
+  .legend-dot.l-thumb  { background: var(--thumb); border-color: #fcd34d; }
+
+  /* Tip box */
+  .tip-box {
+    background: linear-gradient(135deg, rgba(91,156,246,0.08), rgba(91,156,246,0.03));
+    border: 1px solid rgba(91,156,246,0.2);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--tx2);
+    line-height: 1.6;
+  }
+  .tip-box strong { color: var(--ac2); }
+
+  /* Ripple on note change */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in { animation: fadeInUp 0.35s ease forwards; }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .main { flex-direction: column; padding: 16px; }
+    .recorder-container { flex-direction: row; gap: 20px; width: 100%; }
+    .note-selector { padding: 16px 16px 0; }
+    .header { padding: 16px 16px 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-icon">🤚</div>
+  <div>
+    <h1>Хурууны байрлал</h1>
+    <p>Нот бүрийн хурууны байрлалыг сурах</p>
+  </div>
+</div>
+
+<!-- Note selector -->
+<div class="note-selector" id="noteSelector"></div>
+
+<!-- Main content -->
+<div class="main">
+
+  <!-- Recorder visual -->
+  <div class="recorder-container">
+    <div class="recorder-wrap">
+      <svg class="recorder-svg" id="recorderSvg" viewBox="0 0 120 560" xmlns="http://www.w3.org/2000/svg">
+        <!-- Recorder body -->
+        <!-- Mouthpiece top -->
+        <path d="M48,0 L72,0 L76,40 L44,40 Z" fill="#1e2240" stroke="#2d3158" stroke-width="1.5" rx="4"/>
+        <!-- Windway band -->
+        <rect x="42" y="38" width="36" height="8" rx="3" fill="#252840" stroke="#3a4060" stroke-width="1"/>
+        <!-- Main body -->
+        <path d="M44,46 Q40,46 39,52 L36,480 Q36,490 44,492 L76,492 Q84,490 84,480 L81,52 Q80,46 76,46 Z"
+              fill="#1a1d2e" stroke="#252840" stroke-width="1.5"/>
+        <!-- Bell -->
+        <path d="M36,480 Q32,510 28,530 Q26,542 40,548 L80,548 Q94,542 92,530 Q88,510 84,480 Z"
+              fill="#161826" stroke="#252840" stroke-width="1.5"/>
+
+        <!-- Wood grain lines (decorative) -->
+        <line x1="50" y1="60" x2="50" y2="470" stroke="#1f2338" stroke-width="0.5" opacity="0.6"/>
+        <line x1="60" y1="55" x2="60" y2="475" stroke="#1f2338" stroke-width="0.5" opacity="0.4"/>
+        <line x1="70" y1="60" x2="70" y2="470" stroke="#1f2338" stroke-width="0.5" opacity="0.6"/>
+
+        <!-- ── HOLES (top = thumb back, then 7 front holes) ── -->
+        <!-- Thumb hole (back) — shown as dashed outline -->
+        <ellipse id="hole-thumb" class="hole thumb-closed"
+                 cx="60" cy="100" rx="10" ry="7"/>
+
+        <!-- Front holes -->
+        <!-- Hole 1 (index left) -->
+        <circle id="hole-1" class="hole closed" cx="60" cy="158" r="9"/>
+        <!-- Hole 2 (middle left) -->
+        <circle id="hole-2" class="hole closed" cx="60" cy="206" r="9"/>
+        <!-- Hole 3 (ring left) -->
+        <circle id="hole-3" class="hole closed" cx="60" cy="254" r="9"/>
+        <!-- Hole 4 (index right) -->
+        <circle id="hole-4" class="hole closed" cx="60" cy="310" r="9"/>
+        <!-- Hole 5 (middle right) -->
+        <circle id="hole-5" class="hole closed" cx="60" cy="356" r="9"/>
+        <!-- Hole 6a (ring right left sub) -->
+        <circle id="hole-6a" class="hole closed" cx="52" cy="402" r="7"/>
+        <!-- Hole 6b (ring right right sub) -->
+        <circle id="hole-6b" class="hole closed" cx="68" cy="402" r="7"/>
+        <!-- Hole 7a -->
+        <circle id="hole-7a" class="hole closed" cx="52" cy="440" r="6"/>
+        <!-- Hole 7b -->
+        <circle id="hole-7b" class="hole closed" cx="68" cy="440" r="6"/>
+
+        <!-- Labels -->
+        <text x="94" y="102" fill="#3a4060" font-size="9" font-family="JetBrains Mono">T</text>
+        <text x="94" y="162" fill="#3a4060" font-size="9" font-family="JetBrains Mono">1</text>
+        <text x="94" y="210" fill="#3a4060" font-size="9" font-family="JetBrains Mono">2</text>
+        <text x="94" y="258" fill="#3a4060" font-size="9" font-family="JetBrains Mono">3</text>
+        <text x="94" y="314" fill="#3a4060" font-size="9" font-family="JetBrains Mono">4</text>
+        <text x="94" y="360" fill="#3a4060" font-size="9" font-family="JetBrains Mono">5</text>
+        <text x="94" y="406" fill="#3a4060" font-size="9" font-family="JetBrains Mono">6</text>
+        <text x="94" y="444" fill="#3a4060" font-size="9" font-family="JetBrains Mono">7</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Info panel -->
+  <div class="info-panel" id="infoPanel">
+    <!-- Filled by JS -->
+  </div>
+
+</div>
+
+<script>
+// ── Note data ──
+// Hole order: thumb, 1, 2, 3, 4, 5, 6a, 6b, 7a, 7b
+// States: 'closed', 'open', 'half'
+const NOTES = [
+  {
+    name: 'C',
+    mn: 'До (C4)',
+    octave: 4,
+    desc: 'Хамгийн бага нот. Бүх хурууг дарна. Амьсгалыг аажим, тайван гаргана.',
+    tip: 'Бүх нүхийг бүрэн хааж, хурууг зэрэгцүүлэн дарна уу.',
+    // thumb, 1, 2, 3, 4, 5, 6a, 6b, 7a, 7b
+    holes: ['closed','closed','closed','closed','closed','closed','closed','closed','closed','closed'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'closed' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'closed' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'closed' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'closed' },
+    ]
+  },
+  {
+    name: 'D',
+    mn: 'Рэ (D4)',
+    octave: 4,
+    desc: 'Дараагийн нот. Зөвхөн хамгийн доод хоёр хурууг нээнэ.',
+    tip: '7-р нүхийг нээхдээ гарын чинжаа хурууг өрглөнө.',
+    holes: ['closed','closed','closed','closed','closed','closed','open','open','open','open'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'closed' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'closed' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
+    ]
+  },
+  {
+    name: 'E',
+    mn: 'Ми (E4)',
+    octave: 4,
+    desc: '5, 6, 7-р нүхийг нээнэ. Амьсгалыг хэвийн хурдаар гаргана.',
+    tip: '5-р нүхийг нээхдээ гарын дунд хуруугаа өрглөнө.',
+    holes: ['closed','closed','closed','closed','closed','open','open','open','open','open'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'closed' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
+    ]
+  },
+  {
+    name: 'F',
+    mn: 'Фа (F4)',
+    octave: 4,
+    desc: 'Баруун гарын бүх хурууг нээнэ. Зүүн гарын дөрвөн хуруу хэвээр байна.',
+    tip: '4-р нүхийг нээхдээ баруун гарын дэлхий хуруугаа өрглөнө.',
+    holes: ['closed','closed','closed','closed','open','open','open','open','open','open'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
+    ]
+  },
+  {
+    name: 'G',
+    mn: 'Соль (G4)',
+    octave: 4,
+    desc: 'Гурван нүх л хаалттай. Хамгийн хялбар нотуудын нэг.',
+    tip: 'Зүүн гарын 3 хурuu дарж, баруун гарыг бүрэн нээнэ.',
+    holes: ['closed','closed','closed','closed','open','open','open','open','open','open'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
+    ]
+  },
+  {
+    name: 'A',
+    mn: 'Ля (A4)',
+    octave: 4,
+    desc: 'Зөвхөн хоёр нүх хаалттай. Амьсгалыг бага зэрэг нэмнэ.',
+    tip: '1, 2-р хуруугаа дарж 3-р хурууг өрглөнө.',
+    holes: ['closed','closed','closed','open','open','open','open','open','open','open'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
+    ]
+  },
+  {
+    name: 'B',
+    mn: 'Си (B4)',
+    octave: 4,
+    desc: 'Зөвхөн 1-р хурuu дарна. Амьсгалыг нэмнэ.',
+    tip: 'Зөвхөн зүүн дэлхий хурuu дарж бусдыг нээнэ.',
+    holes: ['closed','closed','open','open','open','open','open','open','open','open'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'open' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
+    ]
+  },
+  {
+    name: "C'",
+    mn: 'До (C5)',
+    octave: 5,
+    desc: 'Өндөр До. Эрхий хуруугаа хагас нааш татаж "pinch" байдлаар барина.',
+    tip: 'Эрхий хуруугаа бүрэн хааж хагасаар нааш татаж, хурдан амьсгал гаргана.',
+    holes: ['half','closed','open','open','open','open','open','open','open','open'],
+    fingers: [
+      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'half' },
+      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хурuu', hand: 'Зүүн', state: 'open' },
+      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
+      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
+    ]
+  },
+];
+
+// Hole IDs in order matching holes array
+const HOLE_IDS = ['hole-thumb','hole-1','hole-2','hole-3','hole-4','hole-5','hole-6a','hole-6b','hole-7a','hole-7b'];
+
+// Map hole state to CSS class
+function holeClass(idx, state, isThumb) {
+  if (isThumb) {
+    if (state === 'closed') return 'hole thumb-closed';
+    if (state === 'half')   return 'hole thumb-half';
+    return 'hole thumb-open';
+  }
+  if (state === 'closed') return 'hole closed';
+  if (state === 'half')   return 'hole half';
+  return 'hole open';
+}
+
+// Chip for finger info
+function chipHtml(f) {
+  const state = f.state;
+  let cls, dotCls, label;
+  if (state === 'closed') { cls='finger-chip pressed'; dotCls='chip-dot pressed'; label='Дарна'; }
+  else if (state === 'half') { cls='finger-chip half-chip'; dotCls='chip-dot half'; label='Хагас'; }
+  else { cls='finger-chip open-chip'; dotCls='chip-dot open'; label='Нээлттэй'; }
+
+  return `<div class="${cls}">
+    <div class="${dotCls}"></div>
+    <span>${f.name} (${f.hand})</span>
+    <span style="opacity:0.6; font-size:11px;">${label}</span>
+  </div>`;
+}
+
+let currentNote = 0;
+
+function renderNoteSelector() {
+  const sel = document.getElementById('noteSelector');
+  sel.innerHTML = NOTES.map((n, i) => `
+    <button class="note-btn ${i === 0 ? 'active' : ''}" onclick="selectNote(${i})">
+      <span class="note-label">${n.name}</span>
+      <span class="note-sub">${n.mn.split(' ')[0]}</span>
+    </button>
+  `).join('');
+}
+
+function animateHoles(note) {
+  // Update each hole with staggered animation
+  HOLE_IDS.forEach((id, idx) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const state = note.holes[idx];
+    const isThumb = (idx === 0);
+
+    // Stagger
+    setTimeout(() => {
+      el.className = holeClass(idx, state, isThumb);
+    }, idx * 40);
+  });
+}
+
+function selectNote(i) {
+  currentNote = i;
+  const note = NOTES[i];
+
+  // Update buttons
+  document.querySelectorAll('.note-btn').forEach((b, j) => {
+    b.classList.toggle('active', j === i);
+  });
+
+  // Animate holes
+  animateHoles(note);
+
+  // Update info panel
+  const panel = document.getElementById('infoPanel');
+  panel.innerHTML = `
+    <div class="note-hero animate-in" data-note="${note.name}">
+      <div class="note-hero-name">${note.name}</div>
+      <div class="note-hero-mn">${note.mn}</div>
+      <div class="note-hero-desc">${note.desc}</div>
+    </div>
+
+    <div class="finger-grid animate-in" style="animation-delay:0.05s;">
+      <div class="finger-grid-title">🤚 ХУРУУНЫ БАЙРЛАЛ</div>
+      <div class="finger-row">
+        ${note.fingers.map(f => chipHtml(f)).join('')}
+      </div>
+    </div>
+
+    <div class="tip-box animate-in" style="animation-delay:0.1s;">
+      💡 <strong>Зөвлөмж:</strong> ${note.tip}
+    </div>
+
+    <div class="legend animate-in" style="animation-delay:0.15s;">
+      <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase;
+                  color:var(--tx2); width:100%; margin-bottom:4px;">ТАЙЛАЛ</div>
+      <div class="legend-item">
+        <div class="legend-dot l-thumb"></div> Эрхий хаалттай
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot l-closed"></div> Хурuu дарна
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot l-open"></div> Нээлттэй
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot l-half"></div> Хагас (pinch)
+      </div>
+    </div>
+  `;
+}
+
+// Init
+renderNoteSelector();
+selectNote(0);
+</script>
+
+</body>
+</html>

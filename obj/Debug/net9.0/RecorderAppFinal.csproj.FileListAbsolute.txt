@@ -94,7 +94,10 @@ C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\RecorderAppFinal.pdb
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\RecorderAppFinal.genruntimeconfig.cache
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\ref\RecorderAppFinal.dll
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\2znae6ui7u-kcc1vkxnqd.gz
-C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\re9ba9pexf-g46rlefh5q.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\y51b8q3ly3-1z162a5sy4.gz
-C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\1l6kelz22i-ievntm5b6i.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\4u8kupga7x-rcoostj3gg.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\RecorderAppFinal.sourcelink.json
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\re9ba9pexf-g46rlefh5q.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\1l6kelz22i-rala9rqvl7.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\7xd93zwe3s-tzz8j1f3z0.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\kr8m6ypfvi-pfaa2xzn25.gz

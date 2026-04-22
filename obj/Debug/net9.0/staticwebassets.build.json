@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "irUMtKv3Z99YJ9vFUj5roggPvDlsju8+C9tS3n1yYAk=",
+  "Hash": "kjPWo/Z74FS1PjDQMZbTOlUdvEGCqb/wuYyQdp/Qwq4=",
   "Source": "RecorderAppFinal",
   "BasePath": "_content/RecorderAppFinal",
   "Mode": "Default",
@@ -59,12 +59,12 @@
       "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-ievntm5b6i.gz",
+      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-rala9rqvl7.gz",
       "SourceId": "RecorderAppFinal",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/RecorderAppFinal",
-      "RelativePath": "js/site#[.{fingerprint=ievntm5b6i}]?.js.gz",
+      "RelativePath": "js/site#[.{fingerprint=rala9rqvl7}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -73,8 +73,8 @@
       "RelatedAsset": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\js\\site.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "ctj65o6uwx",
-      "Integrity": "0A4eNG0n0wwVHCiYhXGvJ1qmwL3/qT7ld8v11lmtVYU=",
+      "Fingerprint": "qb00h1equ0",
+      "Integrity": "prYRRStIjRYEZUcwmk4eXsmLEJVN5G1Yc/DaBAsOwS8=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\js\\site.js"
@@ -393,6 +393,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\7xd93zwe3s-tzz8j1f3z0.gz",
+      "SourceId": "RecorderAppFinal",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/RecorderAppFinal",
+      "RelativePath": "notes_lesson#[.{fingerprint=tzz8j1f3z0}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\notes_lesson.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "nhp019uf29",
+      "Integrity": "9XnGeQqaPrOp9TJqohbO67ON3H6exj7ZGIyR7tVQGnY=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\notes_lesson.html"
     },
     {
       "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\81n6pl3dgw-493y06b0oq.gz",
@@ -855,6 +876,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\kr8m6ypfvi-pfaa2xzn25.gz",
+      "SourceId": "RecorderAppFinal",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\",
+      "BasePath": "_content/RecorderAppFinal",
+      "RelativePath": "fingering_lesson#[.{fingerprint=pfaa2xzn25}]?.html.gz",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Alternative",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\fingering_lesson.html",
+      "AssetTraitName": "Content-Encoding",
+      "AssetTraitValue": "gzip",
+      "Fingerprint": "mp0k63mtyg",
+      "Integrity": "mpLyOREPpiZ4iAkClL9CJU9C1ey6LUT/mCU4ZSXOWyw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\fingering_lesson.html"
     },
     {
       "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\l98tbhmhnf-bqjiyaj88i.gz",
@@ -1529,6 +1571,27 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\fingering_lesson.html",
+      "SourceId": "RecorderAppFinal",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\",
+      "BasePath": "_content/RecorderAppFinal",
+      "RelativePath": "fingering_lesson#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "pfaa2xzn25",
+      "Integrity": "Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\fingering_lesson.html"
+    },
+    {
       "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\flute_trainer.html",
       "SourceId": "RecorderAppFinal",
       "SourceType": "Discovered",
@@ -1564,8 +1627,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "ievntm5b6i",
-      "Integrity": "umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4=",
+      "Fingerprint": "rala9rqvl7",
+      "Integrity": "rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\site.js"
@@ -2831,6 +2894,27 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
     },
     {
+      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\notes_lesson.html",
+      "SourceId": "RecorderAppFinal",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\",
+      "BasePath": "_content/RecorderAppFinal",
+      "RelativePath": "notes_lesson#[.{fingerprint}]?.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "tzz8j1f3z0",
+      "Integrity": "x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\notes_lesson.html"
+    },
+    {
       "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\posture_coach.html",
       "SourceId": "RecorderAppFinal",
       "SourceType": "Discovered",
@@ -3748,6 +3832,304 @@
       ]
     },
     {
+      "Route": "fingering_lesson.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\kr8m6ypfvi-pfaa2xzn25.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000176087339"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5678"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mpLyOREPpiZ4iAkClL9CJU9C1ey6LUT/mCU4ZSXOWyw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 05:18:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao="
+        }
+      ]
+    },
+    {
+      "Route": "fingering_lesson.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\fingering_lesson.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "24733"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 05:18:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao="
+        }
+      ]
+    },
+    {
+      "Route": "fingering_lesson.html.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\kr8m6ypfvi-pfaa2xzn25.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5678"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mpLyOREPpiZ4iAkClL9CJU9C1ey6LUT/mCU4ZSXOWyw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 05:18:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-mpLyOREPpiZ4iAkClL9CJU9C1ey6LUT/mCU4ZSXOWyw="
+        }
+      ]
+    },
+    {
+      "Route": "fingering_lesson.pfaa2xzn25.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\kr8m6ypfvi-pfaa2xzn25.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000176087339"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5678"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mpLyOREPpiZ4iAkClL9CJU9C1ey6LUT/mCU4ZSXOWyw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 05:18:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pfaa2xzn25"
+        },
+        {
+          "Name": "label",
+          "Value": "fingering_lesson.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao="
+        }
+      ]
+    },
+    {
+      "Route": "fingering_lesson.pfaa2xzn25.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\fingering_lesson.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "24733"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 05:18:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pfaa2xzn25"
+        },
+        {
+          "Name": "label",
+          "Value": "fingering_lesson.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao="
+        }
+      ]
+    },
+    {
+      "Route": "fingering_lesson.pfaa2xzn25.html.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\kr8m6ypfvi-pfaa2xzn25.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "5678"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"mpLyOREPpiZ4iAkClL9CJU9C1ey6LUT/mCU4ZSXOWyw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 05:18:04 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "pfaa2xzn25"
+        },
+        {
+          "Name": "label",
+          "Value": "fingering_lesson.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-mpLyOREPpiZ4iAkClL9CJU9C1ey6LUT/mCU4ZSXOWyw="
+        }
+      ]
+    },
+    {
       "Route": "flute_trainer.html",
       "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\2znae6ui7u-kcc1vkxnqd.gz",
       "Selectors": [
@@ -4046,13 +4428,13 @@
       ]
     },
     {
-      "Route": "js/site.ievntm5b6i.js",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-ievntm5b6i.gz",
+      "Route": "js/site.js",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-rala9rqvl7.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000899280576"
+          "Quality": "0.000982318271"
         }
       ],
       "ResponseHeaders": [
@@ -4062,19 +4444,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1111"
+          "Value": "1017"
         },
         {
           "Name": "ETag",
-          "Value": "\"0A4eNG0n0wwVHCiYhXGvJ1qmwL3/qT7ld8v11lmtVYU=\""
+          "Value": "\"prYRRStIjRYEZUcwmk4eXsmLEJVN5G1Yc/DaBAsOwS8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:46:13 GMT"
+          "Value": "Wed, 22 Apr 2026 03:57:39 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -4090,26 +4472,18 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4=\""
+          "Value": "W/\"rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "ievntm5b6i"
-        },
-        {
-          "Name": "label",
-          "Value": "js/site.js"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4="
+          "Value": "sha256-rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE="
         }
       ]
     },
     {
-      "Route": "js/site.ievntm5b6i.js",
+      "Route": "js/site.js",
       "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\js\\site.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -4119,7 +4493,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "2625"
+          "Value": "2830"
         },
         {
           "Name": "Content-Type",
@@ -4127,11 +4501,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4=\""
+          "Value": "\"rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:46:13 GMT"
+          "Value": "Wed, 22 Apr 2026 03:57:39 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE="
+        }
+      ]
+    },
+    {
+      "Route": "js/site.js.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-rala9rqvl7.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1017"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"prYRRStIjRYEZUcwmk4eXsmLEJVN5G1Yc/DaBAsOwS8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 03:57:39 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-prYRRStIjRYEZUcwmk4eXsmLEJVN5G1Yc/DaBAsOwS8="
+        }
+      ]
+    },
+    {
+      "Route": "js/site.rala9rqvl7.js",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-rala9rqvl7.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000982318271"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "1017"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"prYRRStIjRYEZUcwmk4eXsmLEJVN5G1Yc/DaBAsOwS8=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 03:57:39 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rala9rqvl7"
+        },
+        {
+          "Name": "label",
+          "Value": "js/site.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE="
+        }
+      ]
+    },
+    {
+      "Route": "js/site.rala9rqvl7.js",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\js\\site.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "2830"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 03:57:39 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4141,7 +4660,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ievntm5b6i"
+          "Value": "rala9rqvl7"
         },
         {
           "Name": "label",
@@ -4149,13 +4668,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4="
+          "Value": "sha256-rSCQzSV/FtWS9uGW07NBLRd89MmF5z+49ZqunHVYcdE="
         }
       ]
     },
     {
-      "Route": "js/site.ievntm5b6i.js.gz",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-ievntm5b6i.gz",
+      "Route": "js/site.rala9rqvl7.js.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-rala9rqvl7.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -4164,7 +4683,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1111"
+          "Value": "1017"
         },
         {
           "Name": "Content-Type",
@@ -4172,11 +4691,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"0A4eNG0n0wwVHCiYhXGvJ1qmwL3/qT7ld8v11lmtVYU=\""
+          "Value": "\"prYRRStIjRYEZUcwmk4eXsmLEJVN5G1Yc/DaBAsOwS8=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:46:13 GMT"
+          "Value": "Wed, 22 Apr 2026 03:57:39 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -4194,7 +4713,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "ievntm5b6i"
+          "Value": "rala9rqvl7"
         },
         {
           "Name": "label",
@@ -4202,144 +4721,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-0A4eNG0n0wwVHCiYhXGvJ1qmwL3/qT7ld8v11lmtVYU="
-        }
-      ]
-    },
-    {
-      "Route": "js/site.js",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-ievntm5b6i.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000899280576"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1111"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"0A4eNG0n0wwVHCiYhXGvJ1qmwL3/qT7ld8v11lmtVYU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:46:13 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4="
-        }
-      ]
-    },
-    {
-      "Route": "js/site.js",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\js\\site.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "2625"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:46:13 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-umPYGtyvcDpUOxOSFH8vOLybsE4BnykW2xu8aVz5l/4="
-        }
-      ]
-    },
-    {
-      "Route": "js/site.js.gz",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\1l6kelz22i-ievntm5b6i.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "1111"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"0A4eNG0n0wwVHCiYhXGvJ1qmwL3/qT7ld8v11lmtVYU=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:46:13 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-0A4eNG0n0wwVHCiYhXGvJ1qmwL3/qT7ld8v11lmtVYU="
+          "Value": "sha256-prYRRStIjRYEZUcwmk4eXsmLEJVN5G1Yc/DaBAsOwS8="
         }
       ]
     },
@@ -22008,6 +22390,304 @@
       ]
     },
     {
+      "Route": "notes_lesson.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\7xd93zwe3s-tzz8j1f3z0.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000113275940"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8827"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9XnGeQqaPrOp9TJqohbO67ON3H6exj7ZGIyR7tVQGnY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 04:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c="
+        }
+      ]
+    },
+    {
+      "Route": "notes_lesson.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\notes_lesson.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "35286"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 04:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c="
+        }
+      ]
+    },
+    {
+      "Route": "notes_lesson.html.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\7xd93zwe3s-tzz8j1f3z0.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8827"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9XnGeQqaPrOp9TJqohbO67ON3H6exj7ZGIyR7tVQGnY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 04:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-9XnGeQqaPrOp9TJqohbO67ON3H6exj7ZGIyR7tVQGnY="
+        }
+      ]
+    },
+    {
+      "Route": "notes_lesson.tzz8j1f3z0.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\7xd93zwe3s-tzz8j1f3z0.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000113275940"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8827"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9XnGeQqaPrOp9TJqohbO67ON3H6exj7ZGIyR7tVQGnY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 04:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tzz8j1f3z0"
+        },
+        {
+          "Name": "label",
+          "Value": "notes_lesson.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c="
+        }
+      ]
+    },
+    {
+      "Route": "notes_lesson.tzz8j1f3z0.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\notes_lesson.html",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "35286"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 04:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tzz8j1f3z0"
+        },
+        {
+          "Name": "label",
+          "Value": "notes_lesson.html"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c="
+        }
+      ]
+    },
+    {
+      "Route": "notes_lesson.tzz8j1f3z0.html.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\7xd93zwe3s-tzz8j1f3z0.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "8827"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/html"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"9XnGeQqaPrOp9TJqohbO67ON3H6exj7ZGIyR7tVQGnY=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Wed, 22 Apr 2026 04:52:35 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "tzz8j1f3z0"
+        },
+        {
+          "Name": "label",
+          "Value": "notes_lesson.html.gz"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-9XnGeQqaPrOp9TJqohbO67ON3H6exj7ZGIyR7tVQGnY="
+        }
+      ]
+    },
+    {
       "Route": "posture_coach.g46rlefh5q.html",
       "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-g46rlefh5q.gz",
       "Selectors": [
@@ -22032,7 +22712,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:35:51 GMT"
+          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22093,7 +22773,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:35:51 GMT"
+          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22138,7 +22818,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:35:51 GMT"
+          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22193,7 +22873,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:35:51 GMT"
+          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22246,7 +22926,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:35:51 GMT"
+          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22283,7 +22963,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 21 Apr 2026 07:35:51 GMT"
+          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
         },
         {
           "Name": "Cache-Control",
