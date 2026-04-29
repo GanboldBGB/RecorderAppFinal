@@ -93,7 +93,7 @@ body {
    НОТ ЖАГСААЛТ (зүүн)
 ══════════════════════════════ */
 .notes-sidebar {
-  width: 200px;
+  width: 220px;
   border-right: 1px solid var(--bd);
   background: var(--s1);
   display: flex;
@@ -129,6 +129,17 @@ body {
   display: flex; align-items: center; justify-content: center;
   font-weight: 900; font-size: 16px; color: #fff;
   flex-shrink: 0;
+  position: relative;
+}
+.note-dot .num-badge {
+  position: absolute;
+  top: -5px; right: -7px;
+  width: 17px; height: 17px;
+  border-radius: 50%;
+  background: var(--s1);
+  border: 1.5px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 800; color: var(--tx);
 }
 .note-item-info { flex: 1; }
 .note-item-name { font-size: 14px; font-weight: 700; color: var(--tx); }
@@ -203,6 +214,17 @@ body {
   border-radius: 10px;
   transform: rotate(-20deg);
 }
+.note-big .num-corner {
+  position: absolute;
+  top: -8px; right: -8px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--s1);
+  border: 2px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900; color: var(--tx);
+  box-shadow: 0 4px 12px rgba(0,0,0,.4);
+}
 
 .note-info { flex: 1; }
 .note-info-header {
@@ -218,6 +240,15 @@ body {
 }
 .note-info-mn {
   font-size: 20px;
+  color: var(--tx2);
+}
+.note-info-num {
+  font-size: 16px;
+  font-weight: 800;
+  padding: 3px 12px;
+  border-radius: 8px;
+  background: var(--s2);
+  border: 1px solid var(--bd);
   color: var(--tx2);
 }
 .note-info-desc {
@@ -376,6 +407,18 @@ body {
   color: #fff;
   box-shadow: 0 16px 50px rgba(0,0,0,.5);
   animation: popIn .4s cubic-bezier(.34,1.56,.64,1);
+  position: relative;
+}
+.quiz-note-display .num-corner {
+  position: absolute;
+  top: -8px; right: -8px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--s1);
+  border: 2px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 900; color: var(--tx);
+  box-shadow: 0 4px 12px rgba(0,0,0,.4);
 }
 @keyframes popIn {
   from { transform: scale(.5); opacity: 0; }
@@ -483,9 +526,21 @@ body {
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; font-weight: 900; color: #fff;
   box-shadow: 0 4px 14px rgba(0,0,0,.4);
+  position: relative;
+}
+.mini-note-circle .num-badge-sm {
+  position: absolute;
+  top: -4px; right: -6px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--s1);
+  border: 1.5px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 900; color: var(--tx);
 }
 .mini-note-sym { font-size: 15px; font-weight: 700; color: var(--tx); }
 .mini-note-mn  { font-size: 11px; color: var(--tx2); }
+.mini-note-num { font-size: 10px; color: var(--ac); font-weight: 800; }
 
 /* Scrollbar */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -565,7 +620,7 @@ body {
 ══════════════════════════════════════ */
 const NOTES = [
   {
-    sym: 'C', mn: 'До', color: '#e74c3c',
+    sym: 'C', mn: 'До', num: 7, color: '#e74c3c',
     freq: 523.25,
     desc: 'До нот — бишгүүрийн хамгийн нам дуутай нот. Бүх нүхийг хаасан үед гардаг. Эхлэгч суралцагчдад хамгийн чухал нот.',
     tip: 'Бүх 7 нүхийг нягт хаах хэрэгтэй. Хурууны дэрлэгээр нүхийг бүрэн бүглэ — агаар гарахгүй байх ёстой.',
@@ -578,11 +633,11 @@ const NOTES = [
       { label: '5-р хуруу',  closed: true },
       { label: '6-р хуруу',  closed: true },
     ],
-    staffPos: 0,  // ledger line below
+    staffPos: 0,
     octave: 5
   },
   {
-    sym: 'D', mn: 'Ре', color: '#e67e22',
+    sym: 'D', mn: 'Ре', num: 6, color: '#e67e22',
     freq: 587.33,
     desc: 'Ре нот — До-оос нэг хагас алхам дээш. Хамгийн сүүлийн нүхийг нээснээр үүсдэг.',
     tip: 'Зөвхөн 6-р нүхийг нээнэ, бусдыг хаана. Дуу нь До-оос арай өндөр болно.',
@@ -599,7 +654,7 @@ const NOTES = [
     octave: 5
   },
   {
-    sym: 'E', mn: 'Ми', color: '#f1c40f',
+    sym: 'E', mn: 'Ми', num: 5, color: '#f1c40f',
     freq: 659.25,
     desc: 'Ми нот — дунд өндөрлөгийн нот. 5, 6-р нүхийг нээхэд гарна.',
     tip: '5-р болон 6-р нүхийг нэгэн зэрэг нээнэ. Хурууны хөдөлгөөн уян байх ёстой.',
@@ -616,7 +671,7 @@ const NOTES = [
     octave: 5
   },
   {
-    sym: 'F', mn: 'Фа', color: '#27ae60',
+    sym: 'F', mn: 'Фа', num: 4, color: '#27ae60',
     freq: 698.46,
     desc: 'Фа нот — анхаарал шаарддаг нот. 4-р нүх нээгдэж, 5-р хаагдана.',
     tip: 'Фа нот хэцүү байдаг — 4-р нүхийг нээж, 5-р нүхийг хаахад анхаарлаа.',
@@ -633,10 +688,10 @@ const NOTES = [
     octave: 5
   },
   {
-    sym: 'G', mn: 'Соль', color: '#2980b9',
+    sym: 'G', mn: 'Соль', num: 3, color: '#2980b9',
     freq: 784.00,
     desc: 'Соль нот — хамгийн их хэрэглэгддэг нот. Монгол аялгуунуудад байнга тааралддаг.',
-    tip: 'Дээд 4 нүхийг хааж, доод 3-ыг нээнэ. Хамгийн байнгын нот тул сайн дасгаллаарай.',
+    tip: 'Дээд 4 нүхийг хааж, доод 3-ыг нээнэ. Хамгийн байнгын нот тул сайн дасгалла.',
     fingers: [
       { label: 'Эрхий (ар)', closed: true },
       { label: '1-р хуруу',  closed: true },
@@ -650,7 +705,7 @@ const NOTES = [
     octave: 5
   },
   {
-    sym: 'A', mn: 'Ля', color: '#8e44ad',
+    sym: 'A', mn: 'Ля', num: 2, color: '#8e44ad',
     freq: 880.00,
     desc: 'Ля нот — өндөр дуутай нот. Гурван нүх л хаагдсан байдаг.',
     tip: 'Эрхий, 1-р, 2-р хуруу л хаана. Бусад нүх бүгд нээлттэй байна.',
@@ -667,7 +722,7 @@ const NOTES = [
     octave: 5
   },
   {
-    sym: 'B', mn: 'Си', color: '#ba4a00',
+    sym: 'B', mn: 'Си', num: 1, color: '#ba4a00',
     freq: 987.77,
     desc: 'Си нот — хамгийн өндөр дуутай нот. Зөвхөн 2 нүх хаагдсан байна.',
     tip: 'Эрхий болон 1-р хуруу л хаана. Нимгэн, тод дуу гарна. Амьсгалаа хэт хүчтэй гаргахгүй байгаарай.',
@@ -705,9 +760,12 @@ function buildSidebar() {
     NOTES.map(n => `
       <div class="note-item ${learnedNotes.has(n.sym)?'learned':''}"
            id="ni-${n.sym}" onclick="selectNote('${n.sym}')">
-        <div class="note-dot" style="background:${n.color}">${n.sym}</div>
+        <div class="note-dot" style="background:${n.color}">
+          ${n.sym}
+          <span class="num-badge">${n.num}</span>
+        </div>
         <div class="note-item-info">
-          <div class="note-item-name">${n.sym}</div>
+          <div class="note-item-name">${n.sym} <span style="font-size:11px;color:var(--tx2);font-weight:400;">(${n.num})</span></div>
           <div class="note-item-mn">${n.mn}</div>
         </div>
         <div class="note-item-check">✓</div>
@@ -729,7 +787,7 @@ function updateProgress() {
   row.innerHTML = NOTES.map(n => `
     <div class="prog-dot ${learnedNotes.has(n.sym)?'done':''}"
          style="background:${n.color}"
-         onclick="selectNote('${n.sym}')">${n.sym}</div>
+         onclick="selectNote('${n.sym}')">${n.num}</div>
   `).join('');
   const cnt = document.getElementById('prog-count');
   if (cnt) cnt.textContent = learnedNotes.size;
@@ -769,9 +827,13 @@ function renderLearn() {
         ${NOTES.map(nn => `
           <div class="mini-note-card ${nn.sym===n.sym?'active':''}"
                onclick="selectNote('${nn.sym}')">
-            <div class="mini-note-circle" style="background:${nn.color}">${nn.sym}</div>
+            <div class="mini-note-circle" style="background:${nn.color}">
+              ${nn.sym}
+              <span class="num-badge-sm">${nn.num}</span>
+            </div>
             <div class="mini-note-sym">${nn.sym}</div>
             <div class="mini-note-mn">${nn.mn}</div>
+            <div class="mini-note-num">№${nn.num}</div>
           </div>
         `).join('')}
       </div>
@@ -782,11 +844,13 @@ function renderLearn() {
       <div class="note-big" style="background:linear-gradient(135deg,${n.color}dd,${n.color}88);">
         ${n.sym}
         <div class="note-shine"></div>
+        <div class="num-corner">${n.num}</div>
       </div>
       <div class="note-info">
         <div class="note-info-header">
           <div class="note-info-name" style="color:${n.color}">${n.sym}</div>
           <div class="note-info-mn">${n.mn}</div>
+          <div class="note-info-num">Тоо: ${n.num}</div>
         </div>
         <div class="note-info-desc">${n.desc}</div>
         <button class="play-note-btn" style="background:${n.color}"
@@ -814,7 +878,7 @@ function renderLearn() {
         </div>
       </div>
       <div class="fingering-right">
-        <h3>Нүхний байрлал</h3>
+        <h3>Нүхний байрлал — ${n.sym} (${n.mn}) №${n.num}</h3>
         <div class="holes-grid">
           ${n.fingers.map(f => `
             <div class="hole-row">
@@ -840,17 +904,16 @@ function renderLearn() {
    НОТЫН ШУГАМ SVG
 ══════════════════════════════════════ */
 function buildStaffSVG(activeNote) {
-  // Нотны байрлал (y coordinate on staff, C4=bottom ledger)
   const positions = { C:88, D:80, E:72, F:64, G:56, A:48, B:40 };
   const w = Math.max(520, NOTES.length * 68 + 80);
-  const h = 110;
+  const h = 120;
   const staffTop = 30;
   const lineGap  = 10;
 
   let svg = `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"
                style="font-family:serif; overflow:visible;">`;
 
-  // Clef (треble clef simplified)
+  // Clef
   svg += `<text x="8" y="${staffTop + 38}" font-size="52" fill="#9298b8"
                 font-family="serif">𝄞</text>`;
 
@@ -884,13 +947,15 @@ function buildStaffSVG(activeNote) {
                   stroke="${n.color}" stroke-width="2"
                   opacity="${alpha}"/>`;
 
-    // Note label
+    // Note label + number
     svg += `<text x="${x}" y="${y+22}" text-anchor="middle"
                   font-size="11" fill="${n.color}" font-weight="700"
                   opacity="${alpha}">${n.sym}</text>`;
+    svg += `<text x="${x}" y="${y+34}" text-anchor="middle"
+                  font-size="10" fill="${n.color}" font-weight="600"
+                  opacity="${alpha * 0.7}">(${n.num})</text>`;
 
     if (isActive) {
-      // Glow
       svg += `<ellipse cx="${x}" cy="${y}" rx="14" ry="11"
                        fill="${n.color}" opacity="0.2"
                        transform="rotate(-15,${x},${y})"/>`;
@@ -950,7 +1015,6 @@ function playNote(freq) {
   osc.type = 'sine';
   osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-  // Envelope
   gain.gain.setValueAtTime(0, audioCtx.currentTime);
   gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.05);
   gain.gain.exponentialRampToValueAtTime(0.3, audioCtx.currentTime + 0.3);
@@ -980,7 +1044,6 @@ function setMode(mode, btn) {
 }
 
 function renderQuiz() {
-  // 10 random questions
   quizQueue = [];
   for (let i = 0; i < 10; i++) {
     quizQueue.push(NOTES[Math.floor(Math.random() * NOTES.length)]);
@@ -996,7 +1059,6 @@ function showQuizQuestion() {
   const ca = document.getElementById('content-area');
 
   if (quizIdx >= quizQueue.length) {
-    // Дууссан
     ca.innerHTML = `
       <div class="quiz-panel fade-in" style="max-width:520px; margin:auto;">
         <div style="font-size:48px; margin-bottom:16px;">
@@ -1022,14 +1084,12 @@ function showQuizQuestion() {
   }
 
   const q = quizQueue[quizIdx];
-  // 4 random choices including correct
   const choices = [q];
   const others  = NOTES.filter(n => n.sym !== q.sym);
   while (choices.length < 4) {
     const r = others[Math.floor(Math.random() * others.length)];
     if (!choices.find(c => c.sym === r.sym)) choices.push(r);
   }
-  // Shuffle
   choices.sort(() => Math.random() - .5);
 
   quizAnswered = false;
@@ -1047,6 +1107,7 @@ function showQuizQuestion() {
       <div class="quiz-question">Энэ нотны нэр юу вэ?</div>
       <div class="quiz-note-display" style="background:linear-gradient(135deg,${q.color}dd,${q.color}88);">
         ${q.sym}
+        <div class="num-corner">${q.num}</div>
       </div>
 
       <!-- Нотны шугам дээрх байрлал -->
@@ -1058,7 +1119,7 @@ function showQuizQuestion() {
         ${choices.map(c => `
           <button class="quiz-choice" id="qc-${c.sym}"
                   onclick="answerQuiz('${c.sym}', '${q.sym}')">
-            ${c.sym}<br>
+            ${c.sym} <span style="font-size:11px;color:var(--ac);">(${c.num})</span><br>
             <span style="font-size:12px; font-weight:400; color:var(--tx2);">${c.mn}</span>
           </button>
         `).join('')}
@@ -1079,7 +1140,6 @@ function answerQuiz(chosen, correct) {
   quizHistory.push(isCorrect);
   if (isCorrect) quizScore++;
 
-  // Highlight buttons
   document.querySelectorAll('.quiz-choice').forEach(b => {
     const sym = b.id.replace('qc-', '');
     if (sym === correct) b.classList.add('correct');
@@ -1090,15 +1150,16 @@ function answerQuiz(chosen, correct) {
   const resultEl = document.getElementById('quiz-result');
   const subEl    = document.getElementById('quiz-sub');
   const nextBtn  = document.getElementById('quiz-next');
+  const cNote    = NOTES.find(n=>n.sym===correct);
 
   if (isCorrect) {
     resultEl.textContent = '✅ Зөв!';
     resultEl.style.color = '#27ae60';
-    subEl.textContent    = `${correct} нот — ${NOTES.find(n=>n.sym===correct).mn}`;
+    subEl.textContent    = `${correct} нот — ${cNote.mn} (№${cNote.num})`;
   } else {
     resultEl.textContent = '❌ Буруу';
     resultEl.style.color = '#e74c3c';
-    subEl.textContent    = `Зөв хариулт: ${correct} (${NOTES.find(n=>n.sym===correct).mn})`;
+    subEl.textContent    = `Зөв хариулт: ${correct} (${cNote.mn}, №${cNote.num})`;
   }
 
   nextBtn.style.display = 'inline-block';
@@ -1113,7 +1174,6 @@ function nextQuiz() {
    ЭХЛҮҮЛЭХ
 ══════════════════════════════════════ */
 buildSidebar();
-// Эхний нотыг автоматаар сонгох
 selectNote('C');
 </script>
 </body>

@@ -66,8 +66,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>pfaa2xzn25</Fingerprint>
-      <Integrity>Vak2/748/xMkquy6Gr27sVNiv7K3l3dtp4FwkSHY8ao=</Integrity>
+      <Fingerprint>kacpddcev3</Fingerprint>
+      <Integrity>fMsQBkNlZ5UWlj+rlBs6T4wJS3v/oDq8754iENwT1sA=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\fingering_lesson.html'))</OriginalItemSpec>
@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>kcc1vkxnqd</Fingerprint>
-      <Integrity>POyoqVH6ZFrSEJYLOKuGDX13Rwh0wyIYAhGbPh0qgWE=</Integrity>
+      <Fingerprint>gcrpihj1wy</Fingerprint>
+      <Integrity>UAP3bbIviNGG6llNT+Ak+gCIDQyX0j5VGqT6tEUo5YY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\flute_trainer.html'))</OriginalItemSpec>
@@ -1200,8 +1200,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>tzz8j1f3z0</Fingerprint>
-      <Integrity>x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c=</Integrity>
+      <Fingerprint>nfjfju6pv0</Fingerprint>
+      <Integrity>I9tOKQzjjOgUklN9t6pMchvQwNHrjlcFD9ubzup9fSc=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\notes_lesson.html'))</OriginalItemSpec>

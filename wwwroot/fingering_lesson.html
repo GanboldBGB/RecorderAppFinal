@@ -61,7 +61,7 @@
 
   .note-btn {
     position: relative;
-    width: 68px; height: 68px;
+    width: 68px; height: 78px;
     border-radius: 14px;
     border: 2px solid var(--bd);
     background: var(--s1);
@@ -69,7 +69,7 @@
     transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1);
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 2px;
+    gap: 1px;
     overflow: hidden;
   }
   .note-btn::before {
@@ -99,6 +99,17 @@
   .note-sub {
     font-size: 10px; color: var(--tx2);
     letter-spacing: 0.5px;
+  }
+  .note-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ac);
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(91,156,246,0.1);
+    border-radius: 4px;
+    padding: 1px 6px;
+    line-height: 1.3;
+    margin-top: 1px;
   }
 
   /* ── Main layout ── */
@@ -225,11 +236,30 @@
     pointer-events: none;
   }
 
+  .note-hero-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
   .note-hero-name {
     font-size: 48px; font-weight: 700;
     color: var(--ac2);
     font-family: 'JetBrains Mono', monospace;
     line-height: 1;
+  }
+  .note-hero-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    background: rgba(91,156,246,0.12);
+    border: 2px solid rgba(91,156,246,0.3);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ac2);
+    font-family: 'JetBrains Mono', monospace;
   }
   .note-hero-mn   { font-size: 18px; color: var(--tx); margin-top: 4px; font-weight: 600; }
   .note-hero-desc { font-size: 13px; color: var(--tx2); margin-top: 8px; line-height: 1.6; }
@@ -318,6 +348,52 @@
   .legend-dot.l-half   { background: var(--half); border-color: #c4b5fd; }
   .legend-dot.l-thumb  { background: var(--thumb); border-color: #fcd34d; }
 
+  /* Number reference table */
+  .num-ref {
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .num-ref-title {
+    font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--tx2); margin-bottom: 12px;
+  }
+  .num-ref-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .num-ref-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    font-size: 12px;
+    color: var(--tx2);
+    transition: all 0.2s;
+  }
+  .num-ref-item.active-ref {
+    border-color: var(--ac);
+    background: rgba(91,156,246,0.1);
+    color: var(--ac2);
+  }
+  .num-ref-item .ref-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--ac);
+    min-width: 14px;
+    text-align: center;
+  }
+  .num-ref-item .ref-eq {
+    color: var(--bd);
+  }
+
   /* Tip box */
   .tip-box {
     background: linear-gradient(135deg, rgba(91,156,246,0.08), rgba(91,156,246,0.03));
@@ -352,7 +428,7 @@
   <div class="header-icon">🤚</div>
   <div>
     <h1>Хурууны байрлал</h1>
-    <p>Нот бүрийн хурууны байрлалыг сурах</p>
+    <p>Нот бүрийн хурууны байрлалыг сурах — тоон тэмдэглэгээтэй</p>
   </div>
 </div>
 
@@ -366,7 +442,6 @@
   <div class="recorder-container">
     <div class="recorder-wrap">
       <svg class="recorder-svg" id="recorderSvg" viewBox="0 0 120 560" xmlns="http://www.w3.org/2000/svg">
-        <!-- Recorder body -->
         <!-- Mouthpiece top -->
         <path d="M48,0 L72,0 L76,40 L44,40 Z" fill="#1e2240" stroke="#2d3158" stroke-width="1.5" rx="4"/>
         <!-- Windway band -->
@@ -378,34 +453,21 @@
         <path d="M36,480 Q32,510 28,530 Q26,542 40,548 L80,548 Q94,542 92,530 Q88,510 84,480 Z"
               fill="#161826" stroke="#252840" stroke-width="1.5"/>
 
-        <!-- Wood grain lines (decorative) -->
+        <!-- Wood grain lines -->
         <line x1="50" y1="60" x2="50" y2="470" stroke="#1f2338" stroke-width="0.5" opacity="0.6"/>
         <line x1="60" y1="55" x2="60" y2="475" stroke="#1f2338" stroke-width="0.5" opacity="0.4"/>
         <line x1="70" y1="60" x2="70" y2="470" stroke="#1f2338" stroke-width="0.5" opacity="0.6"/>
 
-        <!-- ── HOLES (top = thumb back, then 7 front holes) ── -->
-        <!-- Thumb hole (back) — shown as dashed outline -->
-        <ellipse id="hole-thumb" class="hole thumb-closed"
-                 cx="60" cy="100" rx="10" ry="7"/>
-
-        <!-- Front holes -->
-        <!-- Hole 1 (index left) -->
+        <!-- ── HOLES ── -->
+        <ellipse id="hole-thumb" class="hole thumb-closed" cx="60" cy="100" rx="10" ry="7"/>
         <circle id="hole-1" class="hole closed" cx="60" cy="158" r="9"/>
-        <!-- Hole 2 (middle left) -->
         <circle id="hole-2" class="hole closed" cx="60" cy="206" r="9"/>
-        <!-- Hole 3 (ring left) -->
         <circle id="hole-3" class="hole closed" cx="60" cy="254" r="9"/>
-        <!-- Hole 4 (index right) -->
         <circle id="hole-4" class="hole closed" cx="60" cy="310" r="9"/>
-        <!-- Hole 5 (middle right) -->
         <circle id="hole-5" class="hole closed" cx="60" cy="356" r="9"/>
-        <!-- Hole 6a (ring right left sub) -->
         <circle id="hole-6a" class="hole closed" cx="52" cy="402" r="7"/>
-        <!-- Hole 6b (ring right right sub) -->
         <circle id="hole-6b" class="hole closed" cx="68" cy="402" r="7"/>
-        <!-- Hole 7a -->
         <circle id="hole-7a" class="hole closed" cx="52" cy="440" r="6"/>
-        <!-- Hole 7b -->
         <circle id="hole-7b" class="hole closed" cx="68" cy="440" r="6"/>
 
         <!-- Labels -->
@@ -422,38 +484,33 @@
   </div>
 
   <!-- Info panel -->
-  <div class="info-panel" id="infoPanel">
-    <!-- Filled by JS -->
-  </div>
+  <div class="info-panel" id="infoPanel"></div>
 
 </div>
 
 <script>
-// ── Note data ──
-// Hole order: thumb, 1, 2, 3, 4, 5, 6a, 6b, 7a, 7b
-// States: 'closed', 'open', 'half'
+// ── Note data with number notation ──
 const NOTES = [
   {
-    name: 'C',
+    name: 'C', num: 7,
     mn: 'До (C4)',
     octave: 4,
     desc: 'Хамгийн бага нот. Бүх хурууг дарна. Амьсгалыг аажим, тайван гаргана.',
     tip: 'Бүх нүхийг бүрэн хааж, хурууг зэрэгцүүлэн дарна уу.',
-    // thumb, 1, 2, 3, 4, 5, 6a, 6b, 7a, 7b
     holes: ['closed','closed','closed','closed','closed','closed','closed','closed','closed','closed'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'closed' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'closed' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'closed' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'closed' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'closed' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'closed' },
     ]
   },
   {
-    name: 'D',
+    name: 'D', num: 6,
     mn: 'Рэ (D4)',
     octave: 4,
     desc: 'Дараагийн нот. Зөвхөн хамгийн доод хоёр хурууг нээнэ.',
@@ -461,17 +518,17 @@ const NOTES = [
     holes: ['closed','closed','closed','closed','closed','closed','open','open','open','open'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'closed' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'closed' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'closed' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'closed' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
     ]
   },
   {
-    name: 'E',
+    name: 'E', num: 5,
     mn: 'Ми (E4)',
     octave: 4,
     desc: '5, 6, 7-р нүхийг нээнэ. Амьсгалыг хэвийн хурдаар гаргана.',
@@ -479,17 +536,17 @@ const NOTES = [
     holes: ['closed','closed','closed','closed','closed','open','open','open','open','open'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'closed' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'closed' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
     ]
   },
   {
-    name: 'F',
+    name: 'F', num: 4,
     mn: 'Фа (F4)',
     octave: 4,
     desc: 'Баруун гарын бүх хурууг нээнэ. Зүүн гарын дөрвөн хуруу хэвээр байна.',
@@ -497,35 +554,35 @@ const NOTES = [
     holes: ['closed','closed','closed','closed','open','open','open','open','open','open'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
     ]
   },
   {
-    name: 'G',
+    name: 'G', num: 3,
     mn: 'Соль (G4)',
     octave: 4,
     desc: 'Гурван нүх л хаалттай. Хамгийн хялбар нотуудын нэг.',
-    tip: 'Зүүн гарын 3 хурuu дарж, баруун гарыг бүрэн нээнэ.',
+    tip: 'Зүүн гарын 3 хуруу дарж, баруун гарыг бүрэн нээнэ.',
     holes: ['closed','closed','closed','closed','open','open','open','open','open','open'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
     ]
   },
   {
-    name: 'A',
+    name: 'A', num: 2,
     mn: 'Ля (A4)',
     octave: 4,
     desc: 'Зөвхөн хоёр нүх хаалттай. Амьсгалыг бага зэрэг нэмнэ.',
@@ -533,35 +590,35 @@ const NOTES = [
     holes: ['closed','closed','closed','open','open','open','open','open','open','open'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
     ]
   },
   {
-    name: 'B',
+    name: 'B', num: 1,
     mn: 'Си (B4)',
     octave: 4,
-    desc: 'Зөвхөн 1-р хурuu дарна. Амьсгалыг нэмнэ.',
-    tip: 'Зөвхөн зүүн дэлхий хурuu дарж бусдыг нээнэ.',
+    desc: 'Зөвхөн 1-р хуруу дарна. Амьсгалыг нэмнэ.',
+    tip: 'Зөвхөн зүүн дэлхий хуруу дарж бусдыг нээнэ.',
     holes: ['closed','closed','open','open','open','open','open','open','open','open'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'open' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'open' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
     ]
   },
   {
-    name: "C'",
+    name: "C'", num: 7,
     mn: 'До (C5)',
     octave: 5,
     desc: 'Өндөр До. Эрхий хуруугаа хагас нааш татаж "pinch" байдлаар барина.',
@@ -569,21 +626,19 @@ const NOTES = [
     holes: ['half','closed','open','open','open','open','open','open','open','open'],
     fingers: [
       { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'half' },
-      { name: '1-р хурuu', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хурuu', hand: 'Зүүн', state: 'open' },
-      { name: '3-р хурuu', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хурuu', hand: 'Баруун', state: 'open' },
-      { name: '5-р хурuu', hand: 'Баруун', state: 'open' },
+      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
+      { name: '2-р хуруу', hand: 'Зүүн', state: 'open' },
+      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
+      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
+      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
       { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
       { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
     ]
   },
 ];
 
-// Hole IDs in order matching holes array
 const HOLE_IDS = ['hole-thumb','hole-1','hole-2','hole-3','hole-4','hole-5','hole-6a','hole-6b','hole-7a','hole-7b'];
 
-// Map hole state to CSS class
 function holeClass(idx, state, isThumb) {
   if (isThumb) {
     if (state === 'closed') return 'hole thumb-closed';
@@ -595,7 +650,6 @@ function holeClass(idx, state, isThumb) {
   return 'hole open';
 }
 
-// Chip for finger info
 function chipHtml(f) {
   const state = f.state;
   let cls, dotCls, label;
@@ -618,65 +672,90 @@ function renderNoteSelector() {
     <button class="note-btn ${i === 0 ? 'active' : ''}" onclick="selectNote(${i})">
       <span class="note-label">${n.name}</span>
       <span class="note-sub">${n.mn.split(' ')[0]}</span>
+      <span class="note-num">№${n.num}</span>
     </button>
   `).join('');
 }
 
 function animateHoles(note) {
-  // Update each hole with staggered animation
   HOLE_IDS.forEach((id, idx) => {
     const el = document.getElementById(id);
     if (!el) return;
     const state = note.holes[idx];
     const isThumb = (idx === 0);
-
-    // Stagger
     setTimeout(() => {
       el.className = holeClass(idx, state, isThumb);
     }, idx * 40);
   });
 }
 
+function buildNumRef(activeNote) {
+  const allBase = [
+    { sym: 'C', mn: 'До', num: 7 },
+    { sym: 'D', mn: 'Рэ', num: 6 },
+    { sym: 'E', mn: 'Ми', num: 5 },
+    { sym: 'F', mn: 'Фа', num: 4 },
+    { sym: 'G', mn: 'Соль', num: 3 },
+    { sym: 'A', mn: 'Ля', num: 2 },
+    { sym: 'B', mn: 'Си', num: 1 },
+  ];
+  return allBase.map(r => {
+    const isActive = activeNote.name.replace("'","") === r.sym;
+    return `<div class="num-ref-item ${isActive ? 'active-ref' : ''}">
+      <span class="ref-num">${r.num}</span>
+      <span class="ref-eq">=</span>
+      <span>${r.sym} (${r.mn})</span>
+    </div>`;
+  }).join('');
+}
+
 function selectNote(i) {
   currentNote = i;
   const note = NOTES[i];
 
-  // Update buttons
   document.querySelectorAll('.note-btn').forEach((b, j) => {
     b.classList.toggle('active', j === i);
   });
 
-  // Animate holes
   animateHoles(note);
 
-  // Update info panel
   const panel = document.getElementById('infoPanel');
   panel.innerHTML = `
     <div class="note-hero animate-in" data-note="${note.name}">
-      <div class="note-hero-name">${note.name}</div>
-      <div class="note-hero-mn">${note.mn}</div>
+      <div class="note-hero-top">
+        <div class="note-hero-name">${note.name}</div>
+        <div class="note-hero-num">${note.num}</div>
+      </div>
+      <div class="note-hero-mn">${note.mn} — Тоон тэмдэглэгээ: №${note.num}</div>
       <div class="note-hero-desc">${note.desc}</div>
     </div>
 
-    <div class="finger-grid animate-in" style="animation-delay:0.05s;">
-      <div class="finger-grid-title">🤚 ХУРУУНЫ БАЙРЛАЛ</div>
+    <div class="num-ref animate-in" style="animation-delay:0.03s;">
+      <div class="num-ref-title">🔢 ТООН ТЭМДЭГЛЭГЭЭ</div>
+      <div class="num-ref-row">
+        ${buildNumRef(note)}
+      </div>
+    </div>
+
+    <div class="finger-grid animate-in" style="animation-delay:0.06s;">
+      <div class="finger-grid-title">🤚 ХУРУУНЫ БАЙРЛАЛ — ${note.name} (№${note.num})</div>
       <div class="finger-row">
         ${note.fingers.map(f => chipHtml(f)).join('')}
       </div>
     </div>
 
-    <div class="tip-box animate-in" style="animation-delay:0.1s;">
+    <div class="tip-box animate-in" style="animation-delay:0.09s;">
       💡 <strong>Зөвлөмж:</strong> ${note.tip}
     </div>
 
-    <div class="legend animate-in" style="animation-delay:0.15s;">
+    <div class="legend animate-in" style="animation-delay:0.12s;">
       <div style="font-size:11px; letter-spacing:2px; text-transform:uppercase;
                   color:var(--tx2); width:100%; margin-bottom:4px;">ТАЙЛАЛ</div>
       <div class="legend-item">
         <div class="legend-dot l-thumb"></div> Эрхий хаалттай
       </div>
       <div class="legend-item">
-        <div class="legend-dot l-closed"></div> Хурuu дарна
+        <div class="legend-dot l-closed"></div> Хуруу дарна
       </div>
       <div class="legend-item">
         <div class="legend-dot l-open"></div> Нээлттэй

@@ -1,1070 +1,280 @@
 <!DOCTYPE html>
 <html lang="mn">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Бишгүүр Дасгалжуулагч</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-
-        body {
-            background: #0f1117;
-            color: #e8e8e8;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1.5rem 1rem 3rem;
-            gap: 1.2rem
-        }
-
-        h1 {
-            font-size: 20px;
-            font-weight: 500;
-            letter-spacing: .05em;
-            color: #e8e8e8;
-            text-align: center
-        }
-
-        /* Top panels grid */
-        .top-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            width: 100%;
-            max-width: 860px
-        }
-
-        /* Camera panel */
-        .panel {
-            background: #16181f;
-            border: 1px solid #2a2d3a;
-            border-radius: 14px;
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 8px
-        }
-
-        .panel-title {
-            font-size: 12px;
-            color: #666;
-            letter-spacing: .06em;
-            text-transform: uppercase
-        }
-
-        #camera-box {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 4/3;
-            background: #0a0c12;
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center
-        }
-
-        #cam-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            transform: scaleX(-1)
-        }
-
-        #cam-overlay {
-            position: absolute;
-            inset: 0;
-            pointer-events: none
-        }
-
-        #cam-placeholder {
-            font-size: 13px;
-            color: #444;
-            text-align: center;
-            padding: 1rem
-        }
-
-        /* Posture indicators */
-        #posture-box {
-            display: flex;
-            flex-direction: column;
-            gap: 6px
-        }
-
-        .posture-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px
-        }
-
-        .posture-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #333;
-            flex-shrink: 0;
-            transition: background .3s
-        }
-
-        .posture-dot.ok {
-            background: #3a9e4a
-        }
-
-        .posture-dot.warn {
-            background: #d07030
-        }
-
-        .posture-dot.bad {
-            background: #e05050
-        }
-
-        /* Mic / pitch panel */
-        .pitch-panel {
-            background: #16181f;
-            border: 1px solid #2a2d3a;
-            border-radius: 14px;
-            padding: 1rem;
-            width: 100%;
-            max-width: 860px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px
-        }
-
-        /* Detected note display */
-        .detected-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 8px
-        }
-
-        #det-note {
-            font-size: 52px;
-            font-weight: 600;
-            line-height: 1;
-            min-width: 60px;
-            transition: color .2s
-        }
-
-        #det-freq {
-            font-size: 13px;
-            color: #555;
-            margin-top: 4px
-        }
-
-        /* Verdict */
-        #verdict {
-            font-size: 16px;
-            font-weight: 500;
-            padding: 6px 16px;
-            border-radius: 8px;
-            background: #1e2030;
-            transition: background .3s, color .3s
-        }
-
-        #verdict.correct {
-            background: #1a3a24;
-            color: #4caf74
-        }
-
-        #verdict.wrong {
-            background: #3a1a1a;
-            color: #e05050
-        }
-
-        #verdict.close {
-            background: #2a2a1a;
-            color: #d0a030
-        }
-
-        /* Tuner bar */
-        .tuner-wrap {
-            display: flex;
-            flex-direction: column;
-            gap: 4px
-        }
-
-        .tuner-label {
-            font-size: 11px;
-            color: #555;
-            display: flex;
-            justify-content: space-between
-        }
-
-        #tuner-bar-bg {
-            width: 100%;
-            height: 12px;
-            background: #1e2030;
-            border-radius: 6px;
-            position: relative;
-            overflow: hidden
-        }
-
-        #tuner-bar {
-            position: absolute;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: #4a90d9;
-            border-radius: 2px;
-            left: 50%;
-            transform: translateX(-50%);
-            transition: left .1s
-        }
-
-        #tuner-center {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 1px;
-            height: 100%;
-            background: #333
-        }
-
-        /* Waveform */
-        #waveform {
-            width: 100%;
-            height: 60px;
-            background: #0a0c12;
-            border-radius: 8px
-        }
-
-        /* Main scene */
-        #main-scene {
-            display: flex;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: center;
-            gap: 0;
-            width: 100%;
-            max-width: 600px
-        }
-
-        .hand-panel {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
-            padding-top: 46px
-        }
-
-        .hand-panel.rh {
-            padding-top: 218px
-        }
-
-        .finger-slot {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            height: 46px
-        }
-
-        .hand-panel.lh .finger-slot {
-            flex-direction: row-reverse
-        }
-
-        .finger-visual {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 44px
-        }
-
-        .fingertip {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 2.5px solid #444;
-            background: #1e2030;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            font-weight: 600;
-            color: #666;
-            transition: background .13s, border-color .13s, transform .1s, box-shadow .13s;
-            cursor: pointer;
-            user-select: none
-        }
-
-        .fingertip.pressed {
-            border-color: #4a90d9;
-            background: #4a90d9;
-            color: #fff;
-            transform: scale(.82);
-            box-shadow: 0 0 0 5px rgba(74, 144, 217, .22)
-        }
-
-        .connector-line {
-            width: 30px;
-            height: 2px;
-            background: #222;
-            transition: background .15s;
-            margin: 0 2px
-        }
-
-        .connector-line.active {
-            background: #4a90d9
-        }
-
-        .finger-label {
-            font-size: 10px;
-            color: #555;
-            text-align: center;
-            margin-top: 3px
-        }
-
-        #flute-container {
-            width: 90px;
-            display: flex;
-            flex-direction: column;
-            align-items: center
-        }
-
-        #flute-svg {
-            width: 80px;
-            height: 420px
-        }
-
-        /* Guide cards */
-        .guide-section {
-            width: 100%;
-            max-width: 860px
-        }
-
-        .guide-title {
-            font-size: 12px;
-            color: #555;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            margin-bottom: 8px
-        }
-
-        .guide-row {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap
-        }
-
-        .guide-card {
-            border: 1px solid #2a2d3a;
-            border-radius: 10px;
-            padding: 7px 10px;
-            cursor: pointer;
-            transition: border-color .15s, background .15s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            min-width: 50px;
-            background: #16181f
-        }
-
-        .guide-card:hover {
-            background: #1e2236;
-            border-color: #4a90d9
-        }
-
-        .guide-card.target {
-            border-color: #d0a030;
-            background: #1e1c12
-        }
-
-        .gc-note {
-            font-size: 16px;
-            font-weight: 600
-        }
-
-        .gc-holes {
-            display: flex;
-            gap: 3px
-        }
-
-        .gc-dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            border: 1.5px solid #444;
-            background: transparent
-        }
-
-        .gc-dot.filled {
-            background: #c8a46a;
-            border-color: #c8a46a
-        }
-
-        .gc-name {
-            font-size: 10px;
-            color: #666
-        }
-
-        /* Controls */
-        .ctrl-row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            justify-content: center
-        }
-
-        .btn {
-            padding: 9px 20px;
-            font-size: 13px;
-            border-radius: 9px;
-            border: 1px solid #333;
-            background: #16181f;
-            color: #e8e8e8;
-            cursor: pointer;
-            font-family: inherit;
-            transition: background .13s, border-color .13s, transform .08s
-        }
-
-        .btn:hover {
-            background: #1e2236;
-            border-color: #4a90d9
-        }
-
-        .btn:active {
-            transform: scale(.97)
-        }
-
-        .btn.on {
-            background: #1a3a5c;
-            border-color: #4a90d9;
-            color: #7ab8f5
-        }
-
-        /* Legend */
-        .legend {
-            display: flex;
-            gap: 14px;
-            font-size: 12px;
-            color: #555;
-            flex-wrap: wrap;
-            justify-content: center
-        }
-
-        .li {
-            display: flex;
-            align-items: center;
-            gap: 5px
-        }
-
-        .ld {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%
-        }
-
-        .ld.open {
-            border: 2px solid #444;
-            background: transparent
-        }
-
-        .ld.closed {
-            background: #c8a46a;
-            border: 2px solid #c8a46a
-        }
-
-        .ld.active {
-            background: #4a90d9;
-            border: 2px solid #4a90d9
-        }
-
-        /* Target note banner */
-        #target-banner {
-            width: 100%;
-            max-width: 860px;
-            background: #1a1c26;
-            border: 1px solid #2a2d3a;
-            border-radius: 12px;
-            padding: .8rem 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap
-        }
-
-        #target-label {
-            font-size: 12px;
-            color: #555;
-            letter-spacing: .05em
-        }
-
-        #target-note-name {
-            font-size: 22px;
-            font-weight: 500;
-            color: #d0a030
-        }
-
-        #target-hint {
-            font-size: 12px;
-            color: #555;
-            max-width: 260px;
-            line-height: 1.5
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Бишгүүр Дасгалжуулагч</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0c10;color:#dde0e8;font-family:'Segoe UI',Arial,sans-serif;height:100vh;overflow:hidden;display:flex;flex-direction:column}
+
+/* ── Top bar ── */
+.top-bar{display:flex;align-items:center;justify-content:space-between;padding:10px 24px;border-bottom:1px solid #1a1e2a;flex-shrink:0;background:#0e1016}
+.top-bar h1{font-size:16px;font-weight:600;color:#c8d0e0;display:flex;align-items:center;gap:8px}
+.num-strip{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.num-strip-label{font-size:9px;color:#445;letter-spacing:1px;text-transform:uppercase;margin-right:2px}
+.ns-item{display:flex;align-items:center;gap:3px;font-size:11px;color:#556;padding:2px 6px;border-radius:5px;background:#12151e;border:1px solid #1a1e2a;transition:all .2s}
+.ns-item.active{border-color:#3a7fd4;color:#7eb8ff;background:rgba(91,156,246,0.08)}
+.ns-num{font-family:monospace;font-weight:800;font-size:12px;color:#5b9cf6;min-width:10px;text-align:center}
+.ns-eq{color:#1a1e2a;margin:0 1px}
+
+/* ── Target banner ── */
+.target-bar{display:flex;align-items:center;justify-content:space-between;padding:7px 24px;background:#10121a;border-bottom:1px solid #1a1e2a;flex-shrink:0;gap:12px}
+#target-label{font-size:10px;color:#445;letter-spacing:.05em}
+#target-note-name{font-size:18px;font-weight:700;color:#b07020;font-family:monospace;display:flex;align-items:center;gap:8px}
+#target-num-badge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;background:rgba(176,112,32,0.15);border:1.5px solid rgba(176,112,32,0.4);font-size:14px;font-weight:800;color:#b07020;font-family:monospace}
+#target-hint{font-size:11px;color:#445;line-height:1.5}
+
+/* ── Main split layout ── */
+.main-split{display:flex;flex:1;overflow:hidden}
+
+/* ── Left: Microphone ── */
+.mic-side{flex:1;display:flex;flex-direction:column;padding:18px 24px;gap:12px;overflow-y:auto;border-right:1px solid #1a1e2a;min-width:0}
+.panel-title{font-size:11px;color:#556;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+#waveform{width:100%;height:60px;background:#060810;border-radius:8px;flex-shrink:0}
+.detected-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.det-left{display:flex;align-items:center;gap:14px}
+#det-note{font-size:52px;font-weight:700;line-height:1;min-width:56px;transition:color .2s;font-family:monospace}
+#det-num{font-size:28px;font-weight:800;font-family:monospace;color:#556;transition:color .2s}
+#det-freq{font-size:12px;color:#445;margin-top:2px}
+#verdict{font-size:14px;font-weight:600;padding:8px 18px;border-radius:8px;background:#1a1e2a;transition:background .3s,color .3s;text-align:center;white-space:nowrap}
+#verdict.correct{background:#142a1c;color:#3ab85a}
+#verdict.wrong{background:#2a1212;color:#c04040}
+#verdict.close{background:#1e1e0a;color:#b07020}
+.tuner-wrap{display:flex;flex-direction:column;gap:4px}
+.tuner-label{font-size:10px;color:#445;display:flex;justify-content:space-between}
+#tuner-bar-bg{width:100%;height:10px;background:#1a1e2a;border-radius:5px;position:relative;overflow:hidden}
+#tuner-bar{position:absolute;top:0;height:100%;width:4px;background:#3a7fd4;border-radius:2px;left:50%;transform:translateX(-50%);transition:left .1s}
+#tuner-center{position:absolute;top:0;left:50%;width:1px;height:100%;background:#2a2e3a}
+.btn{padding:10px 20px;font-size:13px;border-radius:9px;border:1px solid #22263a;background:#12151e;color:#dde0e8;cursor:pointer;font-family:inherit;transition:all .13s;width:100%}
+.btn:hover{background:#1a1e2e;border-color:#3a7fd4}
+.btn:active{transform:scale(.97)}
+.btn.on{background:#0e1e34;border-color:#3a7fd4;color:#6aacf0}
+
+/* Guide cards */
+.guide-section{margin-top:auto;padding-top:8px}
+.guide-title{font-size:10px;color:#445;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.guide-row{display:flex;gap:5px;flex-wrap:wrap}
+.guide-card{border:1px solid #22263a;border-radius:9px;padding:5px 7px;cursor:pointer;transition:border-color .15s,background .15s;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:50px;background:#12151e;flex:1}
+.guide-card:hover{background:#1a1e2e;border-color:#3a7fd4}
+.guide-card.target{border-color:#b07020;background:#14120a}
+.gc-num{font-size:10px;font-weight:800;color:#5b9cf6;font-family:monospace;background:rgba(91,156,246,0.1);border-radius:3px;padding:1px 5px}
+.gc-note{font-size:14px;font-weight:700;font-family:monospace}
+.gc-holes{display:flex;gap:2px}
+.gc-dot{width:7px;height:7px;border-radius:50%;border:1.5px solid #334;background:transparent}
+.gc-dot.filled{background:#b09050;border-color:#b09050}
+.gc-name{font-size:9px;color:#556}
+.ctrl-row{display:flex;gap:8px;margin-top:8px}
+.ctrl-row .btn{width:auto;flex:1}
+
+/* ── Right: Flute ── */
+.flute-side{width:320px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 10px;overflow-y:auto;background:#0c0e14}
+#main-scene{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:0}
+.hand-panel{display:flex;flex-direction:column;gap:0;padding-top:46px}
+.hand-panel.rh{padding-top:218px}
+.finger-slot{display:flex;flex-direction:row;align-items:center;height:46px}
+.hand-panel.lh .finger-slot{flex-direction:row-reverse}
+.finger-visual{display:flex;flex-direction:column;align-items:center;width:44px}
+.fingertip{width:28px;height:28px;border-radius:50%;border:2px solid #334;background:#12151e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#556;transition:all .12s;cursor:pointer;user-select:none}
+.fingertip.pressed{border-color:#3a7fd4;background:#3a7fd4;color:#fff;transform:scale(.8);box-shadow:0 0 0 5px rgba(58,127,212,.2)}
+.connector-line{width:28px;height:2px;background:#1a1e2a;transition:background .15s;margin:0 2px}
+.connector-line.active{background:#3a7fd4}
+.finger-label{font-size:9px;color:#445;text-align:center;margin-top:2px}
+#flute-container{width:90px;display:flex;flex-direction:column;align-items:center}
+#flute-svg{width:80px;height:420px}
+.legend{display:flex;gap:12px;font-size:10px;color:#445;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.li{display:flex;align-items:center;gap:4px}
+.ld{width:10px;height:10px;border-radius:50%}
+.ld.open{border:2px solid #334;background:transparent}
+.ld.closed{background:#b09050;border:2px solid #b09050}
+.ld.active{background:#3a7fd4;border:2px solid #3a7fd4}
+
+@media(max-width:760px){
+  .main-split{flex-direction:column}
+  .mic-side{border-right:none;border-bottom:1px solid #1a1e2a}
+  .flute-side{width:100%;height:auto;max-height:50vh}
+}
+</style>
 </head>
-
 <body>
 
-    <h1>🎵 Бишгүүр Дасгалжуулагч</h1>
+<div class="top-bar">
+  <h1>🎵 Бишгүүр Дасгалжуулагч</h1>
+  <div class="num-strip" id="num-strip"><span class="num-strip-label">Тоон тэмдэглэгээ:</span></div>
+</div>
 
-    <!-- Target banner -->
-    <div id="target-banner">
-        <div>
-            <div id="target-label">Зорилтот нот</div>
-            <div id="target-note-name">— сонгоно уу</div>
-        </div>
-        <div id="target-hint">Доорх картаас нот сонгоод бишгүүрээ үлээнэ үү</div>
+<div class="target-bar">
+  <div>
+    <div id="target-label">ЗОРИЛТОТ НОТ</div>
+    <div id="target-note-name"><span id="target-text">— сонгоно уу</span><span id="target-num-badge" style="display:none"></span></div>
+  </div>
+  <div id="target-hint">Доорх картаас нот сонгоод бишгүүрээ үлээнэ үү</div>
+</div>
+
+<div class="main-split">
+
+  <!-- LEFT: Микрофон -->
+  <div class="mic-side">
+    <div class="panel-title">🎤 Микрофон — нот таних</div>
+    <canvas id="waveform" width="600" height="60"></canvas>
+    <div class="detected-row">
+      <div class="det-left">
+        <div><div id="det-note" style="color:#334">—</div><div id="det-freq">0 Гц</div></div>
+        <div id="det-num" style="color:#334">—</div>
+      </div>
+      <div id="verdict">Хүлээж байна...</div>
     </div>
-
-    <!-- Top: Camera + Posture | Pitch detection -->
-    <div class="top-grid">
-
-        <!-- Camera -->
-        <div class="panel">
-            <div class="panel-title">📷 Камер — байрлал</div>
-            <div id="camera-box">
-                <video id="cam-video" autoplay playsinline muted style="display:none"></video>
-                <canvas id="cam-overlay"></canvas>
-                <div id="cam-placeholder">Камер асаагаагүй байна.<br>Доорх товчийг дарна уу.</div>
-            </div>
-            <div id="posture-box">
-                <div class="posture-item">
-                    <div class="posture-dot" id="pd-face"></div><span>Нүүр — бишгүүрт налуу</span>
-                </div>
-                <div class="posture-item">
-                    <div class="posture-dot" id="pd-arms"></div><span>Гар — өргөсөн байдал</span>
-                </div>
-                <div class="posture-item">
-                    <div class="posture-dot" id="pd-straight"></div><span>Бие — шулуун байдал</span>
-                </div>
-            </div>
-            <button class="btn" id="btn-cam">📷 Камер асаах</button>
-        </div>
-
-        <!-- Pitch detection -->
-        <div class="panel">
-            <div class="panel-title">🎤 Микрофон — нот таних</div>
-
-            <canvas id="waveform" width="400" height="60"></canvas>
-
-            <div class="detected-row">
-                <div>
-                    <div id="det-note" style="color:#444">—</div>
-                    <div id="det-freq">0 Гц</div>
-                </div>
-                <div id="verdict">Хүлээж байна...</div>
-            </div>
-
-            <div class="tuner-wrap">
-                <div class="tuner-label"><span>♭ Доогуур</span><span>Тааруу</span><span>♯ Дээгүүр</span></div>
-                <div id="tuner-bar-bg">
-                    <div id="tuner-center"></div>
-                    <div id="tuner-bar"></div>
-                </div>
-            </div>
-
-            <button class="btn" id="btn-mic">🎤 Микрофон асаах</button>
-        </div>
+    <div class="tuner-wrap">
+      <div class="tuner-label"><span>♭ Доогуур</span><span>Тааруу</span><span>♯ Дээгүүр</span></div>
+      <div id="tuner-bar-bg"><div id="tuner-center"></div><div id="tuner-bar"></div></div>
     </div>
-
-    <!-- Flute diagram -->
-    <div id="main-scene">
-        <div class="hand-panel lh">
-            <div class="finger-slot">
-                <div class="finger-visual">
-                    <div class="fingertip" id="fp0">1</div>
-                    <div class="finger-label">Дурдан</div>
-                </div>
-                <div class="connector-line" id="cl0"></div>
-            </div>
-            <div class="finger-slot">
-                <div class="finger-visual">
-                    <div class="fingertip" id="fp1">2</div>
-                    <div class="finger-label">Дунд</div>
-                </div>
-                <div class="connector-line" id="cl1"></div>
-            </div>
-            <div class="finger-slot">
-                <div class="finger-visual">
-                    <div class="fingertip" id="fp2">3</div>
-                    <div class="finger-label">Алга</div>
-                </div>
-                <div class="connector-line" id="cl2"></div>
-            </div>
-        </div>
-
-        <div id="flute-container">
-            <svg id="flute-svg" viewBox="0 0 80 420" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
-                        <stop offset="0%" stop-color="#b8904a" />
-                        <stop offset="45%" stop-color="#e8c870" />
-                        <stop offset="100%" stop-color="#907030" />
-                    </linearGradient>
-                </defs>
-                <ellipse cx="40" cy="18" rx="13" ry="18" fill="url(#wg)" stroke="#7a5c28" stroke-width="1.2" />
-                <rect x="26" y="34" width="28" height="6" rx="3" fill="#7a5c28" opacity=".8" />
-                <ellipse cx="40" cy="48" rx="6" ry="5" fill="#1a1008" stroke="#7a5c28" stroke-width=".8" />
-                <rect x="27" y="54" width="26" height="32" rx="2.5" fill="url(#wg)" stroke="#7a5c28"
-                    stroke-width=".9" />
-                <rect x="24" y="86" width="32" height="10" rx="5" fill="#7a5c28" />
-                <rect x="27" y="96" width="26" height="220" rx="2.5" fill="url(#wg)" stroke="#7a5c28"
-                    stroke-width=".9" />
-                <circle id="fh0" cx="40" cy="122" r="6" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <circle id="fh1" cx="40" cy="146" r="6" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <circle id="fh2" cx="40" cy="170" r="6" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <circle id="fh3" cx="40" cy="194" r="6" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <circle id="fh4" cx="40" cy="218" r="6" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <circle id="fh5a" cx="34" cy="252" r="4.2" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <circle id="fh5b" cx="46" cy="252" r="4.2" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <rect x="24" y="316" width="32" height="10" rx="5" fill="#7a5c28" />
-                <rect x="27" y="326" width="26" height="44" rx="2.5" fill="url(#wg)" stroke="#7a5c28"
-                    stroke-width=".9" />
-                <circle id="fh6a" cx="34" cy="348" r="4.2" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <circle id="fh6b" cx="46" cy="348" r="4.2" fill="#1a1008" stroke="#7a5c28" stroke-width=".7" />
-                <ellipse cx="40" cy="398" rx="18" ry="20" fill="url(#wg)" stroke="#7a5c28" stroke-width="1.2" />
-                <ellipse cx="40" cy="388" rx="14" ry="8" fill="#7a5c28" opacity=".3" />
-            </svg>
-        </div>
-
-        <div class="hand-panel rh">
-            <div class="finger-slot">
-                <div class="connector-line" id="cl3"></div>
-                <div class="finger-visual">
-                    <div class="fingertip" id="fp3">4</div>
-                    <div class="finger-label">Дурдан</div>
-                </div>
-            </div>
-            <div class="finger-slot">
-                <div class="connector-line" id="cl4"></div>
-                <div class="finger-visual">
-                    <div class="fingertip" id="fp4">5</div>
-                    <div class="finger-label">Дунд</div>
-                </div>
-            </div>
-            <div class="finger-slot">
-                <div class="connector-line" id="cl5"></div>
-                <div class="finger-visual">
-                    <div class="fingertip" id="fp5">6</div>
-                    <div class="finger-label">Алга</div>
-                </div>
-            </div>
-            <div class="finger-slot">
-                <div class="connector-line" id="cl6"></div>
-                <div class="finger-visual">
-                    <div class="fingertip" id="fp6">7</div>
-                    <div class="finger-label">Чигч</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Note guide -->
+    <button class="btn" id="btn-mic">🎤 Микрофон асаах</button>
     <div class="guide-section">
-        <div class="guide-title">Нот сонгох — дарахад зорилтот нот болно</div>
-        <div class="guide-row" id="guide-row"></div>
-    </div>
-
-    <div class="legend">
-        <div class="li">
-            <div class="ld open"></div><span>Нээлттэй</span>
-        </div>
-        <div class="li">
-            <div class="ld closed"></div><span>Хаасан</span>
-        </div>
-        <div class="li">
-            <div class="ld active"></div><span>Дарагдсан</span>
-        </div>
-    </div>
-
-    <div class="ctrl-row">
+      <div class="guide-title">Нот сонгох</div>
+      <div class="guide-row" id="guide-row"></div>
+      <div class="ctrl-row">
         <button class="btn" id="btn-scale">▶ Дуграа тоглох</button>
         <button class="btn" id="btn-reset">✕ Тайлах</button>
+      </div>
     </div>
+  </div>
 
-    <script>
-        const NOTES = [
-            { name: "До", sym: "C", freq: 523, holes: [1, 1, 1, 1, 1, 1, 1], color: "#e05050" },
-            { name: "Ре", sym: "D", freq: 587, holes: [1, 1, 1, 1, 1, 1, 0], color: "#d07030" },
-            { name: "Ми", sym: "E", freq: 659, holes: [1, 1, 1, 1, 1, 0, 0], color: "#b8a000" },
-            { name: "Фа", sym: "F", freq: 698, holes: [1, 1, 1, 1, 0, 1, 0], color: "#3a9e4a" },
-            { name: "Со", sym: "G", freq: 784, holes: [1, 1, 1, 0, 0, 0, 0], color: "#4a90d9" },
-            { name: "Ля", sym: "A", freq: 880, holes: [1, 1, 0, 0, 0, 0, 0], color: "#9a70d9" },
-            { name: "Си", sym: "B", freq: 988, holes: [1, 0, 0, 0, 0, 0, 0], color: "#d060a0" },
-            { name: "До'", sym: "C'", freq: 1047, holes: [0, 0, 0, 0, 0, 0, 0], color: "#e03030" },
-        ];
+  <!-- RIGHT: Бишгүүр -->
+  <div class="flute-side">
+    <div id="main-scene">
+      <div class="hand-panel lh">
+        <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp0">1</div><div class="finger-label">Дурдан</div></div><div class="connector-line" id="cl0"></div></div>
+        <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp1">2</div><div class="finger-label">Дунд</div></div><div class="connector-line" id="cl1"></div></div>
+        <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp2">3</div><div class="finger-label">Алга</div></div><div class="connector-line" id="cl2"></div></div>
+      </div>
+      <div id="flute-container">
+        <svg id="flute-svg" viewBox="0 0 80 420" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="wg" x1="0" x2="1" y1="0" y2="0"><stop offset="0%" stop-color="#a07838"/><stop offset="45%" stop-color="#d8b860"/><stop offset="100%" stop-color="#806020"/></linearGradient></defs>
+          <ellipse cx="40" cy="18" rx="13" ry="18" fill="url(#wg)" stroke="#6a4c18" stroke-width="1.2"/>
+          <rect x="26" y="34" width="28" height="6" rx="3" fill="#6a4c18" opacity=".8"/>
+          <ellipse cx="40" cy="48" rx="6" ry="5" fill="#0a0808" stroke="#6a4c18" stroke-width=".8"/>
+          <rect x="27" y="54" width="26" height="32" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
+          <rect x="24" y="86" width="32" height="10" rx="5" fill="#6a4c18"/>
+          <rect x="27" y="96" width="26" height="220" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
+          <circle id="fh0" cx="40" cy="122" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh1" cx="40" cy="146" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh2" cx="40" cy="170" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh3" cx="40" cy="194" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh4" cx="40" cy="218" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh5a" cx="34" cy="252" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh5b" cx="46" cy="252" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <rect x="24" y="316" width="32" height="10" rx="5" fill="#6a4c18"/>
+          <rect x="27" y="326" width="26" height="44" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
+          <circle id="fh6a" cx="34" cy="348" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh6b" cx="46" cy="348" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <ellipse cx="40" cy="398" rx="18" ry="20" fill="url(#wg)" stroke="#6a4c18" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="hand-panel rh">
+        <div class="finger-slot"><div class="connector-line" id="cl3"></div><div class="finger-visual"><div class="fingertip" id="fp3">4</div><div class="finger-label">Дурдан</div></div></div>
+        <div class="finger-slot"><div class="connector-line" id="cl4"></div><div class="finger-visual"><div class="fingertip" id="fp4">5</div><div class="finger-label">Дунд</div></div></div>
+        <div class="finger-slot"><div class="connector-line" id="cl5"></div><div class="finger-visual"><div class="fingertip" id="fp5">6</div><div class="finger-label">Алга</div></div></div>
+        <div class="finger-slot"><div class="connector-line" id="cl6"></div><div class="finger-visual"><div class="fingertip" id="fp6">7</div><div class="finger-label">Чигч</div></div></div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="li"><div class="ld open"></div><span>Нээлттэй</span></div>
+      <div class="li"><div class="ld closed"></div><span>Хаасан</span></div>
+      <div class="li"><div class="ld active"></div><span>Дарагдсан</span></div>
+    </div>
+  </div>
 
-        /* ── State ── */
-        let targetNote = null;
-        let pressed = [0, 0, 0, 0, 0, 0, 0];
-        let autoPlaying = false, autoTimer = null;
+</div>
 
-        /* ── Audio / Pitch ── */
-        let audioCtx = null, analyser = null, micStream = null;
-        let pitchInterval = null;
-        let waveAnim = null;
+<script>
+const NOTES=[
+  {name:"До",sym:"C",num:7,freq:523,holes:[1,1,1,1,1,1,1],color:"#e05050"},
+  {name:"Ре",sym:"D",num:6,freq:587,holes:[1,1,1,1,1,1,0],color:"#d07030"},
+  {name:"Ми",sym:"E",num:5,freq:659,holes:[1,1,1,1,1,0,0],color:"#b8a000"},
+  {name:"Фа",sym:"F",num:4,freq:698,holes:[1,1,1,1,0,1,0],color:"#3a9e4a"},
+  {name:"Со",sym:"G",num:3,freq:784,holes:[1,1,1,0,0,0,0],color:"#4a90d9"},
+  {name:"Ля",sym:"A",num:2,freq:880,holes:[1,1,0,0,0,0,0],color:"#9a70d9"},
+  {name:"Си",sym:"B",num:1,freq:988,holes:[1,0,0,0,0,0,0],color:"#d060a0"},
+  {name:"До'",sym:"C'",num:7,freq:1047,holes:[0,0,0,0,0,0,0],color:"#e03030"},
+];
+let targetNote=null,autoPlaying=false,autoTimer=null,audioCtx=null,analyser=null,waveAnim=null,pitchInterval=null;
 
-        function getCtx() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            return audioCtx;
-        }
+function buildNumStrip(){
+  const s=document.getElementById('num-strip');
+  [{sym:'C',mn:'До',num:7},{sym:'D',mn:'Ре',num:6},{sym:'E',mn:'Ми',num:5},{sym:'F',mn:'Фа',num:4},{sym:'G',mn:'Со',num:3},{sym:'A',mn:'Ля',num:2},{sym:'B',mn:'Си',num:1}].forEach(n=>{
+    const d=document.createElement('div');d.className='ns-item';d.id='ns-'+n.sym;
+    d.innerHTML=`<span class="ns-num">${n.num}</span><span class="ns-eq">=</span><span>${n.sym}(${n.mn})</span>`;s.appendChild(d);
+  });
+}
+function updateNumStrip(s){document.querySelectorAll('.ns-item').forEach(el=>{const sym=el.id.replace('ns-','');el.classList.toggle('active',sym===s||(s==="C'"&&sym==="C"));});}
 
-        /* ─ Autocorrelation pitch detection ─ */
-        function detectPitch(buf, sampleRate) {
-            const SIZE = buf.length;
-            const MAX_S = Math.floor(sampleRate / 80);
-            const MIN_S = Math.floor(sampleRate / 1200);
-            let rms = 0;
-            for (let i = 0; i < SIZE; i++) rms += buf[i] * buf[i];
-            rms = Math.sqrt(rms / SIZE);
-            if (rms < 0.008) return -1;
+function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+function detectPitch(buf,sr){
+  const S=buf.length,MX=Math.floor(sr/80),MN=Math.floor(sr/1200);
+  let rms=0;for(let i=0;i<S;i++)rms+=buf[i]*buf[i];rms=Math.sqrt(rms/S);if(rms<.008)return-1;
+  let r1=0,r2=S-1;for(let i=0;i<S/2;i++)if(Math.abs(buf[i])>.2){r1=i;break;}
+  for(let i=S-1;i>S/2;i--)if(Math.abs(buf[i])>.2){r2=i;break;}
+  const b=buf.slice(r1,r2+1),c=new Float32Array(b.length).fill(0);
+  for(let i=0;i<b.length;i++)for(let j=0;j<b.length-i;j++)c[i]+=b[j]*b[j+i];
+  let d=0;while(d<c.length-1&&c[d]>c[d+1])d++;
+  let mv=-Infinity,mp=-1;for(let i=d;i<Math.min(MX,c.length);i++)if(i>=MN&&c[i]>mv){mv=c[i];mp=i;}
+  if(mp<0)return-1;const x0=c[mp-1]||0,x2=c[mp+1]||0;
+  return sr/(mp-(x2-x0)/(2*(2*c[mp]-x2-x0)||1));
+}
+function freqToNote(f){if(f<=0)return null;let b=null,bd=999;NOTES.forEach(n=>{const d=Math.abs(f-n.freq);if(d<bd){bd=d;b=n;}});return bd>120?null:{note:b,diff:f-b.freq};}
 
-            let r1 = 0, r2 = SIZE - 1;
-            const THRESH = 0.2;
-            for (let i = 0; i < SIZE / 2; i++) if (Math.abs(buf[i]) > THRESH) { r1 = i; break; }
-            for (let i = SIZE - 1; i > SIZE / 2; i--) if (Math.abs(buf[i]) > THRESH) { r2 = i; break; }
-            const buf2 = buf.slice(r1, r2 + 1);
-            const c = new Float32Array(buf2.length).fill(0);
-            for (let i = 0; i < buf2.length; i++)
-                for (let j = 0; j < buf2.length - i; j++)
-                    c[i] += buf2[j] * buf2[j + i];
+async function startMic(){
+  try{
+    const ms=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
+    const ac=getCtx();analyser=ac.createAnalyser();analyser.fftSize=4096;
+    ac.createMediaStreamSource(ms).connect(analyser);
+    const buf=new Float32Array(analyser.fftSize),wc=document.getElementById('waveform'),wx=wc.getContext('2d'),bb=new Uint8Array(analyser.fftSize);
+    (function dw(){waveAnim=requestAnimationFrame(dw);analyser.getByteTimeDomainData(bb);
+      wx.fillStyle='#060810';wx.fillRect(0,0,wc.width,wc.height);wx.lineWidth=1.5;wx.strokeStyle='#3a7fd4';wx.beginPath();
+      const sw=wc.width/bb.length;let x=0;for(let i=0;i<bb.length;i++){const v=bb[i]/128,y=v*wc.height/2;i===0?wx.moveTo(x,y):wx.lineTo(x,y);x+=sw;}wx.stroke();})();
+    pitchInterval=setInterval(()=>{analyser.getFloatTimeDomainData(buf);updatePitchUI(detectPitch(buf,getCtx().sampleRate));},80);
+    const bm=document.getElementById('btn-mic');bm.textContent='🎤 Асаалттай';bm.classList.add('on');
+  }catch(e){alert('Микрофоны зөвшөөрөл өгнө үү!\n'+e.message);}
+}
 
-            let d = 0;
-            while (d < c.length - 1 && c[d] > c[d + 1]) d++;
-            let maxVal = -Infinity, maxPos = -1;
-            for (let i = d; i < Math.min(MAX_S, c.length); i++)
-                if (i >= MIN_S && c[i] > maxVal) { maxVal = c[i]; maxPos = i; }
-            if (maxPos < 0) return -1;
+function updatePitchUI(freq){
+  const det=freqToNote(freq),dn=document.getElementById('det-note'),df=document.getElementById('det-freq'),dnum=document.getElementById('det-num'),ve=document.getElementById('verdict'),tb=document.getElementById('tuner-bar');
+  if(!det||freq<=0){dn.textContent='—';dn.style.color='#334';dnum.textContent='—';dnum.style.color='#334';df.textContent='0 Гц';ve.textContent='Дуу илрэхгүй';ve.className='';tb.style.left='50%';updateNumStrip('');return;}
+  dn.textContent=det.note.sym;dn.style.color=det.note.color;dnum.textContent='№'+det.note.num;dnum.style.color=det.note.color;df.textContent=Math.round(freq)+' Гц';updateNumStrip(det.note.sym);
+  const cents=1200*Math.log2(freq/det.note.freq),pct=Math.min(100,Math.max(0,50+cents));tb.style.left=pct+'%';
+  tb.style.background=Math.abs(cents)<10?'#2a8e4a':Math.abs(cents)<25?'#b07020':'#c04040';
+  if(targetNote){
+    if(det.note.sym===targetNote.sym){if(Math.abs(cents)<15){ve.textContent='✓ Зөв! №'+targetNote.num+' — '+targetNote.name;ve.className='correct';highlightFluteHoles(targetNote.holes,'#2a8e4a');}
+    else{ve.textContent=cents>0?'↑ Дээгүүр':'↓ Доогуур';ve.className='close';}}
+    else{ve.textContent='✗ №'+det.note.num+' '+det.note.sym+' — №'+targetNote.num+' '+targetNote.sym+' биш';ve.className='wrong';highlightFluteHoles(targetNote.holes,'#c04040');}
+  }else{ve.textContent='№'+det.note.num+' — '+det.note.name+' нот';ve.className='';showHolesForNote(det.note);}
+}
 
-            const x0 = c[maxPos - 1] || 0, x2 = c[maxPos + 1] || 0;
-            const refine = maxPos - (x2 - x0) / (2 * (2 * c[maxPos] - x2 - x0) || 1);
-            return sampleRate / refine;
-        }
+function highlightFluteHoles(h,c){for(let i=0;i<5;i++){const e=document.getElementById('fh'+i);e.setAttribute('fill',h[i]?c:'#0a0808');e.setAttribute('r',h[i]?'4.5':'6');}
+['fh5a','fh5b'].forEach(id=>document.getElementById(id).setAttribute('fill',h[5]?c:'#0a0808'));
+['fh6a','fh6b'].forEach(id=>document.getElementById(id).setAttribute('fill',h[6]?c:'#0a0808'));}
+function showHolesForNote(n){highlightFluteHoles(n.holes,'#3a7fd4');for(let i=0;i<7;i++){const fp=document.getElementById('fp'+i),cl=document.getElementById('cl'+i);if(n.holes[i]){fp.classList.add('pressed');if(cl)cl.classList.add('active');}else{fp.classList.remove('pressed');if(cl)cl.classList.remove('active');}}}
+function setTarget(n){targetNote=n;document.getElementById('target-text').textContent=n.sym+' — '+n.name;document.getElementById('target-text').style.color=n.color;
+const b=document.getElementById('target-num-badge');b.textContent=n.num;b.style.display='inline-flex';b.style.color=n.color;b.style.borderColor=n.color+'66';b.style.background=n.color+'18';
+document.getElementById('target-hint').textContent='Нүхний байрлал харж үлээнэ үү';document.querySelectorAll('.guide-card').forEach(c=>c.classList.toggle('target',c.dataset.sym===n.sym));showHolesForNote(n);updateNumStrip(n.sym);}
 
-        function freqToNote(freq) {
-            if (freq <= 0) return null;
-            let best = null, bestDiff = 999;
-            NOTES.forEach(n => {
-                const d = Math.abs(freq - n.freq);
-                if (d < bestDiff) { bestDiff = d; best = n; }
-            });
-            if (bestDiff > 120) return null;
-            return { note: best, diff: freq - best.freq };
-        }
+const gr=document.getElementById('guide-row');
+NOTES.forEach(n=>{const c=document.createElement('div');c.className='guide-card';c.dataset.sym=n.sym;
+c.innerHTML=`<div class="gc-num">№${n.num}</div><div class="gc-note" style="color:${n.color}">${n.sym}</div><div class="gc-holes">${n.holes.map(h=>`<div class="gc-dot${h?' filled':''}"></div>`).join('')}</div><div class="gc-name">${n.name}</div>`;
+c.addEventListener('click',()=>{if(!autoPlaying)setTarget(n);});gr.appendChild(c);});
 
-        async function startMic() {
-            try {
-                micStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-                const ac = getCtx();
-                analyser = ac.createAnalyser();
-                analyser.fftSize = 4096;
-                const src = ac.createMediaStreamSource(micStream);
-                src.connect(analyser);
+document.getElementById('btn-scale').addEventListener('click',function(){if(autoPlaying)return;autoPlaying=true;this.classList.add('on');let i=0;const btn=this;
+(function next(){if(i>=NOTES.length){autoPlaying=false;btn.classList.remove('on');return;}setTarget(NOTES[i++]);autoTimer=setTimeout(next,1200);})();});
 
-                const buf = new Float32Array(analyser.fftSize);
-                const wCanvas = document.getElementById('waveform');
-                const wCtx = wCanvas.getContext('2d');
-                const byteBuf = new Uint8Array(analyser.fftSize);
+document.getElementById('btn-reset').addEventListener('click',()=>{autoPlaying=false;if(autoTimer)clearTimeout(autoTimer);document.querySelectorAll('.btn').forEach(b=>b.classList.remove('on'));targetNote=null;
+document.getElementById('target-text').textContent='— сонгоно уу';document.getElementById('target-text').style.color='#b07020';document.getElementById('target-num-badge').style.display='none';
+document.getElementById('target-hint').textContent='Доорх картаас нот сонгоод бишгүүрээ үлээнэ үү';document.querySelectorAll('.guide-card').forEach(c=>c.classList.remove('target'));
+highlightFluteHoles([0,0,0,0,0,0,0],'#0a0808');for(let i=0;i<7;i++){document.getElementById('fp'+i).classList.remove('pressed');const cl=document.getElementById('cl'+i);if(cl)cl.classList.remove('active');}
+document.getElementById('det-note').textContent='—';document.getElementById('det-note').style.color='#334';document.getElementById('det-num').textContent='—';document.getElementById('det-num').style.color='#334';
+document.getElementById('det-freq').textContent='0 Гц';document.getElementById('verdict').textContent='Хүлээж байна...';document.getElementById('verdict').className='';document.getElementById('tuner-bar').style.left='50%';updateNumStrip('');});
 
-                function drawWave() {
-                    waveAnim = requestAnimationFrame(drawWave);
-                    analyser.getByteTimeDomainData(byteBuf);
-                    wCtx.fillStyle = '#0a0c12';
-                    wCtx.fillRect(0, 0, wCanvas.width, wCanvas.height);
-                    wCtx.lineWidth = 1.5;
-                    wCtx.strokeStyle = '#4a90d9';
-                    wCtx.beginPath();
-                    const sw = wCanvas.width / byteBuf.length;
-                    let x = 0;
-                    for (let i = 0; i < byteBuf.length; i++) {
-                        const v = byteBuf[i] / 128;
-                        const y = v * wCanvas.height / 2;
-                        i === 0 ? wCtx.moveTo(x, y) : wCtx.lineTo(x, y);
-                        x += sw;
-                    }
-                    wCtx.stroke();
-                }
-                drawWave();
-
-                pitchInterval = setInterval(() => {
-                    analyser.getFloatTimeDomainData(buf);
-                    const ac2 = getCtx();
-                    const freq = detectPitch(buf, ac2.sampleRate);
-                    updatePitchUI(freq);
-                }, 80);
-
-                document.getElementById('btn-mic').textContent = '🎤 Микрофон асаалттай';
-                document.getElementById('btn-mic').classList.add('on');
-            } catch (e) {
-                alert('Микрофоны зөвшөөрөл өгнө үү!\n' + e.message);
-            }
-        }
-
-        function updatePitchUI(freq) {
-            const det = freqToNote(freq);
-            const detNoteEl = document.getElementById('det-note');
-            const detFreqEl = document.getElementById('det-freq');
-            const verdictEl = document.getElementById('verdict');
-            const tunerBar = document.getElementById('tuner-bar');
-
-            if (!det || freq <= 0) {
-                detNoteEl.textContent = '—';
-                detNoteEl.style.color = '#444';
-                detFreqEl.textContent = '0 Гц';
-                verdictEl.textContent = 'Дуу илрэхгүй байна';
-                verdictEl.className = '';
-                tunerBar.style.left = '50%';
-                return;
-            }
-
-            detNoteEl.textContent = det.note.sym;
-            detNoteEl.style.color = det.note.color;
-            detFreqEl.textContent = Math.round(freq) + ' Гц';
-
-            /* Tuner bar: ±50 cents range mapped to 0-100% */
-            const cents = 1200 * Math.log2(freq / det.note.freq);
-            const pct = Math.min(100, Math.max(0, 50 + cents));
-            tunerBar.style.left = pct + '%';
-            tunerBar.style.background = Math.abs(cents) < 10 ? '#3a9e4a' : Math.abs(cents) < 25 ? '#d0a030' : '#e05050';
-
-            /* Verdict vs target */
-            if (targetNote) {
-                if (det.note.sym === targetNote.sym) {
-                    if (Math.abs(cents) < 15) {
-                        verdictEl.textContent = '✓ Зөв! Маш сайн!';
-                        verdictEl.className = 'correct';
-                        highlightFluteHoles(targetNote.holes, '#3a9e4a');
-                    } else {
-                        verdictEl.textContent = cents > 0 ? '↑ Арай дээгүүр байна' : '↓ Арай доогуур байна';
-                        verdictEl.className = 'close';
-                    }
-                } else {
-                    verdictEl.textContent = '✗ ' + det.note.sym + ' нот — ' + targetNote.sym + ' биш';
-                    verdictEl.className = 'wrong';
-                    highlightFluteHoles(targetNote.holes, '#e05050');
-                }
-            } else {
-                verdictEl.textContent = det.note.name + ' нот илэрлээ';
-                verdictEl.className = '';
-                showHolesForNote(det.note);
-            }
-        }
-
-        /* ── Camera / Posture ── */
-        let camStream = null;
-        let poseInterval = null;
-        let faceDetected = false;
-
-        async function startCam() {
-            try {
-                camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' }, audio: false });
-                const vid = document.getElementById('cam-video');
-                vid.srcObject = camStream;
-                vid.style.display = 'block';
-                document.getElementById('cam-placeholder').style.display = 'none';
-
-                vid.addEventListener('loadedmetadata', () => {
-                    const overlay = document.getElementById('cam-overlay');
-                    overlay.width = vid.videoWidth || 640;
-                    overlay.height = vid.videoHeight || 480;
-                    startPostureCheck(vid, overlay);
-                });
-
-                document.getElementById('btn-cam').textContent = '📷 Камер асаалттай';
-                document.getElementById('btn-cam').classList.add('on');
-            } catch (e) {
-                alert('Камерын зөвшөөрөл өгнө үү!\n' + e.message);
-            }
-        }
-
-        function startPostureCheck(vid, overlay) {
-            const ctx2 = overlay.getContext('2d');
-            const W = overlay.width, H = overlay.height;
-
-            /* Simple heuristic posture check using pixel brightness regions */
-            poseInterval = setInterval(() => {
-                ctx2.clearRect(0, 0, W, H);
-                ctx2.drawImage(vid, 0, 0, W, H);
-                const frame = ctx2.getImageData(0, 0, W, H);
-                ctx2.clearRect(0, 0, W, H);
-
-                /* Check top-center region for face (skin tone brightness) */
-                const facePct = regionBrightness(frame, W, H, W * .3, 0, W * .4, H * .4);
-                const armLeft = regionBrightness(frame, W, H, 0, H * .3, W * .25, H * .7);
-                const armRight = regionBrightness(frame, W, H, W * .75, H * .3, W * .25, H * .7);
-                const bodyMid = regionBrightness(frame, W, H, W * .35, H * .4, W * .3, H * .5);
-
-                const faceOk = facePct > 30;
-                const armsOk = (armLeft > 20 && armRight > 20);
-                const straight = Math.abs(armLeft - armRight) < 40;
-
-                setPosture('pd-face', faceOk ? 'ok' : 'warn');
-                setPosture('pd-arms', armsOk ? 'ok' : 'bad');
-                setPosture('pd-straight', straight ? 'ok' : 'warn');
-
-                /* Draw guide overlay */
-                ctx2.strokeStyle = faceOk ? '#3a9e4a88' : '#e0505088';
-                ctx2.lineWidth = 2;
-                ctx2.strokeRect(W * .3, 0, W * .4, H * .4);
-                ctx2.fillStyle = 'rgba(255,255,255,.5)';
-                ctx2.font = '11px sans-serif';
-                ctx2.fillText('Нүүр', W * .32, H * .38);
-
-                ctx2.strokeStyle = armsOk ? '#4a90d988' : '#e0505088';
-                ctx2.strokeRect(0, H * .3, W * .22, H * .4);
-                ctx2.fillText('Зүүн гар', 4, H * .32);
-                ctx2.strokeRect(W * .78, H * .3, W * .22, H * .4);
-                ctx2.fillText('Баруун гар', W * .78 + 2, H * .32);
-
-            }, 300);
-        }
-
-        function regionBrightness(frame, W, H, x, y, rw, rh) {
-            let sum = 0, cnt = 0;
-            const x0 = Math.max(0, Math.floor(x)), y0 = Math.max(0, Math.floor(y));
-            const x1 = Math.min(W, Math.floor(x + rw)), y1 = Math.min(H, Math.floor(y + rh));
-            for (let py = y0; py < y1; py += 4) {
-                for (let px = x0; px < x1; px += 4) {
-                    const i = (py * W + px) * 4;
-                    sum += (frame.data[i] + frame.data[i + 1] + frame.data[i + 2]) / 3;
-                    cnt++;
-                }
-            }
-            return cnt > 0 ? sum / cnt : 0;
-        }
-
-        function setPosture(id, cls) {
-            const el = document.getElementById(id);
-            el.className = 'posture-dot ' + cls;
-        }
-
-        /* ── Flute UI ── */
-        function highlightFluteHoles(holes, color) {
-            for (let i = 0; i < 5; i++) {
-                const el = document.getElementById('fh' + i);
-                el.setAttribute('fill', holes[i] ? color : '#1a1008');
-                el.setAttribute('r', holes[i] ? '4.5' : '6');
-            }
-            ['fh5a', 'fh5b'].forEach(id => {
-                document.getElementById(id).setAttribute('fill', holes[5] ? color : '#1a1008');
-            });
-            ['fh6a', 'fh6b'].forEach(id => {
-                document.getElementById(id).setAttribute('fill', holes[6] ? color : '#1a1008');
-            });
-        }
-
-        function showHolesForNote(note) {
-            highlightFluteHoles(note.holes, '#4a90d9');
-            for (let i = 0; i < 7; i++) {
-                const fp = document.getElementById('fp' + i);
-                const cl = document.getElementById('cl' + i);
-                if (note.holes[i]) { fp.classList.add('pressed'); if (cl) cl.classList.add('active'); }
-                else { fp.classList.remove('pressed'); if (cl) cl.classList.remove('active'); }
-            }
-        }
-
-        function setTarget(note) {
-            targetNote = note;
-            document.getElementById('target-note-name').textContent = note.sym + ' — ' + note.name;
-            document.getElementById('target-note-name').style.color = note.color;
-            document.getElementById('target-hint').textContent =
-                'Нүхний байрлал харж, бишгүүрээ үлээнэ үү';
-            document.querySelectorAll('.guide-card').forEach(c => {
-                c.classList.toggle('target', c.dataset.sym === note.sym);
-            });
-            showHolesForNote(note);
-        }
-
-        /* ── Build guide cards ── */
-        const gr = document.getElementById('guide-row');
-        NOTES.forEach(note => {
-            const card = document.createElement('div');
-            card.className = 'guide-card';
-            card.dataset.sym = note.sym;
-
-            const gn = document.createElement('div');
-            gn.className = 'gc-note';
-            gn.textContent = note.sym;
-            gn.style.color = note.color;
-
-            const gh = document.createElement('div');
-            gh.className = 'gc-holes';
-            note.holes.forEach(h => {
-                const d = document.createElement('div');
-                d.className = 'gc-dot' + (h ? ' filled' : '');
-                gh.appendChild(d);
-            });
-
-            const gname = document.createElement('div');
-            gname.className = 'gc-name';
-            gname.textContent = note.name;
-
-            card.appendChild(gn);
-            card.appendChild(gh);
-            card.appendChild(gname);
-            card.addEventListener('click', () => { if (!autoPlaying) setTarget(note); });
-            gr.appendChild(card);
-        });
-
-        /* ── Scale auto-play ── */
-        document.getElementById('btn-scale').addEventListener('click', function () {
-            if (autoPlaying) return;
-            autoPlaying = true;
-            this.classList.add('on');
-            let i = 0;
-            const btn = this;
-            function next() {
-                if (i >= NOTES.length) {
-                    autoPlaying = false;
-                    btn.classList.remove('on');
-                    return;
-                }
-                setTarget(NOTES[i]);
-                i++;
-                autoTimer = setTimeout(next, 1200);
-            }
-            next();
-        });
-
-        document.getElementById('btn-reset').addEventListener('click', () => {
-            autoPlaying = false;
-            if (autoTimer) clearTimeout(autoTimer);
-            document.querySelectorAll('.btn').forEach(b => b.classList.remove('on'));
-            targetNote = null;
-            document.getElementById('target-note-name').textContent = '— сонгоно уу';
-            document.getElementById('target-note-name').style.color = '#d0a030';
-            document.getElementById('target-hint').textContent = 'Доорх картаас нот сонгоод бишгүүрээ үлээнэ үү';
-            document.querySelectorAll('.guide-card').forEach(c => c.classList.remove('target'));
-            highlightFluteHoles([0, 0, 0, 0, 0, 0, 0], '#1a1008');
-            for (let i = 0; i < 7; i++) {
-                document.getElementById('fp' + i).classList.remove('pressed');
-                const cl = document.getElementById('cl' + i);
-                if (cl) cl.classList.remove('active');
-            }
-            document.getElementById('det-note').textContent = '—';
-            document.getElementById('det-note').style.color = '#444';
-            document.getElementById('det-freq').textContent = '0 Гц';
-            document.getElementById('verdict').textContent = 'Хүлээж байна...';
-            document.getElementById('verdict').className = '';
-            document.getElementById('tuner-bar').style.left = '50%';
-        });
-
-        document.getElementById('btn-mic').addEventListener('click', startMic);
-        document.getElementById('btn-cam').addEventListener('click', startCam);
-    </script>
+document.getElementById('btn-mic').addEventListener('click',startMic);
+buildNumStrip();
+</script>
 </body>
-
 </html>
