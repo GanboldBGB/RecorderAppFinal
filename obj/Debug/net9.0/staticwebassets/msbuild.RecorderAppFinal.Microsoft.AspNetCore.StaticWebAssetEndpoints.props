@@ -804,17 +804,17 @@
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"tzz8j1f3z0"},{"Name":"integrity","Value":"sha256-x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c="},{"Name":"label","Value":"_content/RecorderAppFinal/notes_lesson.html"}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"35286"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022x1DYGDXLQfiN6Y4rj/MknQJ/xuKTrxEDatwTm3H8T0c=\u0022"},{"Name":"Last-Modified","Value":"Wed, 22 Apr 2026 04:52:35 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/RecorderAppFinal/posture_coach.g46rlefh5q.html">
+    <StaticWebAssetEndpoint Include="_content/RecorderAppFinal/posture_coach.4aj9dans7f.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\posture_coach.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"g46rlefh5q"},{"Name":"integrity","Value":"sha256-QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4="},{"Name":"label","Value":"_content/RecorderAppFinal/posture_coach.html"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"26158"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=\u0022"},{"Name":"Last-Modified","Value":"Wed, 22 Apr 2026 02:30:24 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"4aj9dans7f"},{"Name":"integrity","Value":"sha256-JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk="},{"Name":"label","Value":"_content/RecorderAppFinal/posture_coach.html"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"43075"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=\u0022"},{"Name":"Last-Modified","Value":"Wed, 29 Apr 2026 01:44:43 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/RecorderAppFinal/posture_coach.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\posture_coach.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"26158"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=\u0022"},{"Name":"Last-Modified","Value":"Wed, 22 Apr 2026 02:30:24 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"43075"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=\u0022"},{"Name":"Last-Modified","Value":"Wed, 29 Apr 2026 01:44:43 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/RecorderAppFinal/RecorderAppFinal.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\RecorderAppFinal.lyeqylhuzg.bundle.scp.css'))</AssetFile>

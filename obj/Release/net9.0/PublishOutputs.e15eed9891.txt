@@ -1,0 +1,7 @@
+C:\Users\uta llc\RecorderAppFinal\publish\RecorderAppFinal.exe
+C:\Users\uta llc\RecorderAppFinal\publish\appsettings.Development.json
+C:\Users\uta llc\RecorderAppFinal\publish\appsettings.json
+C:\Users\uta llc\RecorderAppFinal\publish\RecorderAppFinal.dll
+C:\Users\uta llc\RecorderAppFinal\publish\RecorderAppFinal.deps.json
+C:\Users\uta llc\RecorderAppFinal\publish\RecorderAppFinal.runtimeconfig.json
+C:\Users\uta llc\RecorderAppFinal\publish\RecorderAppFinal.pdb

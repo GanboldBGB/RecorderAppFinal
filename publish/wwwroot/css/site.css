@@ -1,0 +1,107 @@
+:root {
+    --bg: #0c0e14;      /* Үндсэн фон */
+    --s1: #13151d;      /* Sidebar фон */
+    --s2: #191c28;      /* Hover эффект */
+    --s3: #1f2235;      /* Active эффект */
+    --bd: #252840;      /* Хүрээний өнгө */
+    --ac: #5b9cf6;      /* Цэнхэр өнгө (Accent) */
+    --tx: #eef0f8;      /* Үндсэн бичвэр */
+    --tx2: #9298b8;     /* Туслах бичвэр */
+}
+
+body, html {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--tx);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    height: 100vh; overflow: hidden;
+}
+
+.app-wrapper {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar загвар */
+.sidebar {
+    width: 260px;
+    background: var(--s1);
+    border-right: 1px solid var(--bd);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 10px;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 10px 30px;
+}
+
+.app-logo { font-size: 28px; }
+.app-title { font-weight: 700; font-size: 18px; color: var(--tx); }
+.app-subtitle { font-size: 12px; color: var(--tx2); }
+
+.sidebar-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--tx2);
+    margin: 20px 0 10px 10px;
+}
+
+.nav-menu { display: flex; flex-direction: column; gap: 5px; }
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    background: transparent;
+    border: none;
+    color: var(--tx2);
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
+    transition: 0.2s;
+    font-size: 15px;
+    width: 100%;
+}
+
+.nav-btn:hover { background: var(--s2); color: var(--tx); }
+.nav-btn.active { 
+    background: var(--s3); 
+    color: var(--ac); 
+    border: 1px solid var(--bd); 
+}
+
+/* Үндсэн агуулга */
+.main-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px;
+}
+
+.content-card {
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: 16px;
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.iframe-wrapper {
+    height: calc(100vh - 120px);
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #252840;
+    background: #1a1a2e;
+}
+
+.iframe-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "kjPWo/Z74FS1PjDQMZbTOlUdvEGCqb/wuYyQdp/Qwq4=",
+  "Hash": "HJp+YqEBfklnby5ff/fyWP3ECWU8ddorB3qu9g6VIpo=",
   "Source": "RecorderAppFinal",
   "BasePath": "_content/RecorderAppFinal",
   "Mode": "Default",
@@ -1025,12 +1025,12 @@
       "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-g46rlefh5q.gz",
+      "Identity": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-4aj9dans7f.gz",
       "SourceId": "RecorderAppFinal",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\",
       "BasePath": "_content/RecorderAppFinal",
-      "RelativePath": "posture_coach#[.{fingerprint=g46rlefh5q}]?.html.gz",
+      "RelativePath": "posture_coach#[.{fingerprint=4aj9dans7f}]?.html.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -1039,8 +1039,8 @@
       "RelatedAsset": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\posture_coach.html",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "jpg3ldhkl0",
-      "Integrity": "VxCZRe9x6ToFyCjpfB6xVws1VENps2Z2FwIb5AC38ng=",
+      "Fingerprint": "le8xulyzgr",
+      "Integrity": "MyV5FmChtVand6lQ3hZCO/H1ms1sQuP8NtxxbdLhi4E=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\posture_coach.html"
@@ -2929,8 +2929,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "g46rlefh5q",
-      "Integrity": "QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=",
+      "Fingerprint": "4aj9dans7f",
+      "Integrity": "JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\posture_coach.html"
@@ -22688,13 +22688,13 @@
       ]
     },
     {
-      "Route": "posture_coach.g46rlefh5q.html",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-g46rlefh5q.gz",
+      "Route": "posture_coach.4aj9dans7f.html",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-4aj9dans7f.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000131682908"
+          "Quality": "0.000083319447"
         }
       ],
       "ResponseHeaders": [
@@ -22704,15 +22704,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7593"
+          "Value": "12001"
         },
         {
           "Name": "ETag",
-          "Value": "\"VxCZRe9x6ToFyCjpfB6xVws1VENps2Z2FwIb5AC38ng=\""
+          "Value": "\"MyV5FmChtVand6lQ3hZCO/H1ms1sQuP8NtxxbdLhi4E=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
+          "Value": "Wed, 29 Apr 2026 01:44:43 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22732,13 +22732,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=\""
+          "Value": "W/\"JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "g46rlefh5q"
+          "Value": "4aj9dans7f"
         },
         {
           "Name": "label",
@@ -22746,12 +22746,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4="
+          "Value": "sha256-JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk="
         }
       ]
     },
     {
-      "Route": "posture_coach.g46rlefh5q.html",
+      "Route": "posture_coach.4aj9dans7f.html",
       "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\posture_coach.html",
       "Selectors": [],
       "ResponseHeaders": [
@@ -22761,7 +22761,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "26158"
+          "Value": "43075"
         },
         {
           "Name": "Content-Type",
@@ -22769,11 +22769,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=\""
+          "Value": "\"JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
+          "Value": "Wed, 29 Apr 2026 01:44:43 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22783,7 +22783,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "g46rlefh5q"
+          "Value": "4aj9dans7f"
         },
         {
           "Name": "label",
@@ -22791,13 +22791,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4="
+          "Value": "sha256-JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk="
         }
       ]
     },
     {
-      "Route": "posture_coach.g46rlefh5q.html.gz",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-g46rlefh5q.gz",
+      "Route": "posture_coach.4aj9dans7f.html.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-4aj9dans7f.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -22806,7 +22806,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7593"
+          "Value": "12001"
         },
         {
           "Name": "Content-Type",
@@ -22814,11 +22814,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"VxCZRe9x6ToFyCjpfB6xVws1VENps2Z2FwIb5AC38ng=\""
+          "Value": "\"MyV5FmChtVand6lQ3hZCO/H1ms1sQuP8NtxxbdLhi4E=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
+          "Value": "Wed, 29 Apr 2026 01:44:43 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22836,7 +22836,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "g46rlefh5q"
+          "Value": "4aj9dans7f"
         },
         {
           "Name": "label",
@@ -22844,18 +22844,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-VxCZRe9x6ToFyCjpfB6xVws1VENps2Z2FwIb5AC38ng="
+          "Value": "sha256-MyV5FmChtVand6lQ3hZCO/H1ms1sQuP8NtxxbdLhi4E="
         }
       ]
     },
     {
       "Route": "posture_coach.html",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-g46rlefh5q.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-4aj9dans7f.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000131682908"
+          "Quality": "0.000083319447"
         }
       ],
       "ResponseHeaders": [
@@ -22865,15 +22865,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7593"
+          "Value": "12001"
         },
         {
           "Name": "ETag",
-          "Value": "\"VxCZRe9x6ToFyCjpfB6xVws1VENps2Z2FwIb5AC38ng=\""
+          "Value": "\"MyV5FmChtVand6lQ3hZCO/H1ms1sQuP8NtxxbdLhi4E=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
+          "Value": "Wed, 29 Apr 2026 01:44:43 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22893,13 +22893,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=\""
+          "Value": "W/\"JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4="
+          "Value": "sha256-JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk="
         }
       ]
     },
@@ -22914,7 +22914,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "26158"
+          "Value": "43075"
         },
         {
           "Name": "Content-Type",
@@ -22922,11 +22922,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=\""
+          "Value": "\"JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
+          "Value": "Wed, 29 Apr 2026 01:44:43 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22936,13 +22936,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4="
+          "Value": "sha256-JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk="
         }
       ]
     },
     {
       "Route": "posture_coach.html.gz",
-      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-g46rlefh5q.gz",
+      "AssetFile": "C:\\Users\\uta llc\\RecorderAppFinal\\obj\\Debug\\net9.0\\compressed\\re9ba9pexf-4aj9dans7f.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -22951,7 +22951,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "7593"
+          "Value": "12001"
         },
         {
           "Name": "Content-Type",
@@ -22959,11 +22959,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"VxCZRe9x6ToFyCjpfB6xVws1VENps2Z2FwIb5AC38ng=\""
+          "Value": "\"MyV5FmChtVand6lQ3hZCO/H1ms1sQuP8NtxxbdLhi4E=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 22 Apr 2026 02:30:24 GMT"
+          "Value": "Wed, 29 Apr 2026 01:44:43 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -22981,7 +22981,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-VxCZRe9x6ToFyCjpfB6xVws1VENps2Z2FwIb5AC38ng="
+          "Value": "sha256-MyV5FmChtVand6lQ3hZCO/H1ms1sQuP8NtxxbdLhi4E="
         }
       ]
     },

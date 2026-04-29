@@ -1218,8 +1218,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>g46rlefh5q</Fingerprint>
-      <Integrity>QEu8kbqfJCi7x3H2SEgGOOTxHqS8IJ8K7pG90BQpil4=</Integrity>
+      <Fingerprint>4aj9dans7f</Fingerprint>
+      <Integrity>JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\posture_coach.html'))</OriginalItemSpec>

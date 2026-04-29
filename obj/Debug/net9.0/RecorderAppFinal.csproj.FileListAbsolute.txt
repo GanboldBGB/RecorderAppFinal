@@ -97,7 +97,13 @@ C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\2znae6ui7u-kcc1vkx
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\y51b8q3ly3-1z162a5sy4.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\4u8kupga7x-rcoostj3gg.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\RecorderAppFinal.sourcelink.json
-C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\re9ba9pexf-g46rlefh5q.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\1l6kelz22i-rala9rqvl7.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\7xd93zwe3s-tzz8j1f3z0.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\kr8m6ypfvi-pfaa2xzn25.gz
+C:\Users\uta llc\RecorderAppFinal\bin\Debug\net9.0\publish\web.config
+C:\Users\uta llc\RecorderAppFinal\bin\Debug\net9.0\publish\appsettings.Development.json
+C:\Users\uta llc\RecorderAppFinal\bin\Debug\net9.0\publish\appsettings.json
+C:\Users\uta llc\RecorderAppFinal\bin\Debug\net9.0\publish\RecorderAppFinal.deps.json
+C:\Users\uta llc\RecorderAppFinal\bin\Debug\net9.0\publish\RecorderAppFinal.runtimeconfig.json
+C:\Users\uta llc\RecorderAppFinal\bin\Debug\net9.0\publish\RecorderAppFinal.staticwebassets.endpoints.json
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\re9ba9pexf-4aj9dans7f.gz

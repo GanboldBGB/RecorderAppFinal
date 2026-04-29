@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Бишгүүр Анимейшн</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a1a2e;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e8e8f0;
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem 2.5rem;
+      gap: 1.4rem;
+      max-width: 640px;
+      width: 100%;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #e8e8f0;
+      text-align: center;
+      letter-spacing: 0.03em;
+    }
+
+    .note-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-height: 62px;
+    }
+    .note-big {
+      font-size: 42px;
+      font-weight: 700;
+      color: #e8e8f0;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .note-sub {
+      font-size: 14px;
+      color: #9090b0;
+      transition: color 0.2s;
+    }
+
+    #scene {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+    }
+
+    .hand-panel { display: flex; flex-direction: column; gap: 0; padding-top: 44px; }
+    .hand-panel.right-hand { padding-top: 204px; }
+
+    .finger-slot {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      height: 46px;
+    }
+    .hand-panel.left-hand .finger-slot { flex-direction: row-reverse; }
+
+    .finger-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 44px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .fingertip {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      border: 2.5px solid #5a5a8a;
+      background: #2a2a4a;
+      transition: background 0.12s, border-color 0.12s, transform 0.1s, box-shadow 0.12s;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; font-weight: 600; color: #9090b0;
+    }
+    .fingertip:hover { border-color: #7070b0; background: #2e2e52; }
+    .fingertip.pressed {
+      border-color: #4a90d9; background: #4a90d9; color: #fff;
+      transform: scale(0.82);
+      box-shadow: 0 0 0 5px rgba(74,144,217,0.25);
+    }
+
+    .connector-line {
+      width: 32px; height: 2px;
+      background: #2e2e4e;
+      transition: background 0.15s;
+      margin: 0 2px;
+    }
+    .connector-line.active { background: #4a90d9; }
+
+    .finger-label {
+      font-size: 10px; color: #7070a0;
+      text-align: center; margin-top: 2px; line-height: 1.2;
+    }
+
+    #flute-container { width: 90px; display: flex; flex-direction: column; align-items: center; }
+    #flute-svg { width: 80px; height: 410px; }
+
+    .guide-row {
+      display: flex; gap: 7px; flex-wrap: wrap;
+      justify-content: center; max-width: 580px;
+    }
+    .guide-card {
+      border: 1px solid #2e2e4e; border-radius: 10px;
+      padding: 7px 10px; cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 4px; min-width: 48px; background: #16162a;
+    }
+    .guide-card:hover { background: #1e1e38; border-color: #4a90d9; }
+    .guide-card.active-card { border-color: #4a90d9; background: #1a2a42; }
+    .gc-note { font-size: 16px; font-weight: 700; }
+    .gc-name { font-size: 10px; color: #7070a0; text-align: center; }
+    .gc-holes { display: flex; gap: 3px; }
+    .gc-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      border: 1.5px solid #5a5a8a; background: transparent;
+    }
+    .gc-dot.filled { background: #c8a46a; border-color: #a07840; }
+
+    .legend {
+      display: flex; gap: 18px; font-size: 12px; color: #7070a0; align-items: center;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-dot { width: 13px; height: 13px; border-radius: 50%; }
+    .legend-dot.open   { border: 2px solid #5a5a8a; background: transparent; }
+    .legend-dot.closed { background: #c8a46a; border: 2px solid #a07840; }
+    .legend-dot.active-l { background: #4a90d9; border: 2px solid #4a90d9; }
+
+    .btn-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      padding: 8px 20px; font-size: 13px; border-radius: 8px;
+      border: 1px solid #3a3a5e; background: #16162a;
+      color: #c0c0e0; cursor: pointer; font-family: inherit;
+      transition: background 0.12s, border-color 0.12s, transform 0.08s;
+    }
+    .btn:hover { background: #1e1e38; border-color: #5a5a9a; }
+    .btn:active { transform: scale(0.97); }
+    .btn.playing { border-color: #4a90d9; color: #4a90d9; background: #1a2a42; }
+
+    .breath-section { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+    .breath-label { font-size: 11px; color: #7070a0; }
+    .breath-wrap { width: 180px; height: 8px; background: #2a2a4a; border-radius: 4px; overflow: hidden; }
+    .breath-bar { height: 100%; width: 0%; background: #4a90d9; border-radius: 4px; transition: width 0.08s; }
+
+    .particle {
+      position: absolute; border-radius: 50%;
+      pointer-events: none; opacity: 0; background: #4a90d9;
+      animation: float-up 0.9s ease-out forwards;
+    }
+    @keyframes float-up {
+      0%   { opacity: 0.7; transform: translateY(0) scale(1); }
+      100% { opacity: 0;   transform: translateY(-70px) scale(0.2); }
+    }
+
+    hr.divider { width: 100%; border: none; border-top: 1px solid #2e2e4e; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="title">🎵 Бишгүүр тоглох заавар</div>
+
+  <div class="note-badge">
+    <div class="note-big" id="note-big">—</div>
+    <div class="note-sub" id="note-sub">Нотыг сонгоно уу</div>
+  </div>
+
+  <div id="scene">
+    <!-- Left hand -->
+    <div class="hand-panel left-hand">
+      <div class="finger-slot">
+        <div class="finger-visual"><div class="fingertip" id="fp0">1</div><div class="finger-label">Дурдан</div></div>
+        <div class="connector-line" id="cl0"></div>
+      </div>
+      <div class="finger-slot">
+        <div class="finger-visual"><div class="fingertip" id="fp1">2</div><div class="finger-label">Дунд</div></div>
+        <div class="connector-line" id="cl1"></div>
+      </div>
+      <div class="finger-slot">
+        <div class="finger-visual"><div class="fingertip" id="fp2">3</div><div class="finger-label">Алга</div></div>
+        <div class="connector-line" id="cl2"></div>
+      </div>
+    </div>
+
+    <!-- Flute SVG -->
+    <div id="flute-container" style="position:relative;">
+      <svg id="flute-svg" viewBox="0 0 70 410" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0%"   stop-color="#b8943a"/>
+            <stop offset="45%"  stop-color="#e8c96a"/>
+            <stop offset="100%" stop-color="#906820"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="35" cy="17" rx="13" ry="17" fill="url(#wg)" stroke="#7a5c28" stroke-width="1.2"/>
+        <rect x="21" y="32" width="28" height="6" rx="3" fill="#7a5c28" opacity="0.8"/>
+        <ellipse cx="35" cy="46" rx="6" ry="5" fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <rect x="24" y="52" width="22" height="32" rx="2" fill="url(#wg)" stroke="#7a5c28" stroke-width="0.9"/>
+        <rect x="20" y="84" width="30" height="10" rx="5" fill="#7a5c28"/>
+        <rect x="24" y="94" width="22" height="215" rx="2" fill="url(#wg)" stroke="#7a5c28" stroke-width="0.9"/>
+        <circle id="fh0" cx="35" cy="118" r="5.8" fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <circle id="fh1" cx="35" cy="142" r="5.8" fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <circle id="fh2" cx="35" cy="166" r="5.8" fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <circle id="fh3" cx="35" cy="190" r="5.8" fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <circle id="fh4" cx="35" cy="214" r="5.8" fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <circle id="fh5a" cx="29" cy="246" r="4"   fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <circle id="fh5b" cx="41" cy="246" r="4"   fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <rect x="20" y="309" width="30" height="10" rx="5" fill="#7a5c28"/>
+        <rect x="24" y="319" width="22" height="38" rx="2" fill="url(#wg)" stroke="#7a5c28" stroke-width="0.9"/>
+        <circle id="fh6a" cx="29" cy="338" r="4"   fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <circle id="fh6b" cx="41" cy="338" r="4"   fill="#1a0e04" stroke="#7a5c28" stroke-width="0.7"/>
+        <ellipse cx="35" cy="390" rx="17" ry="19" fill="url(#wg)" stroke="#7a5c28" stroke-width="1.2"/>
+        <ellipse cx="35" cy="381" rx="14" ry="8"  fill="#7a5c28" opacity="0.35"/>
+      </svg>
+    </div>
+
+    <!-- Right hand -->
+    <div class="hand-panel right-hand">
+      <div class="finger-slot">
+        <div class="connector-line" id="cl3"></div>
+        <div class="finger-visual"><div class="fingertip" id="fp3">4</div><div class="finger-label">Дурдан</div></div>
+      </div>
+      <div class="finger-slot">
+        <div class="connector-line" id="cl4"></div>
+        <div class="finger-visual"><div class="fingertip" id="fp4">5</div><div class="finger-label">Дунд</div></div>
+      </div>
+      <div class="finger-slot">
+        <div class="connector-line" id="cl5"></div>
+        <div class="finger-visual"><div class="fingertip" id="fp5">6</div><div class="finger-label">Алга</div></div>
+      </div>
+      <div class="finger-slot">
+        <div class="connector-line" id="cl6"></div>
+        <div class="finger-visual"><div class="fingertip" id="fp6">7</div><div class="finger-label">Чигч</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="guide-row" id="guide-row"></div>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot open"></div><span>Нээлттэй</span></div>
+    <div class="legend-item"><div class="legend-dot closed"></div><span>Хаасан</span></div>
+    <div class="legend-item"><div class="legend-dot active-l"></div><span>Дарагдсан</span></div>
+  </div>
+
+  <div class="breath-section">
+    <div class="breath-label">Амьсгал / Breath</div>
+    <div class="breath-wrap"><div class="breath-bar" id="breath-bar"></div></div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn" id="btn-scale">▶ До-Ре-Ми дуграа</button>
+    <button class="btn" id="btn-song">♪ Аялгуу</button>
+    <button class="btn" id="btn-reset">✕ Тайлах</button>
+  </div>
+</div>
+
+<script>
+const NOTES = [
+  { name:"До",  sym:"C",  freq:523,  holes:[1,1,1,1,1,1,1], color:"#e05050" },
+  { name:"Ре",  sym:"D",  freq:587,  holes:[1,1,1,1,1,1,0], color:"#d07030" },
+  { name:"Ми",  sym:"E",  freq:659,  holes:[1,1,1,1,1,0,0], color:"#c0a000" },
+  { name:"Фа",  sym:"F",  freq:698,  holes:[1,1,1,1,0,1,0], color:"#3a9e4a" },
+  { name:"Со",  sym:"G",  freq:784,  holes:[1,1,1,0,0,0,0], color:"#3a80d9" },
+  { name:"Ля",  sym:"A",  freq:880,  holes:[1,1,0,0,0,0,0], color:"#9a72e0" },
+  { name:"Си",  sym:"B",  freq:988,  holes:[1,0,0,0,0,0,0], color:"#c040a0" },
+  { name:"До'", sym:"C'", freq:1047, holes:[0,0,0,0,0,0,0], color:"#e03030" },
+];
+
+let pressed=[0,0,0,0,0,0,0], audioCtx=null, currentOsc=null, currentGain=null;
+let autoPlaying=false, autoTimer=null, breathInterval=null;
+
+function getCtx(){
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  return audioCtx;
+}
+function playFreq(freq){
+  const ac=getCtx();
+  if(currentOsc){try{currentOsc.stop();}catch(e){}}
+  currentOsc=ac.createOscillator(); currentGain=ac.createGain();
+  currentOsc.type='sine';
+  currentOsc.frequency.setValueAtTime(freq,ac.currentTime);
+  currentGain.gain.setValueAtTime(0,ac.currentTime);
+  currentGain.gain.linearRampToValueAtTime(0.22,ac.currentTime+0.05);
+  currentOsc.connect(currentGain); currentGain.connect(ac.destination);
+  currentOsc.start();
+}
+function stopFreq(){
+  if(currentGain&&currentOsc){
+    try{const ac=getCtx();currentGain.gain.linearRampToValueAtTime(0,ac.currentTime+0.1);currentOsc.stop(ac.currentTime+0.12);}catch(e){}
+    currentOsc=null;currentGain=null;
+  }
+}
+function animateBreath(on){
+  if(breathInterval)clearInterval(breathInterval);
+  const bar=document.getElementById('breath-bar');
+  if(!on){bar.style.width='0%';return;}
+  let v=20,dir=1;
+  breathInterval=setInterval(()=>{
+    v+=dir*4; if(v>=100){v=100;dir=-1;} if(v<=20){v=20;dir=1;}
+    bar.style.width=v+'%';
+  },38);
+}
+function spawnParticle(){
+  const fc=document.getElementById('flute-container');
+  const p=document.createElement('div'); p.className='particle';
+  const sz=4+Math.random()*7;
+  p.style.cssText=`width:${sz}px;height:${sz}px;left:${10+Math.random()*40}px;top:30px;animation-duration:${0.7+Math.random()*0.4}s`;
+  fc.appendChild(p); setTimeout(()=>p.remove(),1100);
+}
+function matchNote(p){return NOTES.find(n=>n.holes.join('')===p.join(''))||null;}
+function setActiveCard(note){
+  document.querySelectorAll('.guide-card').forEach((c,i)=>c.classList.toggle('active-card',note&&NOTES[i]===note));
+}
+function updateUI(p){
+  for(let i=0;i<5;i++){
+    const el=document.getElementById('fh'+i);
+    el.setAttribute('fill',p[i]?'#4a90d9':'#1a0e04');
+    el.setAttribute('r',p[i]?'4.4':'5.8');
+  }
+  ['fh5a','fh5b'].forEach(id=>document.getElementById(id).setAttribute('fill',p[5]?'#4a90d9':'#1a0e04'));
+  ['fh6a','fh6b'].forEach(id=>document.getElementById(id).setAttribute('fill',p[6]?'#4a90d9':'#1a0e04'));
+  for(let i=0;i<7;i++){
+    document.getElementById('fp'+i).classList.toggle('pressed',!!p[i]);
+    const cl=document.getElementById('cl'+i);
+    if(cl)cl.classList.toggle('active',!!p[i]);
+  }
+  const note=matchNote(p);
+  const nb=document.getElementById('note-big'), ns=document.getElementById('note-sub');
+  if(note){
+    nb.textContent=note.sym; nb.style.color=note.color;
+    ns.textContent=note.name+' нот  —  '+note.freq+' Гц'; ns.style.color=note.color;
+    playFreq(note.freq); animateBreath(true);
+    spawnParticle(); setTimeout(spawnParticle,220); setActiveCard(note);
+  } else {
+    const any=p.some(x=>x);
+    nb.textContent=any?'?':'—'; nb.style.color='#e8e8f0';
+    ns.textContent=any?'Тохирох нот олдсонгүй':'Нотыг сонгоно уу'; ns.style.color='#9090b0';
+    stopFreq(); animateBreath(false); setActiveCard(null);
+  }
+}
+function applyHoles(arr){pressed=[...arr];updateUI(pressed);}
+
+for(let i=0;i<7;i++){
+  document.getElementById('fp'+i).addEventListener('click',()=>{
+    if(autoPlaying)return;
+    pressed[i]=pressed[i]?0:1; applyHoles(pressed);
+  });
+}
+
+const gr=document.getElementById('guide-row');
+NOTES.forEach(note=>{
+  const card=document.createElement('div'); card.className='guide-card'; card.title=note.name;
+  const gn=document.createElement('div'); gn.className='gc-note'; gn.textContent=note.sym; gn.style.color=note.color;
+  const gh=document.createElement('div'); gh.className='gc-holes';
+  note.holes.forEach(h=>{const d=document.createElement('div');d.className='gc-dot'+(h?' filled':'');gh.appendChild(d);});
+  const gname=document.createElement('div'); gname.className='gc-name'; gname.textContent=note.name;
+  card.appendChild(gn); card.appendChild(gh); card.appendChild(gname);
+  card.addEventListener('click',()=>{if(autoPlaying)return;applyHoles([...note.holes]);});
+  gr.appendChild(card);
+});
+
+document.getElementById('btn-scale').addEventListener('click',()=>{
+  if(autoPlaying)return; autoPlaying=true;
+  document.getElementById('btn-scale').classList.add('playing');
+  let i=0;
+  function next(){
+    if(i>=NOTES.length){autoPlaying=false;document.getElementById('btn-scale').classList.remove('playing');applyHoles([0,0,0,0,0,0,0]);stopFreq();animateBreath(false);return;}
+    applyHoles([...NOTES[i].holes]); i++; autoTimer=setTimeout(next,700);
+  }
+  next();
+});
+
+const songIdx=[0,2,4,2,0,1,2,0,4,4,3,2,3,4,2,0];
+document.getElementById('btn-song').addEventListener('click',()=>{
+  if(autoPlaying)return; autoPlaying=true;
+  document.getElementById('btn-song').classList.add('playing');
+  let i=0;
+  function next(){
+    if(i>=songIdx.length){autoPlaying=false;document.getElementById('btn-song').classList.remove('playing');applyHoles([0,0,0,0,0,0,0]);stopFreq();animateBreath(false);return;}
+    applyHoles([...NOTES[songIdx[i]].holes]); i++; autoTimer=setTimeout(next,580);
+  }
+  next();
+});
+
+document.getElementById('btn-reset').addEventListener('click',()=>{
+  autoPlaying=false; if(autoTimer)clearTimeout(autoTimer);
+  document.querySelectorAll('.btn').forEach(b=>b.classList.remove('playing'));
+  applyHoles([0,0,0,0,0,0,0]); stopFreq(); animateBreath(false);
+});
+</script>
+</body>
+</html>
