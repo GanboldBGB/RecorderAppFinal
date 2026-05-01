@@ -66,8 +66,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>kacpddcev3</Fingerprint>
-      <Integrity>fMsQBkNlZ5UWlj+rlBs6T4wJS3v/oDq8754iENwT1sA=</Integrity>
+      <Fingerprint>w9448kyisx</Fingerprint>
+      <Integrity>XJlqPzRC5ya5qxWiVE6rREhMkKIrNCE0/mWMP9pT+64=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\fingering_lesson.html'))</OriginalItemSpec>
@@ -84,8 +84,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>gcrpihj1wy</Fingerprint>
-      <Integrity>UAP3bbIviNGG6llNT+Ak+gCIDQyX0j5VGqT6tEUo5YY=</Integrity>
+      <Fingerprint>x2wpzdgkiv</Fingerprint>
+      <Integrity>qcVpfMSuFv1uc5QwFx4PN55lFceNlwPbZxWbHepgXG8=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\flute_trainer.html'))</OriginalItemSpec>
@@ -1200,8 +1200,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>nfjfju6pv0</Fingerprint>
-      <Integrity>I9tOKQzjjOgUklN9t6pMchvQwNHrjlcFD9ubzup9fSc=</Integrity>
+      <Fingerprint>sjc7g9m1ro</Fingerprint>
+      <Integrity>SK9zcm0xijFBZkd0FetMO1ZiBptR9ba0VdOB6K3qN9g=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\notes_lesson.html'))</OriginalItemSpec>
@@ -1218,8 +1218,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>4aj9dans7f</Fingerprint>
-      <Integrity>JDH1dfqwJfGUVdclbQ457SwKUQi3J4fooKxC/ffRcAk=</Integrity>
+      <Fingerprint>mvr1y653pf</Fingerprint>
+      <Integrity>Yo3TBAPsPaNQvcGltbJuXt5cpndgvlWVb1yFAcOW/lY=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\posture_coach.html'))</OriginalItemSpec>

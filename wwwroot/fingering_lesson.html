@@ -33,7 +33,6 @@
     overflow-x: hidden;
   }
 
-  /* ── Header ── */
   .header {
     padding: 24px 32px 0;
     display: flex;
@@ -51,7 +50,6 @@
   .header h1 { font-size: 22px; font-weight: 700; }
   .header p  { font-size: 13px; color: var(--tx2); margin-top: 2px; }
 
-  /* ── Note Selector ── */
   .note-selector {
     display: flex;
     gap: 8px;
@@ -88,6 +86,13 @@
     transform: translateY(-4px);
   }
   .note-btn.active::before { opacity: 1; }
+  .note-btn.playing {
+    animation: btnPulse .6s ease;
+  }
+  @keyframes btnPulse {
+    0% { box-shadow: 0 0 0 0 rgba(91,156,246,0.6); }
+    100% { box-shadow: 0 0 0 14px transparent; }
+  }
 
   .note-label {
     font-size: 22px; font-weight: 700;
@@ -112,7 +117,6 @@
     margin-top: 1px;
   }
 
-  /* ── Main layout ── */
   .main {
     display: flex;
     gap: 28px;
@@ -120,13 +124,12 @@
     align-items: flex-start;
   }
 
-  /* ── Recorder Visual ── */
   .recorder-container {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0;
+    gap: 8px;
   }
 
   .recorder-wrap {
@@ -135,22 +138,39 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
+    border-radius: 14px;
+    padding: 6px;
+    transition: all .25s;
+  }
+  .recorder-wrap:hover {
+    background: rgba(91,156,246,0.05);
+    transform: translateY(-3px);
+  }
+  .recorder-wrap:active { transform: scale(.98); }
+  .recorder-wrap.playing {
+    animation: recorderPulse .7s ease;
+  }
+  @keyframes recorderPulse {
+    0%,100% { filter: brightness(1); }
+    50%     { filter: brightness(1.3) drop-shadow(0 0 20px var(--ac)); }
   }
 
-  /* SVG recorder body */
-  .recorder-svg {
-    width: 120px;
+  .recorder-hint {
+    font-size: 10px;
+    color: var(--tx2);
+    text-align: center;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    padding: 4px 10px;
+    border-radius: 6px;
+    opacity: 0.7;
+    transition: .2s;
   }
+  .recorder-wrap:hover ~ .recorder-hint { opacity: 1; color: var(--ac2); }
 
-  /* Finger holes overlay */
-  .holes-overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-  }
+  .recorder-svg { width: 120px; }
 
-  /* ── Hole circles ── */
   .hole {
     transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
   }
@@ -197,18 +217,17 @@
 
   @keyframes pulseHole {
     0%,100% { filter: drop-shadow(0 0 6px rgba(91,156,246,0.7)); }
-    50%      { filter: drop-shadow(0 0 12px rgba(91,156,246,1)); }
+    50%     { filter: drop-shadow(0 0 12px rgba(91,156,246,1)); }
   }
   @keyframes pulseHalf {
     0%,100% { filter: drop-shadow(0 0 6px rgba(167,139,250,0.7)); }
-    50%      { filter: drop-shadow(0 0 12px rgba(167,139,250,1)); }
+    50%     { filter: drop-shadow(0 0 12px rgba(167,139,250,1)); }
   }
   @keyframes pulseThumb {
     0%,100% { filter: drop-shadow(0 0 8px rgba(245,158,11,0.8)); }
-    50%      { filter: drop-shadow(0 0 14px rgba(245,158,11,1)); }
+    50%     { filter: drop-shadow(0 0 14px rgba(245,158,11,1)); }
   }
 
-  /* ── Info panel ── */
   .info-panel {
     flex: 1;
     display: flex;
@@ -247,7 +266,12 @@
     color: var(--ac2);
     font-family: 'JetBrains Mono', monospace;
     line-height: 1;
+    cursor: pointer;
+    transition: .2s;
+    user-select: none;
   }
+  .note-hero-name:hover { transform: scale(1.08); filter: brightness(1.2); }
+  .note-hero-name:active { transform: scale(.95); }
   .note-hero-num {
     display: inline-flex;
     align-items: center;
@@ -260,11 +284,33 @@
     font-weight: 800;
     color: var(--ac2);
     font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+    transition: .2s;
+    user-select: none;
   }
+  .note-hero-num:hover { transform: scale(1.1); background: rgba(91,156,246,0.2); }
+  .note-hero-num:active { transform: scale(.95); }
+  .play-btn-inline {
+    background: var(--ac);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: .2s;
+    margin-left: auto;
+    font-family: inherit;
+  }
+  .play-btn-inline:hover { transform: translateY(-2px); filter: brightness(1.15); }
+  .play-btn-inline:active { transform: scale(.97); }
   .note-hero-mn   { font-size: 18px; color: var(--tx); margin-top: 4px; font-weight: 600; }
   .note-hero-desc { font-size: 13px; color: var(--tx2); margin-top: 8px; line-height: 1.6; }
 
-  /* Finger diagram row */
   .finger-grid {
     background: var(--s1);
     border: 1px solid var(--bd);
@@ -308,11 +354,6 @@
     border-color: rgba(167,139,250,0.3);
     color: #c4b5fd;
   }
-  .finger-chip.thumb-chip {
-    background: rgba(245,158,11,0.12);
-    border-color: rgba(245,158,11,0.3);
-    color: #fcd34d;
-  }
   .chip-dot {
     width: 10px; height: 10px;
     border-radius: 50%;
@@ -323,7 +364,6 @@
   .chip-dot.half    { background: var(--half); }
   .chip-dot.thumb   { background: var(--thumb); }
 
-  /* Legend */
   .legend {
     background: var(--s1);
     border: 1px solid var(--bd);
@@ -348,7 +388,7 @@
   .legend-dot.l-half   { background: var(--half); border-color: #c4b5fd; }
   .legend-dot.l-thumb  { background: var(--thumb); border-color: #fcd34d; }
 
-  /* Number reference table */
+  /* Number reference — товчнууд (дуу гарна) */
   .num-ref {
     background: var(--s1);
     border: 1px solid var(--bd);
@@ -359,6 +399,16 @@
     font-size: 11px; letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--tx2); margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .num-ref-hint {
+    font-size: 10px;
+    color: var(--ac2);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 500;
   }
   .num-ref-row {
     display: flex;
@@ -369,32 +419,58 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 5px 12px;
-    border-radius: 8px;
+    padding: 8px 14px;
+    border-radius: 10px;
     background: var(--s2);
-    border: 1px solid var(--bd);
-    font-size: 12px;
-    color: var(--tx2);
-    transition: all 0.2s;
+    border: 1.5px solid var(--bd);
+    font-size: 13px;
+    color: var(--tx);
+    transition: all 0.15s;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    font-weight: 600;
+  }
+  .num-ref-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--ac);
+    background: rgba(91,156,246,0.08);
+  }
+  .num-ref-item:active {
+    transform: translateY(0) scale(.96);
+  }
+  .num-ref-item.playing {
+    animation: refPulse .6s ease;
+  }
+  @keyframes refPulse {
+    0% { box-shadow: 0 0 0 0 var(--ac); }
+    100% { box-shadow: 0 0 0 14px transparent; }
   }
   .num-ref-item.active-ref {
     border-color: var(--ac);
     background: rgba(91,156,246,0.1);
     color: var(--ac2);
+    border-width: 2px;
   }
   .num-ref-item .ref-num {
     font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 800;
+    font-size: 16px;
     color: var(--ac);
     min-width: 14px;
     text-align: center;
   }
-  .num-ref-item .ref-eq {
-    color: var(--bd);
+  .num-ref-item .ref-eq { color: var(--bd); }
+  .num-ref-item .ref-play-icon {
+    font-size: 11px;
+    opacity: 0.4;
+    margin-left: 4px;
+    transition: .15s;
+  }
+  .num-ref-item:hover .ref-play-icon {
+    opacity: 1;
   }
 
-  /* Tip box */
   .tip-box {
     background: linear-gradient(135deg, rgba(91,156,246,0.08), rgba(91,156,246,0.03));
     border: 1px solid rgba(91,156,246,0.2);
@@ -406,14 +482,12 @@
   }
   .tip-box strong { color: var(--ac2); }
 
-  /* Ripple on note change */
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
   }
   .animate-in { animation: fadeInUp 0.35s ease forwards; }
 
-  /* Responsive */
   @media (max-width: 700px) {
     .main { flex-direction: column; padding: 16px; }
     .recorder-container { flex-direction: row; gap: 20px; width: 100%; }
@@ -428,7 +502,7 @@
   <div class="header-icon">🤚</div>
   <div>
     <h1>Хурууны байрлал</h1>
-    <p>Нот бүрийн хурууны байрлалыг сурах — тоон тэмдэглэгээтэй</p>
+    <p>Нот бүрийн хурууны байрлалыг сурах — товч бүр дээр дарж дуу сонсох 🔊</p>
   </div>
 </div>
 
@@ -440,25 +514,18 @@
 
   <!-- Recorder visual -->
   <div class="recorder-container">
-    <div class="recorder-wrap">
-      <svg class="recorder-svg" id="recorderSvg" viewBox="0 0 120 560" xmlns="http://www.w3.org/2000/svg">
-        <!-- Mouthpiece top -->
+    <div class="recorder-wrap" id="recorderWrap" title="Бишгүүр дээр дарж дуу сонсох">
+      <svg class="recorder-svg" id="recorderSvg" viewBox="0 0 120 560" xmlns="http://www.w3.org/2000/svg" style="pointer-events:none;">
         <path d="M48,0 L72,0 L76,40 L44,40 Z" fill="#1e2240" stroke="#2d3158" stroke-width="1.5" rx="4"/>
-        <!-- Windway band -->
         <rect x="42" y="38" width="36" height="8" rx="3" fill="#252840" stroke="#3a4060" stroke-width="1"/>
-        <!-- Main body -->
         <path d="M44,46 Q40,46 39,52 L36,480 Q36,490 44,492 L76,492 Q84,490 84,480 L81,52 Q80,46 76,46 Z"
               fill="#1a1d2e" stroke="#252840" stroke-width="1.5"/>
-        <!-- Bell -->
         <path d="M36,480 Q32,510 28,530 Q26,542 40,548 L80,548 Q94,542 92,530 Q88,510 84,480 Z"
               fill="#161826" stroke="#252840" stroke-width="1.5"/>
-
-        <!-- Wood grain lines -->
         <line x1="50" y1="60" x2="50" y2="470" stroke="#1f2338" stroke-width="0.5" opacity="0.6"/>
         <line x1="60" y1="55" x2="60" y2="475" stroke="#1f2338" stroke-width="0.5" opacity="0.4"/>
         <line x1="70" y1="60" x2="70" y2="470" stroke="#1f2338" stroke-width="0.5" opacity="0.6"/>
 
-        <!-- ── HOLES ── -->
         <ellipse id="hole-thumb" class="hole thumb-closed" cx="60" cy="100" rx="10" ry="7"/>
         <circle id="hole-1" class="hole closed" cx="60" cy="158" r="9"/>
         <circle id="hole-2" class="hole closed" cx="60" cy="206" r="9"/>
@@ -470,7 +537,6 @@
         <circle id="hole-7a" class="hole closed" cx="52" cy="440" r="6"/>
         <circle id="hole-7b" class="hole closed" cx="68" cy="440" r="6"/>
 
-        <!-- Labels -->
         <text x="94" y="102" fill="#3a4060" font-size="9" font-family="JetBrains Mono">T</text>
         <text x="94" y="162" fill="#3a4060" font-size="9" font-family="JetBrains Mono">1</text>
         <text x="94" y="210" fill="#3a4060" font-size="9" font-family="JetBrains Mono">2</text>
@@ -481,6 +547,7 @@
         <text x="94" y="444" fill="#3a4060" font-size="9" font-family="JetBrains Mono">7</text>
       </svg>
     </div>
+    <div class="recorder-hint">🔊 Дарж дуу сонсох</div>
   </div>
 
   <!-- Info panel -->
@@ -489,155 +556,183 @@
 </div>
 
 <script>
-// ── Note data with number notation ──
+// ── Note data with frequency ──
 const NOTES = [
-  {
-    name: 'C', num: 7,
-    mn: 'До (C4)',
-    octave: 4,
-    desc: 'Хамгийн бага нот. Бүх хурууг дарна. Амьсгалыг аажим, тайван гаргана.',
-    tip: 'Бүх нүхийг бүрэн хааж, хурууг зэрэгцүүлэн дарна уу.',
-    holes: ['closed','closed','closed','closed','closed','closed','closed','closed','closed','closed'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'closed' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'closed' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'closed' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'closed' },
-    ]
-  },
-  {
-    name: 'D', num: 6,
-    mn: 'Рэ (D4)',
-    octave: 4,
-    desc: 'Дараагийн нот. Зөвхөн хамгийн доод хоёр хурууг нээнэ.',
-    tip: '7-р нүхийг нээхдээ гарын чинжаа хурууг өрглөнө.',
-    holes: ['closed','closed','closed','closed','closed','closed','open','open','open','open'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'closed' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'closed' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
-    ]
-  },
-  {
-    name: 'E', num: 5,
-    mn: 'Ми (E4)',
-    octave: 4,
-    desc: '5, 6, 7-р нүхийг нээнэ. Амьсгалыг хэвийн хурдаар гаргана.',
-    tip: '5-р нүхийг нээхдээ гарын дунд хуруугаа өрглөнө.',
-    holes: ['closed','closed','closed','closed','closed','open','open','open','open','open'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'closed' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
-    ]
-  },
-  {
-    name: 'F', num: 4,
-    mn: 'Фа (F4)',
-    octave: 4,
-    desc: 'Баруун гарын бүх хурууг нээнэ. Зүүн гарын дөрвөн хуруу хэвээр байна.',
-    tip: '4-р нүхийг нээхдээ баруун гарын дэлхий хуруугаа өрглөнө.',
-    holes: ['closed','closed','closed','closed','open','open','open','open','open','open'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
-    ]
-  },
-  {
-    name: 'G', num: 3,
-    mn: 'Соль (G4)',
-    octave: 4,
-    desc: 'Гурван нүх л хаалттай. Хамгийн хялбар нотуудын нэг.',
-    tip: 'Зүүн гарын 3 хуруу дарж, баруун гарыг бүрэн нээнэ.',
-    holes: ['closed','closed','closed','closed','open','open','open','open','open','open'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
-    ]
-  },
-  {
-    name: 'A', num: 2,
-    mn: 'Ля (A4)',
-    octave: 4,
-    desc: 'Зөвхөн хоёр нүх хаалттай. Амьсгалыг бага зэрэг нэмнэ.',
-    tip: '1, 2-р хуруугаа дарж 3-р хурууг өрглөнө.',
-    holes: ['closed','closed','closed','open','open','open','open','open','open','open'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
-    ]
-  },
-  {
-    name: 'B', num: 1,
-    mn: 'Си (B4)',
-    octave: 4,
-    desc: 'Зөвхөн 1-р хуруу дарна. Амьсгалыг нэмнэ.',
-    tip: 'Зөвхөн зүүн дэлхий хуруу дарж бусдыг нээнэ.',
-    holes: ['closed','closed','open','open','open','open','open','open','open','open'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'closed' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'open' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
-    ]
-  },
-  {
-    name: "C'", num: 7,
-    mn: 'До (C5)',
-    octave: 5,
-    desc: 'Өндөр До. Эрхий хуруугаа хагас нааш татаж "pinch" байдлаар барина.',
-    tip: 'Эрхий хуруугаа бүрэн хааж хагасаар нааш татаж, хурдан амьсгал гаргана.',
-    holes: ['half','closed','open','open','open','open','open','open','open','open'],
-    fingers: [
-      { name: 'Эрхий (Т)', hand: 'Зүүн', state: 'half' },
-      { name: '1-р хуруу', hand: 'Зүүн', state: 'closed' },
-      { name: '2-р хуруу', hand: 'Зүүн', state: 'open' },
-      { name: '3-р хуруу', hand: 'Зүүн', state: 'open' },
-      { name: '4-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '5-р хуруу', hand: 'Баруун', state: 'open' },
-      { name: '6-р нүх',   hand: 'Баруун', state: 'open' },
-      { name: '7-р нүх',   hand: 'Баруун', state: 'open' },
-    ]
-  },
+  { name:'C',  num:7, mn:'До (C4)',   octave:4, freq:523.25,
+    desc:'Хамгийн бага нот. Бүх хурууг дарна. Амьсгалыг аажим, тайван гаргана.',
+    tip:'Бүх нүхийг бүрэн хааж, хурууг зэрэгцүүлэн дарна уу.',
+    holes:['closed','closed','closed','closed','closed','closed','closed','closed','closed','closed'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'closed'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'4-р хуруу',hand:'Баруун',state:'closed'},
+      {name:'5-р хуруу',hand:'Баруун',state:'closed'},
+      {name:'6-р нүх',  hand:'Баруун',state:'closed'},
+      {name:'7-р нүх',  hand:'Баруун',state:'closed'}]},
+  { name:'D',  num:6, mn:'Рэ (D4)',   octave:4, freq:587.33,
+    desc:'Дараагийн нот. Зөвхөн хамгийн доод хоёр хурууг нээнэ.',
+    tip:'7-р нүхийг нээхдээ гарын чинжаа хурууг өрглөнө.',
+    holes:['closed','closed','closed','closed','closed','closed','open','open','open','open'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'closed'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'4-р хуруу',hand:'Баруун',state:'closed'},
+      {name:'5-р хуруу',hand:'Баруун',state:'closed'},
+      {name:'6-р нүх',  hand:'Баруун',state:'open'},
+      {name:'7-р нүх',  hand:'Баруун',state:'open'}]},
+  { name:'E',  num:5, mn:'Ми (E4)',   octave:4, freq:659.25,
+    desc:'5, 6, 7-р нүхийг нээнэ. Амьсгалыг хэвийн хурдаар гаргана.',
+    tip:'5-р нүхийг нээхдээ гарын дунд хуруугаа өрглөнө.',
+    holes:['closed','closed','closed','closed','closed','open','open','open','open','open'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'closed'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'4-р хуруу',hand:'Баруун',state:'closed'},
+      {name:'5-р хуруу',hand:'Баруун',state:'open'},
+      {name:'6-р нүх',  hand:'Баруун',state:'open'},
+      {name:'7-р нүх',  hand:'Баруун',state:'open'}]},
+  { name:'F',  num:4, mn:'Фа (F4)',   octave:4, freq:698.46,
+    desc:'Баруун гарын бүх хурууг нээнэ. Зүүн гарын дөрвөн хуруу хэвээр байна.',
+    tip:'4-р нүхийг нээхдээ баруун гарын дэлхий хуруугаа өрглөнө.',
+    holes:['closed','closed','closed','closed','open','open','open','open','open','open'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'closed'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'4-р хуруу',hand:'Баруун',state:'open'},
+      {name:'5-р хуруу',hand:'Баруун',state:'open'},
+      {name:'6-р нүх',  hand:'Баруун',state:'open'},
+      {name:'7-р нүх',  hand:'Баруун',state:'open'}]},
+  { name:'G',  num:3, mn:'Соль (G4)', octave:4, freq:784.00,
+    desc:'Гурван нүх л хаалттай. Хамгийн хялбар нотуудын нэг.',
+    tip:'Зүүн гарын 3 хуруу дарж, баруун гарыг бүрэн нээнэ.',
+    holes:['closed','closed','closed','closed','open','open','open','open','open','open'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'closed'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'open'},
+      {name:'4-р хуруу',hand:'Баруун',state:'open'},
+      {name:'5-р хуруу',hand:'Баруун',state:'open'},
+      {name:'6-р нүх',  hand:'Баруун',state:'open'},
+      {name:'7-р нүх',  hand:'Баруун',state:'open'}]},
+  { name:'A',  num:2, mn:'Ля (A4)',   octave:4, freq:880.00,
+    desc:'Зөвхөн хоёр нүх хаалттай. Амьсгалыг бага зэрэг нэмнэ.',
+    tip:'1, 2-р хуруугаа дарж 3-р хурууг өрглөнө.',
+    holes:['closed','closed','closed','open','open','open','open','open','open','open'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'closed'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'open'},
+      {name:'4-р хуруу',hand:'Баруун',state:'open'},
+      {name:'5-р хуруу',hand:'Баруун',state:'open'},
+      {name:'6-р нүх',  hand:'Баруун',state:'open'},
+      {name:'7-р нүх',  hand:'Баруун',state:'open'}]},
+  { name:'B',  num:1, mn:'Си (B4)',   octave:4, freq:987.77,
+    desc:'Зөвхөн 1-р хуруу дарна. Амьсгалыг нэмнэ.',
+    tip:'Зөвхөн зүүн дэлхий хуруу дарж бусдыг нээнэ.',
+    holes:['closed','closed','open','open','open','open','open','open','open','open'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'closed'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'open'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'open'},
+      {name:'4-р хуруу',hand:'Баруун',state:'open'},
+      {name:'5-р хуруу',hand:'Баруун',state:'open'},
+      {name:'6-р нүх',  hand:'Баруун',state:'open'},
+      {name:'7-р нүх',  hand:'Баруун',state:'open'}]},
+  { name:"C'", num:7, mn:'До (C5)',   octave:5, freq:1046.50,
+    desc:'Өндөр До. Эрхий хуруугаа хагас нааш татаж "pinch" байдлаар барина.',
+    tip:'Эрхий хуруугаа бүрэн хааж хагасаар нааш татаж, хурдан амьсгал гаргана.',
+    holes:['half','closed','open','open','open','open','open','open','open','open'],
+    fingers:[
+      {name:'Эрхий (Т)',hand:'Зүүн',state:'half'},
+      {name:'1-р хуруу',hand:'Зүүн',state:'closed'},
+      {name:'2-р хуруу',hand:'Зүүн',state:'open'},
+      {name:'3-р хуруу',hand:'Зүүн',state:'open'},
+      {name:'4-р хуруу',hand:'Баруун',state:'open'},
+      {name:'5-р хуруу',hand:'Баруун',state:'open'},
+      {name:'6-р нүх',  hand:'Баруун',state:'open'},
+      {name:'7-р нүх',  hand:'Баруун',state:'open'}]},
 ];
 
 const HOLE_IDS = ['hole-thumb','hole-1','hole-2','hole-3','hole-4','hole-5','hole-6a','hole-6b','hole-7a','hole-7b'];
+
+/* ══════════════════════════════════════
+   ДУУ ТОГЛОХ — Web Audio API
+══════════════════════════════════════ */
+let audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  return audioCtx;
+}
+
+function playNote(freq) {
+  const ac = getAudioCtx();
+  const t = ac.currentTime;
+
+  const osc = ac.createOscillator();
+  const gain = ac.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(freq, t);
+
+  const osc2 = ac.createOscillator();
+  const gain2 = ac.createGain();
+  osc2.type = 'triangle';
+  osc2.frequency.setValueAtTime(freq * 2, t);
+  gain2.gain.setValueAtTime(0.1, t);
+
+  osc.connect(gain);
+  osc2.connect(gain2);
+  gain.connect(ac.destination);
+  gain2.connect(ac.destination);
+
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(0.5, t + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.3, t + 0.3);
+  gain.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
+
+  gain2.gain.setValueAtTime(0, t);
+  gain2.gain.linearRampToValueAtTime(0.08, t + 0.05);
+  gain2.gain.exponentialRampToValueAtTime(0.001, t + 1.2);
+
+  osc.start(t);  osc.stop(t + 1.3);
+  osc2.start(t); osc2.stop(t + 1.3);
+}
+
+function animatePlay(el) {
+  if (!el) return;
+  el.classList.remove('playing');
+  void el.offsetWidth;
+  el.classList.add('playing');
+  setTimeout(() => el.classList.remove('playing'), 700);
+}
+
+/* Тоон тэмдэглэгээ товчинд дуу гаргана */
+function playByNum(num, e) {
+  if (e) e.stopPropagation();
+  const note = NOTES.find(n => n.num === num && n.octave === 4);
+  if (!note) return;
+  playNote(note.freq);
+  if (e && e.currentTarget) animatePlay(e.currentTarget);
+}
+
+/* Идэвхтэй нотын дууг тоглуулна */
+function playCurrent() {
+  const note = NOTES[currentNote];
+  if (!note) return;
+  playNote(note.freq);
+  animatePlay(document.getElementById('recorderWrap'));
+}
 
 function holeClass(idx, state, isThumb) {
   if (isThumb) {
@@ -689,22 +784,19 @@ function animateHoles(note) {
   });
 }
 
+/* Тоон тэмдэглэгээ — товчнууд (дуу гаргана) */
 function buildNumRef(activeNote) {
-  const allBase = [
-    { sym: 'C', mn: 'До', num: 7 },
-    { sym: 'D', mn: 'Рэ', num: 6 },
-    { sym: 'E', mn: 'Ми', num: 5 },
-    { sym: 'F', mn: 'Фа', num: 4 },
-    { sym: 'G', mn: 'Соль', num: 3 },
-    { sym: 'A', mn: 'Ля', num: 2 },
-    { sym: 'B', mn: 'Си', num: 1 },
-  ];
-  return allBase.map(r => {
-    const isActive = activeNote.name.replace("'","") === r.sym;
-    return `<div class="num-ref-item ${isActive ? 'active-ref' : ''}">
+  // num бүрд хамгийн ойрын C4 octave-ийн freq олно
+  const baseNotes = NOTES.filter(n => n.octave === 4);
+  return baseNotes.map(r => {
+    const isActive = activeNote.name.replace("'","") === r.name;
+    return `<div class="num-ref-item ${isActive ? 'active-ref' : ''}"
+                 onclick="playByNum(${r.num}, event)"
+                 title="Дарж ${r.name} (${r.mn.split(' ')[0]}) дуу сонсох">
       <span class="ref-num">${r.num}</span>
       <span class="ref-eq">=</span>
-      <span>${r.sym} (${r.mn})</span>
+      <span>${r.name} (${r.mn.split(' ')[0]})</span>
+      <span class="ref-play-icon">🔊</span>
     </div>`;
   }).join('');
 }
@@ -713,25 +805,34 @@ function selectNote(i) {
   currentNote = i;
   const note = NOTES[i];
 
+  // Нот сонгоход дуу автоматаар тоглуулна
+  playNote(note.freq);
+
   document.querySelectorAll('.note-btn').forEach((b, j) => {
     b.classList.toggle('active', j === i);
+    if (j === i) animatePlay(b);
   });
 
   animateHoles(note);
+  animatePlay(document.getElementById('recorderWrap'));
 
   const panel = document.getElementById('infoPanel');
   panel.innerHTML = `
     <div class="note-hero animate-in" data-note="${note.name}">
       <div class="note-hero-top">
-        <div class="note-hero-name">${note.name}</div>
-        <div class="note-hero-num">${note.num}</div>
+        <div class="note-hero-name" onclick="playCurrent()" title="Дарж дуу сонсох">${note.name}</div>
+        <div class="note-hero-num" onclick="playCurrent()" title="Дарж дуу сонсох">${note.num}</div>
+        <button class="play-btn-inline" onclick="playCurrent()">▶ Дуу сонсох</button>
       </div>
       <div class="note-hero-mn">${note.mn} — Тоон тэмдэглэгээ: №${note.num}</div>
       <div class="note-hero-desc">${note.desc}</div>
     </div>
 
     <div class="num-ref animate-in" style="animation-delay:0.03s;">
-      <div class="num-ref-title">🔢 ТООН ТЭМДЭГЛЭГЭЭ</div>
+      <div class="num-ref-title">
+        <span>🔢 ТООН ТЭМДЭГЛЭГЭЭ</span>
+        <span class="num-ref-hint">💡 Товч дээр дарж дуу сонсох</span>
+      </div>
       <div class="num-ref-row">
         ${buildNumRef(note)}
       </div>
@@ -766,6 +867,9 @@ function selectNote(i) {
     </div>
   `;
 }
+
+/* Бишгүүр зураг дээр дарахад дуу */
+document.getElementById('recorderWrap').addEventListener('click', playCurrent);
 
 // Init
 renderNoteSelector();

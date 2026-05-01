@@ -91,7 +91,6 @@
             gap: 15px;
         }
 
-        /* Song Header */
         .song-header {
             background: var(--s1);
             border: 1px solid var(--bd);
@@ -149,7 +148,7 @@
         }
         .note-block {
             min-width: 52px;
-            height: 60px;
+            height: 64px;
             border-radius: 8px;
             display: flex;
             flex-direction: column;
@@ -159,6 +158,7 @@
             transition: transform 0.15s, box-shadow 0.15s;
             border: 2px solid transparent;
             flex-shrink: 0;
+            position: relative;
         }
         .note-block:hover  { transform: translateY(-3px); }
         .note-block.active {
@@ -167,10 +167,19 @@
             box-shadow: 0 10px 28px rgba(0,0,0,0.6);
         }
         .note-block.played { opacity: 0.35; }
-        .note-sym { font-size: 18px; font-weight: bold; color: #fff; }
-        .note-idx { font-size: 10px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+        .note-num {
+            font-size: 11px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.95);
+            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.25);
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-bottom: 2px;
+        }
+        .note-sym { font-size: 16px; font-weight: bold; color: #fff; }
+        .note-idx { font-size: 9px; color: rgba(255,255,255,0.6); margin-top: 1px; }
 
-        /* Нотын өнгө */
         .note-C { background: linear-gradient(135deg,#c0392b,#e74c3c); }
         .note-D { background: linear-gradient(135deg,#d35400,#e67e22); }
         .note-E { background: linear-gradient(135deg,#b7950b,#f1c40f); }
@@ -179,12 +188,10 @@
         .note-A { background: linear-gradient(135deg,#4a235a,#8e44ad); }
         .note-B { background: linear-gradient(135deg,#6e2c00,#ba4a00); }
 
-        /* Progress */
         .progress-bar-wrap { background: var(--s2); border-radius: 4px; height: 5px; overflow: hidden; margin-top: 10px; }
         .progress-bar { height: 100%; background: var(--ac); border-radius: 4px; transition: width 0.3s; }
         .progress-text { font-size: 11px; color: var(--tx2); margin-top: 5px; }
 
-        /* Bottom Panel */
         .bottom-panel {
             display: grid;
             grid-template-columns: 180px 1fr;
@@ -193,7 +200,6 @@
             min-height: 0;
         }
 
-        /* Fingering Card */
         .fingering-card {
             background: var(--s1);
             border: 1px solid var(--bd);
@@ -208,9 +214,19 @@
         .cur-note-label { font-size: 11px; color: var(--tx2); letter-spacing: 1px; }
         .cur-note-name  { font-size: 48px; font-weight: 900; line-height: 1; }
         .cur-note-mn    { font-size: 14px; color: var(--tx2); margin-top: -6px; }
+        .cur-note-numbig {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--ac);
+            font-family: 'Courier New', monospace;
+            margin-top: 4px;
+            padding: 4px 14px;
+            background: rgba(91,156,246,0.12);
+            border: 1.5px solid rgba(91,156,246,0.4);
+            border-radius: 8px;
+        }
         .hole-hint { font-size: 11px; color: var(--tx2); text-align: center; line-height: 1.6; margin-top: 5px; }
 
-        /* Info Card */
         .info-card {
             background: var(--s1);
             border: 1px solid var(--bd);
@@ -227,6 +243,15 @@
             letter-spacing: 1px;
             color: var(--tx2);
             margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .info-hint {
+            font-size: 10px;
+            color: var(--ac);
+            text-transform: none;
+            letter-spacing: 0;
         }
         .note-legend {
             display: grid;
@@ -239,10 +264,22 @@
             text-align: center;
             cursor: pointer;
             transition: 0.2s;
+            position: relative;
         }
         .legend-item:hover { transform: scale(1.08); }
+        .legend-num {
+            font-size: 11px;
+            font-weight: 800;
+            color: rgba(255,255,255,0.95);
+            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.25);
+            display: inline-block;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-bottom: 3px;
+        }
         .legend-sym { font-size: 18px; font-weight: bold; color: #fff; }
-        .legend-mn  { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 3px; }
+        .legend-mn  { font-size: 11px; color: rgba(255,255,255,0.8); margin-top: 2px; }
 
         .tip-box {
             background: var(--s2);
@@ -255,7 +292,6 @@
         }
         .tip-box strong { color: var(--tx); }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 3px; }
@@ -264,26 +300,17 @@
 <body>
 <div class="app-wrapper">
 
-    <!-- ══════════════════════════════════
-         SIDEBAR
-    ══════════════════════════════════ -->
     <div class="sidebar">
         <div class="sidebar-header">
             <a href="/" class="back-btn">← Буцах</a>
             <div class="sidebar-title">🎸 Энгийн Аялгуу</div>
             <div class="sidebar-sub">Монгол алдартай дуунууд</div>
         </div>
-        <div class="songs-list" id="songs-list">
-            <!-- JS-ээр дүүргэнэ -->
-        </div>
+        <div class="songs-list" id="songs-list"></div>
     </div>
 
-    <!-- ══════════════════════════════════
-         ҮНДСЭН АГУУЛГА
-    ══════════════════════════════════ -->
     <div class="main-content">
 
-        <!-- Song Header -->
         <div class="song-header">
             <div class="song-header-left">
                 <h2 id="hdr-title">Аялгуу сонгоно уу</h2>
@@ -301,7 +328,6 @@
             </div>
         </div>
 
-        <!-- Notes Row -->
         <div class="notes-container">
             <div class="notes-row" id="notes-row">
                 <div style="color:var(--tx2);font-size:14px;margin:auto;">
@@ -314,51 +340,47 @@
             <div class="progress-text" id="progress-text">0 / 0</div>
         </div>
 
-        <!-- Bottom Panel -->
         <div class="bottom-panel">
 
-            <!-- Хуруу тавилт -->
             <div class="fingering-card">
                 <div class="cur-note-label">ОДООГИЙН НОТ</div>
                 <div class="cur-note-name" id="cur-note-name" style="color:#5b9cf6">—</div>
                 <div class="cur-note-mn"   id="cur-note-mn"  style="color:#5b9cf6"></div>
+                <div class="cur-note-numbig" id="cur-note-numbig" style="display:none">—</div>
 
-                <!-- Бишгүүрийн зураг (SVG) -->
                 <svg id="recorder-svg" width="68" height="230" viewBox="0 0 68 230"
-                     style="transition: filter 0.3s;">
-                    <!-- Бие -->
+                     style="transition: filter 0.3s; cursor:pointer;"
+                     onclick="playCurrent()" title="Дарж дуу сонсох">
                     <rect x="24" y="8" width="20" height="215" fill="#b8904a" rx="6"/>
-                    <!-- Амсар -->
                     <rect x="27" y="0" width="14" height="16" fill="#8a6030" rx="3"/>
-                    <!-- Эрхий нүх (ар тал) -->
                     <circle id="hole-thumb" cx="14" cy="42" r="7"
                             fill="#1a1008" stroke="#8a6030" stroke-width="1.5"/>
                     <line x1="21" y1="42" x2="24" y2="42" stroke="#8a6030" stroke-width="1.5"/>
-                    <!-- Урд нүхнүүд -->
                     <circle id="hole-1" cx="34" cy="68"  r="7" fill="#1a1008" stroke="#8a6030" stroke-width="1.5"/>
                     <circle id="hole-2" cx="34" cy="93"  r="7" fill="#1a1008" stroke="#8a6030" stroke-width="1.5"/>
                     <circle id="hole-3" cx="34" cy="118" r="7" fill="#1a1008" stroke="#8a6030" stroke-width="1.5"/>
                     <circle id="hole-4" cx="34" cy="143" r="6" fill="#1a1008" stroke="#8a6030" stroke-width="1.5"/>
                     <circle id="hole-5" cx="34" cy="161" r="6" fill="#1a1008" stroke="#8a6030" stroke-width="1.5"/>
                     <circle id="hole-6" cx="34" cy="179" r="6" fill="#1a1008" stroke="#8a6030" stroke-width="1.5"/>
-                    <!-- Ёроол -->
                     <ellipse cx="34" cy="222" rx="13" ry="5" fill="#9a7030"/>
                 </svg>
 
-                <div class="hole-hint">⚫ = Нүх хаах<br>⚪ = Нүх нээх</div>
+                <div class="hole-hint">⚫ = Нүх хаах<br>⚪ = Нүх нээх<br>🔊 Дарж дуу сонсох</div>
             </div>
 
-            <!-- Мэдээлэл -->
             <div class="info-card">
                 <div>
-                    <div class="info-section-title">Нотын заавар — нот дарж хуруу тавилтыг харна уу</div>
+                    <div class="info-section-title">
+                        <span>Нотын заавар</span>
+                        <span class="info-hint">🔊 Дарж дуу сонсох</span>
+                    </div>
                     <div class="note-legend" id="note-legend"></div>
                 </div>
                 <div>
                     <div class="info-section-title">💡 Зөвлөгөө</div>
                     <div class="tip-box" id="tip-text">
                         Аялгуу сонгоод <strong>▶</strong> товч дарж эхлэн үү.<br>
-                        Нот тус бүр дээр дарахад хуруу тавих байрлалыг харах боломжтой.
+                        Нот тус бүр дээр дарахад хуруу тавих байрлал болон дуу сонсох боломжтой.
                     </div>
                 </div>
             </div>
@@ -369,7 +391,8 @@
 
 <script>
 /* ═══════════════════════════════
-   НОТ ТОХИРГОО
+   НОТ ТОХИРГОО — тоон тэмдэглэгээ
+   До=7, Ре=6, Ми=5, Фа=4, Соль=3, Ля=2, Си=1
 ═══════════════════════════════ */
 const NOTE_COLORS = {
     C:'#e74c3c', D:'#e67e22', E:'#f1c40f',
@@ -378,9 +401,13 @@ const NOTE_COLORS = {
 const NOTE_MN = {
     C:'До', D:'Ре', E:'Ми', F:'Фа', G:'Соль', A:'Ля', B:'Си'
 };
+const NOTE_NUM = {
+    C:7, D:6, E:5, F:4, G:3, A:2, B:1
+};
+const NOTE_FREQ = {
+    C:523.25, D:587.33, E:659.25, F:698.46, G:784.00, A:880.00, B:987.77
+};
 
-// [эрхий, 1-р, 2-р, 3-р, 4-р, 5-р, 6-р нүх]
-// true = хаах, false = нээх
 const FINGERING = {
     C: [true,  true,  true,  true,  true,  true,  true ],
     D: [true,  true,  true,  true,  true,  true,  false],
@@ -392,56 +419,108 @@ const FINGERING = {
 };
 
 /* ═══════════════════════════════
-   МОНГОЛ АЯЛГУУНУУДЫН ӨГӨГДӨЛ
+   ДУУ ТОГЛОХ — Web Audio API
+═══════════════════════════════ */
+let audioCtx = null;
+function getAudioCtx() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+}
+function playFreq(freq, duration) {
+    duration = duration || 1.0;
+    const ac = getAudioCtx();
+    const t = ac.currentTime;
+    const osc = ac.createOscillator();
+    const gain = ac.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, t);
+    const osc2 = ac.createOscillator();
+    const gain2 = ac.createGain();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(freq * 2, t);
+    gain2.gain.setValueAtTime(0.1, t);
+    osc.connect(gain);
+    osc2.connect(gain2);
+    gain.connect(ac.destination);
+    gain2.connect(ac.destination);
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.4, t + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.25, t + 0.2);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + duration);
+    gain2.gain.setValueAtTime(0, t);
+    gain2.gain.linearRampToValueAtTime(0.06, t + 0.03);
+    gain2.gain.exponentialRampToValueAtTime(0.001, t + duration);
+    osc.start(t); osc.stop(t + duration + 0.05);
+    osc2.start(t); osc2.stop(t + duration + 0.05);
+}
+function playNoteSym(sym, duration) {
+    if (NOTE_FREQ[sym]) playFreq(NOTE_FREQ[sym], duration);
+}
+function playCurrent() {
+    if (currentSong && currentSong.notes[currentIdx]) {
+        playNoteSym(currentSong.notes[currentIdx], 0.6);
+    }
+}
+
+/* ═══════════════════════════════
+   МОНГОЛ АЯЛГУУНУУД — жинхэнэ ноттой
 ═══════════════════════════════ */
 const SONGS = [
     {
         id: 1,
-        title: "Загалмайт найз",
-        artist: "Монгол ардын дуу",
+        title: "Хоёр нар",
+        artist: "Б. Цэвээнсүрэн",
         difficulty: "easy",
         bpm: 80,
-        desc: "Монголын эртний алдарт ардын дуу. Хялбар хэмнэлтэй, эхлэгчдэд тохиромжтой.",
-        tip: "G нотыг тогтвортой болтол давта. Дараа нь A болон E нэмнэ.",
-        notes: ["G","G","A","G","E","D","E","G",
-                "G","G","A","G","D","C","D","E",
-                "G","E","G","A","G","E","D","C"]
+        desc: "Б. Цэвээнсүрэнгийн зохиосон 'Хоёр нар' дуу. Хамгийн дээд, доод эгшгийг олж цараагаар тодорхойлж тоглоно.",
+        tip: "G (Соль, №3) болон A (Ля, №2) хоёрыг сайн ялга. Хэмнэлээ алдалгүй жигд тогло.",
+        notes: ["G","A","G","E","D","E","G","A",
+                "G","G","E","D","E","G","A","G",
+                "E","D","C","D","E","G","A","G",
+                "E","D","C"]
     },
     {
         id: 2,
-        title: "Говийн замд",
-        artist: "Монгол уртын дуу",
+        title: "Зун цаг",
+        artist: "Ая. Ц. Сүхбаатар",
         difficulty: "easy",
-        bpm: 65,
-        desc: "Говийн талыг дуулсан уртын дууны аялгуу. Удаан, тайван хэмнэл.",
-        tip: "Амьсгалаа алдалгүй тасралтгүй үлээ. Нот бүрийг урт дуугарга.",
-        notes: ["G","G","G","A","G","E","D",
-                "E","E","G","A","G","G","G",
-                "A","G","E","D","C","D","E","G"]
+        bpm: 75,
+        desc: "Ц. Сүхбаатарын 'Зун цаг' хүүхдийн дуу. Дунд зэргийн хурдтай, тайван аялгуу.",
+        tip: "Эхэндээ удаан тогло, дараа нь 75 BPM хүртэл нэмэгдүүл. F# (Фа диез) орохгүй учраас энгийн F-ээр тоглоно.",
+        notes: ["E","G","G","E","G","A","G","E",
+                "D","E","G","A","G","E","D","E",
+                "G","A","G","E","G","A","B","A",
+                "G","E","D","E","G"]
     },
     {
         id: 3,
-        title: "Эхийн сэтгэл",
-        artist: "Монгол ардын дуу",
+        title: "Хорвоод ганцхан ээждээ",
+        artist: "Ц. Чинзориг",
         difficulty: "medium",
-        bpm: 75,
-        desc: "Ээжийн хайрыг өгүүлсэн зөөлөн уянгатай аялгуу.",
-        tip: "C нотоос эхлэхдээ бүх нүхийг нягт хаана. Хүчилсэн хэрэггүй, зөөлөн үлээ.",
-        notes: ["C","E","G","A","G","E","D","C",
-                "D","E","G","A","G","G","E","G",
-                "A","G","E","D","C","D","E","C"]
+        bpm: 60,
+        desc: "Ц. Чинзоригийн 'Хорвоод ганцхан ээждээ' уянгат дуу. Largo буюу удаан хэмнэлтэй.",
+        tip: "Эх дээр зориулсан зөөлөн дуу. Амьсгалаа удаан тэгш гаргаж, нот бүрийг урт уянгалаг тогло. Соль=3, Ми=5, Си=1, Ре=6 нотуудыг сайн дасгалла.",
+        notes: ["E","G","E","B","G","A","E",
+                "G","G","B","G",
+                "D","D","E","B",
+                "B","D","B","D","E","D","B","D","G",
+                "A","B","B","D","G","A","B","A","E"]
     },
     {
         id: 4,
-        title: "Хурдан морь",
-        artist: "Монгол ардын дуу",
-        difficulty: "medium",
-        bpm: 105,
-        desc: "Монгол морины хурдыг дуулсан жигтэй хөгжилтэй аялгуу.",
-        tip: "Эхлээд 60 BPM-ээр дасгалла. Гар хурдасхийрэй болсны дараа BPM нэмэгдүүл.",
-        notes: ["G","A","G","E","D","E","G","A",
-                "G","G","E","D","C","D","E","G",
-                "A","G","E","G","A","G","D","C"]
+        title: "Twinkle Twinkle Little Star",
+        artist: "W. A. Mozart",
+        difficulty: "easy",
+        bpm: 90,
+        desc: "Моцартын алдартай 'Бүлтгэр одод' хүүхдийн дуу. Тоон тэмдэглэгээ: 7733 2235 — 6673 3445 5567",
+        tip: "Энэ хамгийн алдартай хүүхдийн дуу. 7=До, 6=Ре, 5=Ми, 4=Фа, 3=Соль гэдгээ санаарай. Нот хооронд жигд хэмнэлтэй тогло.",
+        notes: ["C","C","G","G","A","A","G",
+                "F","F","E","E","D","D","C",
+                "G","G","F","F","E","E","D",
+                "G","G","F","F","E","E","D",
+                "C","C","G","G","A","A","G",
+                "F","F","E","E","D","D","C"]
     },
     {
         id: 5,
@@ -462,7 +541,7 @@ const SONGS = [
         difficulty: "easy",
         bpm: 78,
         desc: "Жаргалант нутгийн дуулал. Дурлалтай, хөгжилтэй аялгуу.",
-        tip: "D нотын хурууны байрлалыг сайн дасгалла. Нот хооронд тасрахгүй байх хэрэгтэй.",
+        tip: "D (Ре, №6) нотын хурууны байрлалыг сайн дасгалла. Нот хооронд тасрахгүй байх хэрэгтэй.",
         notes: ["D","E","G","G","A","G","E","D",
                 "E","G","A","A","G","E","G","G",
                 "E","D","E","G","A","G","E","D"]
@@ -487,7 +566,7 @@ const SONGS = [
         difficulty: "hard",
         bpm: 85,
         desc: "Алтайн уулын цэнгэлийг дуулсан өндөр аялгуу. Бүх нот хамарна.",
-        tip: "B нот хамгийн хэцүү — зөвхөн эрхий болон 1-р нүхийг хаана, бусдыг нээ.",
+        tip: "B (Си, №1) нот хамгийн хэцүү — зөвхөн эрхий болон 1-р нүхийг хаана, бусдыг нээ.",
         notes: ["C","D","E","G","A","B","A","G",
                 "E","D","C","D","E","G","A","B",
                 "A","G","E","G","A","B","A","G",
@@ -495,9 +574,6 @@ const SONGS = [
     }
 ];
 
-/* ═══════════════════════════════
-   АЯЛГУУ ЖАГСААЛТ ҮҮСГЭХ
-═══════════════════════════════ */
 function buildSongList() {
     const c = document.getElementById('songs-list');
     const dLabel = { easy:'Хялбар', medium:'Дунд', hard:'Хэцүү' };
@@ -514,23 +590,24 @@ function buildSongList() {
     `).join('');
 }
 
-/* ═══════════════════════════════
-   НОТ ЛЕГЕНД ҮҮСГЭХ
-═══════════════════════════════ */
 function buildLegend() {
     const c = document.getElementById('note-legend');
     c.innerHTML = Object.keys(NOTE_COLORS).map(n => `
-        <div class="legend-item note-${n}" onclick="showFingering('${n}')"
-             title="${n} нотын хуруу тавилт харах">
+        <div class="legend-item note-${n}" onclick="legendClick('${n}')"
+             title="${n} (${NOTE_MN[n]}, №${NOTE_NUM[n]}) дуу сонсох">
+            <div class="legend-num">${NOTE_NUM[n]}</div>
             <div class="legend-sym">${n}</div>
             <div class="legend-mn">${NOTE_MN[n]}</div>
         </div>
     `).join('');
 }
 
-/* ═══════════════════════════════
-   ХУРУУ ТАВИЛТ ХАРУУЛАХ
-═══════════════════════════════ */
+/* Legend дээр дарахад дуу + хуруу тавилт */
+function legendClick(note) {
+    showFingering(note);
+    playNoteSym(note, 0.6);
+}
+
 function showFingering(note) {
     if (!note || !FINGERING[note]) return;
     const f     = FINGERING[note];
@@ -542,6 +619,13 @@ function showFingering(note) {
     document.getElementById('cur-note-name').style.color = color;
     document.getElementById('cur-note-mn').textContent   = NOTE_MN[note];
     document.getElementById('cur-note-mn').style.color   = color;
+
+    const numEl = document.getElementById('cur-note-numbig');
+    numEl.textContent = '№' + NOTE_NUM[note];
+    numEl.style.display = 'inline-block';
+    numEl.style.color = color;
+    numEl.style.borderColor = color + '66';
+    numEl.style.background = color + '18';
 
     const holes = ['hole-thumb','hole-1','hole-2','hole-3','hole-4','hole-5','hole-6'];
     holes.forEach((id, i) => {
@@ -556,9 +640,6 @@ function showFingering(note) {
         `drop-shadow(0 0 12px ${color}88)`;
 }
 
-/* ═══════════════════════════════
-   АЯЛГУУ СОНГОХ
-═══════════════════════════════ */
 let currentSong = null;
 let currentIdx  = 0;
 let isPlaying   = false;
@@ -591,14 +672,12 @@ function selectSong(id) {
     updateProgress(0);
 }
 
-/* ═══════════════════════════════
-   НОТЫН МӨР ҮҮСГЭХ
-═══════════════════════════════ */
 function buildNotesRow() {
     if (!currentSong) return;
     document.getElementById('notes-row').innerHTML =
         currentSong.notes.map((n, i) => `
             <div class="note-block note-${n}" id="nb-${i}" onclick="jumpToNote(${i})">
+                <div class="note-num">${NOTE_NUM[n]}</div>
                 <div class="note-sym">${n}</div>
                 <div class="note-idx">${i + 1}</div>
             </div>
@@ -621,6 +700,8 @@ function jumpToNote(idx) {
     highlightNote(idx);
     showFingering(currentSong.notes[idx]);
     updateProgress(idx);
+    // Дарсан нотны дууг тоглуулна
+    playNoteSym(currentSong.notes[idx], 0.5);
 }
 
 function updateProgress(idx) {
@@ -631,9 +712,6 @@ function updateProgress(idx) {
         `${idx} / ${currentSong.notes.length} нот`;
 }
 
-/* ═══════════════════════════════
-   ТОГЛОХ УДИРДЛАГА
-═══════════════════════════════ */
 function togglePlay() {
     if (!currentSong) return;
     isPlaying ? pauseSong() : playSong();
@@ -666,9 +744,15 @@ function resetSong() {
 function scheduleNext() {
     if (!isPlaying || !currentSong) return;
 
+    const noteSym = currentSong.notes[currentIdx];
     highlightNote(currentIdx);
-    showFingering(currentSong.notes[currentIdx]);
+    showFingering(noteSym);
     updateProgress(currentIdx);
+
+    // Дууг автоматаар тоглуулна
+    const noteDuration = (60 / currentBPM) * 0.9;
+    playNoteSym(noteSym, noteDuration);
+
     currentIdx++;
 
     if (currentIdx >= currentSong.notes.length) {
@@ -680,6 +764,7 @@ function scheduleNext() {
             nameEl.style.color = '#27ae60';
             document.getElementById('cur-note-mn').textContent = 'Дууслаа!';
             document.getElementById('cur-note-mn').style.color = '#27ae60';
+            document.getElementById('cur-note-numbig').style.display = 'none';
             document.getElementById('recorder-svg').style.filter =
                 'drop-shadow(0 0 18px #27ae60)';
         }, (60 / currentBPM) * 1000);
@@ -694,9 +779,6 @@ function updateBPM(val) {
     document.getElementById('bpm-val').textContent = val;
 }
 
-/* ═══════════════════════════════
-   ЭХЛҮҮЛЭХ
-═══════════════════════════════ */
 buildSongList();
 buildLegend();
 showFingering('G');

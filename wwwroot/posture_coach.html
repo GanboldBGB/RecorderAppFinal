@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Бишгүүр Дасгалжуулагч</title>
+<title>Биеийн галбир — Бишгүүр</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+Mongolian&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
@@ -28,20 +28,9 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.75)}}
 
 /* Camera box */
-#camera-box{
-  position:relative;width:100%;aspect-ratio:4/3;
-  background:#060810;border-radius:10px;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;
-}
-#cam-video{
-  position:absolute;top:0;left:0;width:100%;height:100%;
-  object-fit:cover;border-radius:10px;
-  transform:scaleX(-1);display:none;
-}
-#cam-overlay{
-  position:absolute;top:0;left:0;width:100%;height:100%;
-  border-radius:10px;transform:scaleX(-1);pointer-events:none;
-}
+#camera-box{position:relative;width:100%;aspect-ratio:4/3;background:#060810;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#cam-video{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;border-radius:10px;transform:scaleX(-1);display:none}
+#cam-overlay{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:10px;transform:scaleX(-1);pointer-events:none}
 #cam-placeholder{font-size:13px;color:#334;text-align:center;padding:1rem;position:absolute;z-index:1;line-height:1.8}
 
 /* Frontal check meters */
@@ -70,23 +59,8 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
 #frontal-score-label{font-size:13px;font-weight:600;color:#8090a0;line-height:1.4}
 #frontal-score-label small{display:block;font-size:10px;color:#445;margin-top:2px;font-weight:400}
 
-/* Pitch panel */
-#waveform{width:100%;height:56px;background:#060810;border-radius:8px}
-.detected-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-#det-note{font-size:48px;font-weight:700;line-height:1;min-width:56px;transition:color .2s;font-family:monospace}
-#det-freq{font-size:12px;color:#445;margin-top:3px}
-#verdict{font-size:14px;font-weight:600;padding:6px 14px;border-radius:8px;background:#1a1e2a;transition:background .3s,color .3s;text-align:center}
-#verdict.correct{background:#142a1c;color:#3ab85a}
-#verdict.wrong{background:#2a1212;color:#c04040}
-#verdict.close{background:#1e1e0a;color:#b07020}
-.tuner-wrap{display:flex;flex-direction:column;gap:4px}
-.tuner-label{font-size:10px;color:#445;display:flex;justify-content:space-between}
-#tuner-bar-bg{width:100%;height:10px;background:#1a1e2a;border-radius:5px;position:relative;overflow:hidden}
-#tuner-bar{position:absolute;top:0;height:100%;width:4px;background:#3a7fd4;border-radius:2px;left:50%;transform:translateX(-50%);transition:left .1s}
-#tuner-center{position:absolute;top:0;left:50%;width:1px;height:100%;background:#2a2e3a}
-
-/* Flute scene */
-#main-scene{display:flex;flex-direction:row;align-items:flex-start;justify-content:center;gap:0;width:100%;max-width:580px}
+/* ── ХУРУУ ТАВИЛТ + БИШГҮҮР (баруун талд) ── */
+.flute-panel-inner{display:flex;align-items:flex-start;justify-content:center;gap:0;padding:6px 0}
 .hand-panel{display:flex;flex-direction:column;gap:0;padding-top:46px}
 .hand-panel.rh{padding-top:218px}
 .finger-slot{display:flex;flex-direction:row;align-items:center;height:46px}
@@ -102,11 +76,15 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
 
 /* Guide cards */
 .guide-section{width:100%;max-width:900px}
-.guide-title{font-size:11px;color:#445;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.guide-title{font-size:11px;color:#445;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.guide-hint{font-size:10px;color:#3a7fd4;text-transform:none;letter-spacing:0}
 .guide-row{display:flex;gap:6px;flex-wrap:wrap}
-.guide-card{border:1px solid #22263a;border-radius:10px;padding:7px 10px;cursor:pointer;transition:border-color .15s,background .15s;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:48px;background:#12151e}
-.guide-card:hover{background:#1a1e2e;border-color:#3a7fd4}
+.guide-card{border:1px solid #22263a;border-radius:10px;padding:7px 10px;cursor:pointer;transition:border-color .15s,background .15s,transform .15s;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:60px;background:#12151e;position:relative}
+.guide-card:hover{background:#1a1e2e;border-color:#3a7fd4;transform:translateY(-2px)}
 .guide-card.target{border-color:#b07020;background:#14120a}
+.guide-card.playing{animation:cardPulse .6s ease}
+@keyframes cardPulse{0%{box-shadow:0 0 0 0 #3a7fd4}100%{box-shadow:0 0 0 14px transparent}}
+.gc-num{font-size:10px;font-weight:800;color:#3a7fd4;font-family:monospace;background:rgba(58,127,212,0.1);border-radius:3px;padding:1px 5px}
 .gc-note{font-size:15px;font-weight:700;font-family:monospace}
 .gc-holes{display:flex;gap:3px}
 .gc-dot{width:8px;height:8px;border-radius:50%;border:1.5px solid #334;background:transparent}
@@ -127,25 +105,31 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
 
 #target-banner{width:100%;max-width:900px;background:#10121a;border:1px solid #22263a;border-radius:12px;padding:.8rem 1.2rem;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 #target-label{font-size:11px;color:#445;letter-spacing:.05em}
-#target-note-name{font-size:20px;font-weight:700;color:#b07020;font-family:monospace}
+#target-note-name{font-size:20px;font-weight:700;color:#b07020;font-family:monospace;display:flex;align-items:center;gap:8px}
+#target-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:7px;background:rgba(176,112,32,0.15);border:1.5px solid rgba(176,112,32,0.4);font-size:14px;font-weight:800;color:#b07020}
 #target-hint{font-size:11px;color:#445;max-width:260px;line-height:1.6}
+
+.flute-help{font-size:11px;color:#556;text-align:center;line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid #1a1e2a}
 </style>
 </head>
 <body>
 
-<h1>🎵 Бишгүүр Дасгалжуулагч</h1>
+<h1>🧍 Биеийн галбир — Бишгүүр</h1>
 
 <div id="target-banner">
   <div>
     <div id="target-label">ЗОРИЛТОТ НОТ</div>
-    <div id="target-note-name">— сонгоно уу</div>
+    <div id="target-note-name">
+      <span id="target-text">— сонгоно уу</span>
+      <span id="target-num" style="display:none"></span>
+    </div>
   </div>
   <div id="target-hint">Доорх картаас нот сонгоод бишгүүрээ үлээнэ үү</div>
 </div>
 
 <div class="top-grid">
 
-  <!-- Camera panel -->
+  <!-- ЗҮҮН: Камер -->
   <div class="panel">
     <div class="panel-title">
       📷 Камер — байрлал шалгах
@@ -163,7 +147,6 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
       <div id="cam-placeholder">📷 Камер асаагаагүй байна<br><small style="color:#334;font-size:11px">Доорх товч дарна уу</small></div>
     </div>
 
-    <!-- Overall frontal score -->
     <div id="frontal-score-wrap">
       <div id="frontal-score-num">—</div>
       <div>
@@ -171,7 +154,6 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
       </div>
     </div>
 
-    <!-- 4 check meters -->
     <div class="check-grid">
       <div class="check-item" id="ci-facing">
         <div class="check-label">👤 Урагш эргэсэн <span class="val" id="cv-facing">—</span></div>
@@ -194,74 +176,68 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
     <button class="btn" id="btn-cam">📷 Камер асаах</button>
   </div>
 
-  <!-- Pitch panel -->
+  <!-- БАРУУН: Бишгүүр + хуруу тавилт -->
   <div class="panel">
-    <div class="panel-title">🎤 Микрофон — нот таних</div>
-    <canvas id="waveform" width="400" height="56"></canvas>
-    <div class="detected-row">
-      <div>
-        <div id="det-note" style="color:#334">—</div>
-        <div id="det-freq">0 Гц</div>
+    <div class="panel-title">🎵 Хурууны байрлал — Бишгүүр</div>
+
+    <div class="flute-panel-inner">
+      <div class="hand-panel lh">
+        <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp0">1</div><div class="finger-label">Дурдан</div></div><div class="connector-line" id="cl0"></div></div>
+        <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp1">2</div><div class="finger-label">Дунд</div></div><div class="connector-line" id="cl1"></div></div>
+        <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp2">3</div><div class="finger-label">Алга</div></div><div class="connector-line" id="cl2"></div></div>
       </div>
-      <div id="verdict">Хүлээж байна...</div>
-    </div>
-    <div class="tuner-wrap">
-      <div class="tuner-label"><span>♭ Доогуур</span><span>Тааруу</span><span>♯ Дээгүүр</span></div>
-      <div id="tuner-bar-bg">
-        <div id="tuner-center"></div>
-        <div id="tuner-bar"></div>
+      <div id="flute-container">
+        <svg id="flute-svg" viewBox="0 0 80 420" xmlns="http://www.w3.org/2000/svg"
+             style="cursor:pointer;" id="flute-svg-clickable" title="Бишгүүр дээр дарж дуу сонсох">
+          <defs>
+            <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
+              <stop offset="0%" stop-color="#a07838"/>
+              <stop offset="45%" stop-color="#d8b860"/>
+              <stop offset="100%" stop-color="#806020"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="40" cy="18" rx="13" ry="18" fill="url(#wg)" stroke="#6a4c18" stroke-width="1.2"/>
+          <rect x="26" y="34" width="28" height="6" rx="3" fill="#6a4c18" opacity=".8"/>
+          <ellipse cx="40" cy="48" rx="6" ry="5" fill="#0a0808" stroke="#6a4c18" stroke-width=".8"/>
+          <rect x="27" y="54" width="26" height="32" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
+          <rect x="24" y="86" width="32" height="10" rx="5" fill="#6a4c18"/>
+          <rect x="27" y="96" width="26" height="220" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
+          <circle id="fh0" cx="40" cy="122" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh1" cx="40" cy="146" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh2" cx="40" cy="170" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh3" cx="40" cy="194" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh4" cx="40" cy="218" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh5a" cx="34" cy="252" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh5b" cx="46" cy="252" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <rect x="24" y="316" width="32" height="10" rx="5" fill="#6a4c18"/>
+          <rect x="27" y="326" width="26" height="44" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
+          <circle id="fh6a" cx="34" cy="348" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <circle id="fh6b" cx="46" cy="348" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
+          <ellipse cx="40" cy="398" rx="18" ry="20" fill="url(#wg)" stroke="#6a4c18" stroke-width="1.2"/>
+        </svg>
+      </div>
+      <div class="hand-panel rh">
+        <div class="finger-slot"><div class="connector-line" id="cl3"></div><div class="finger-visual"><div class="fingertip" id="fp3">4</div><div class="finger-label">Дурдан</div></div></div>
+        <div class="finger-slot"><div class="connector-line" id="cl4"></div><div class="finger-visual"><div class="fingertip" id="fp4">5</div><div class="finger-label">Дунд</div></div></div>
+        <div class="finger-slot"><div class="connector-line" id="cl5"></div><div class="finger-visual"><div class="fingertip" id="fp5">6</div><div class="finger-label">Алга</div></div></div>
+        <div class="finger-slot"><div class="connector-line" id="cl6"></div><div class="finger-visual"><div class="fingertip" id="fp6">7</div><div class="finger-label">Чигч</div></div></div>
       </div>
     </div>
-    <button class="btn" id="btn-mic">🎤 Микрофон асаах</button>
+
+    <div class="flute-help">
+      🔊 Доорх картаас нот сонгоход хурууны байрлал гарч ирнэ<br>
+      Бишгүүр эсвэл нотыг дарж дуу сонсож болно
+    </div>
   </div>
+
 </div>
 
-<!-- Flute diagram -->
-<div id="main-scene">
-  <div class="hand-panel lh">
-    <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp0">1</div><div class="finger-label">Дурдан</div></div><div class="connector-line" id="cl0"></div></div>
-    <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp1">2</div><div class="finger-label">Дунд</div></div><div class="connector-line" id="cl1"></div></div>
-    <div class="finger-slot"><div class="finger-visual"><div class="fingertip" id="fp2">3</div><div class="finger-label">Алга</div></div><div class="connector-line" id="cl2"></div></div>
-  </div>
-  <div id="flute-container">
-    <svg id="flute-svg" viewBox="0 0 80 420" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
-          <stop offset="0%" stop-color="#a07838"/>
-          <stop offset="45%" stop-color="#d8b860"/>
-          <stop offset="100%" stop-color="#806020"/>
-        </linearGradient>
-      </defs>
-      <ellipse cx="40" cy="18" rx="13" ry="18" fill="url(#wg)" stroke="#6a4c18" stroke-width="1.2"/>
-      <rect x="26" y="34" width="28" height="6" rx="3" fill="#6a4c18" opacity=".8"/>
-      <ellipse cx="40" cy="48" rx="6" ry="5" fill="#0a0808" stroke="#6a4c18" stroke-width=".8"/>
-      <rect x="27" y="54" width="26" height="32" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
-      <rect x="24" y="86" width="32" height="10" rx="5" fill="#6a4c18"/>
-      <rect x="27" y="96" width="26" height="220" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
-      <circle id="fh0" cx="40" cy="122" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <circle id="fh1" cx="40" cy="146" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <circle id="fh2" cx="40" cy="170" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <circle id="fh3" cx="40" cy="194" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <circle id="fh4" cx="40" cy="218" r="6" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <circle id="fh5a" cx="34" cy="252" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <circle id="fh5b" cx="46" cy="252" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <rect x="24" y="316" width="32" height="10" rx="5" fill="#6a4c18"/>
-      <rect x="27" y="326" width="26" height="44" rx="2.5" fill="url(#wg)" stroke="#6a4c18" stroke-width=".9"/>
-      <circle id="fh6a" cx="34" cy="348" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <circle id="fh6b" cx="46" cy="348" r="4.2" fill="#0a0808" stroke="#6a4c18" stroke-width=".7"/>
-      <ellipse cx="40" cy="398" rx="18" ry="20" fill="url(#wg)" stroke="#6a4c18" stroke-width="1.2"/>
-    </svg>
-  </div>
-  <div class="hand-panel rh">
-    <div class="finger-slot"><div class="connector-line" id="cl3"></div><div class="finger-visual"><div class="fingertip" id="fp3">4</div><div class="finger-label">Дурдан</div></div></div>
-    <div class="finger-slot"><div class="connector-line" id="cl4"></div><div class="finger-visual"><div class="fingertip" id="fp4">5</div><div class="finger-label">Дунд</div></div></div>
-    <div class="finger-slot"><div class="connector-line" id="cl5"></div><div class="finger-visual"><div class="fingertip" id="fp5">6</div><div class="finger-label">Алга</div></div></div>
-    <div class="finger-slot"><div class="connector-line" id="cl6"></div><div class="finger-visual"><div class="fingertip" id="fp6">7</div><div class="finger-label">Чигч</div></div></div>
-  </div>
-</div>
-
+<!-- Нот сонгох -->
 <div class="guide-section">
-  <div class="guide-title">Нот сонгох</div>
+  <div class="guide-title">
+    <span>Нот сонгох</span>
+    <span class="guide-hint">🔊 Дарахад дуу гарна</span>
+  </div>
   <div class="guide-row" id="guide-row"></div>
 </div>
 <div class="legend">
@@ -276,88 +252,55 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
 
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
 <script>
-/* ═══════════════════════════════
-   NOTES
-═══════════════════════════════ */
+/* ═══════════════════════════════ NOTES ═══════════════════════════════ */
 const NOTES=[
-  {name:"До",  sym:"C",  freq:523,  holes:[1,1,1,1,1,1,1], color:"#e05050"},
-  {name:"Ре",  sym:"D",  freq:587,  holes:[1,1,1,1,1,1,0], color:"#d07030"},
-  {name:"Ми",  sym:"E",  freq:659,  holes:[1,1,1,1,1,0,0], color:"#b8a000"},
-  {name:"Фа",  sym:"F",  freq:698,  holes:[1,1,1,1,0,1,0], color:"#3a9e4a"},
-  {name:"Со",  sym:"G",  freq:784,  holes:[1,1,1,0,0,0,0], color:"#4a90d9"},
-  {name:"Ля",  sym:"A",  freq:880,  holes:[1,1,0,0,0,0,0], color:"#9a70d9"},
-  {name:"Си",  sym:"B",  freq:988,  holes:[1,0,0,0,0,0,0], color:"#d060a0"},
-  {name:"До'", sym:"C'", freq:1047, holes:[0,0,0,0,0,0,0], color:"#e03030"},
+  {name:"До",  sym:"C",  num:7, freq:523,  holes:[1,1,1,1,1,1,1], color:"#e05050"},
+  {name:"Ре",  sym:"D",  num:6, freq:587,  holes:[1,1,1,1,1,1,0], color:"#d07030"},
+  {name:"Ми",  sym:"E",  num:5, freq:659,  holes:[1,1,1,1,1,0,0], color:"#b8a000"},
+  {name:"Фа",  sym:"F",  num:4, freq:698,  holes:[1,1,1,1,0,1,0], color:"#3a9e4a"},
+  {name:"Со",  sym:"G",  num:3, freq:784,  holes:[1,1,1,0,0,0,0], color:"#4a90d9"},
+  {name:"Ля",  sym:"A",  num:2, freq:880,  holes:[1,1,0,0,0,0,0], color:"#9a70d9"},
+  {name:"Си",  sym:"B",  num:1, freq:988,  holes:[1,0,0,0,0,0,0], color:"#d060a0"},
+  {name:"До'", sym:"C'", num:7, freq:1047, holes:[0,0,0,0,0,0,0], color:"#e03030"},
 ];
-let targetNote=null, autoPlaying=false, autoTimer=null;
-let audioCtx=null, analyser=null;
-let camStream=null, poseInstance=null, poseInterval=null, poseSending=false;
-let waveAnim=null, pitchInterval=null;
+let targetNote=null,autoPlaying=false,autoTimer=null;
+let camStream=null,poseInstance=null,poseInterval=null,poseSending=false;
 
-/* ═══════════════════════════════
-   PITCH
-═══════════════════════════════ */
-function getCtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
-function detectPitch(buf,sr){
-  const SIZE=buf.length,MAX_S=Math.floor(sr/80),MIN_S=Math.floor(sr/1200);
-  let rms=0;for(let i=0;i<SIZE;i++)rms+=buf[i]*buf[i];rms=Math.sqrt(rms/SIZE);
-  if(rms<0.008)return -1;
-  let r1=0,r2=SIZE-1;
-  for(let i=0;i<SIZE/2;i++)if(Math.abs(buf[i])>.2){r1=i;break;}
-  for(let i=SIZE-1;i>SIZE/2;i--)if(Math.abs(buf[i])>.2){r2=i;break;}
-  const b2=buf.slice(r1,r2+1),c=new Float32Array(b2.length).fill(0);
-  for(let i=0;i<b2.length;i++)for(let j=0;j<b2.length-i;j++)c[i]+=b2[j]*b2[j+i];
-  let d=0;while(d<c.length-1&&c[d]>c[d+1])d++;
-  let maxVal=-Infinity,maxPos=-1;
-  for(let i=d;i<Math.min(MAX_S,c.length);i++)if(i>=MIN_S&&c[i]>maxVal){maxVal=c[i];maxPos=i;}
-  if(maxPos<0)return -1;
-  const x0=c[maxPos-1]||0,x2=c[maxPos+1]||0;
-  return sr/(maxPos-(x2-x0)/(2*(2*c[maxPos]-x2-x0)||1));
+/* ═══════════════════════════════ AUDIO — нотын дуу ═══════════════════════════════ */
+let audioCtx=null;
+function getAudioCtx(){
+  if(!audioCtx) audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  return audioCtx;
 }
-function freqToNote(freq){
-  if(freq<=0)return null;
-  let best=null,bd=999;
-  NOTES.forEach(n=>{const d=Math.abs(freq-n.freq);if(d<bd){bd=d;best=n;}});
-  return bd>120?null:{note:best,diff:freq-best.freq};
+function playNote(freq){
+  const ac=getAudioCtx(); const t=ac.currentTime;
+  const osc=ac.createOscillator(),gain=ac.createGain();
+  osc.type='sine'; osc.frequency.setValueAtTime(freq,t);
+  const osc2=ac.createOscillator(),gain2=ac.createGain();
+  osc2.type='triangle'; osc2.frequency.setValueAtTime(freq*2,t);
+  gain2.gain.setValueAtTime(0.1,t);
+  osc.connect(gain); osc2.connect(gain2);
+  gain.connect(ac.destination); gain2.connect(ac.destination);
+  gain.gain.setValueAtTime(0,t);
+  gain.gain.linearRampToValueAtTime(0.5,t+0.05);
+  gain.gain.exponentialRampToValueAtTime(0.3,t+0.3);
+  gain.gain.exponentialRampToValueAtTime(0.001,t+1.2);
+  gain2.gain.setValueAtTime(0,t);
+  gain2.gain.linearRampToValueAtTime(0.08,t+0.05);
+  gain2.gain.exponentialRampToValueAtTime(0.001,t+1.2);
+  osc.start(t); osc.stop(t+1.3);
+  osc2.start(t); osc2.stop(t+1.3);
 }
-async function startMic(){
-  try{
-    const ms=await navigator.mediaDevices.getUserMedia({audio:true,video:false});
-    const ac=getCtx();analyser=ac.createAnalyser();analyser.fftSize=4096;
-    ac.createMediaStreamSource(ms).connect(analyser);
-    const buf=new Float32Array(analyser.fftSize);
-    const wc=document.getElementById('waveform'),wx=wc.getContext('2d');
-    const bb=new Uint8Array(analyser.fftSize);
-    (function dw(){waveAnim=requestAnimationFrame(dw);analyser.getByteTimeDomainData(bb);
-      wx.fillStyle='#060810';wx.fillRect(0,0,wc.width,wc.height);
-      wx.lineWidth=1.5;wx.strokeStyle='#3a7fd4';wx.beginPath();
-      const sw=wc.width/bb.length;let x=0;
-      for(let i=0;i<bb.length;i++){const v=bb[i]/128,y=v*wc.height/2;i===0?wx.moveTo(x,y):wx.lineTo(x,y);x+=sw;}
-      wx.stroke();})();
-    pitchInterval=setInterval(()=>{analyser.getFloatTimeDomainData(buf);updatePitchUI(detectPitch(buf,getCtx().sampleRate));},80);
-    const bm=document.getElementById('btn-mic');bm.textContent='🎤 Асаалттай';bm.classList.add('on');
-  }catch(e){alert('Микрофоны зөвшөөрөл өгнө үү!\n'+e.message);}
-}
-function updatePitchUI(freq){
-  const det=freqToNote(freq);
-  const dn=document.getElementById('det-note'),df=document.getElementById('det-freq');
-  const ve=document.getElementById('verdict'),tb=document.getElementById('tuner-bar');
-  if(!det||freq<=0){dn.textContent='—';dn.style.color='#334';df.textContent='0 Гц';ve.textContent='Дуу илрэхгүй';ve.className='';tb.style.left='50%';return;}
-  dn.textContent=det.note.sym;dn.style.color=det.note.color;df.textContent=Math.round(freq)+' Гц';
-  const cents=1200*Math.log2(freq/det.note.freq);
-  const pct=Math.min(100,Math.max(0,50+cents));tb.style.left=pct+'%';
-  tb.style.background=Math.abs(cents)<10?'#2a8e4a':Math.abs(cents)<25?'#b07020':'#c04040';
-  if(targetNote){
-    if(det.note.sym===targetNote.sym){
-      if(Math.abs(cents)<15){ve.textContent='✓ Зөв! Маш сайн!';ve.className='correct';highlightFluteHoles(targetNote.holes,'#2a8e4a');}
-      else{ve.textContent=cents>0?'↑ Арай дээгүүр':'↓ Арай доогуур';ve.className='close';}
-    }else{ve.textContent='✗ '+det.note.sym+' — '+targetNote.sym+' биш';ve.className='wrong';highlightFluteHoles(targetNote.holes,'#c04040');}
-  }else{ve.textContent=det.note.name+' нот';ve.className='';showHolesForNote(det.note);}
+function animateEl(el){
+  if(!el) return;
+  el.classList.remove('playing');
+  void el.offsetWidth;
+  el.classList.add('playing');
+  setTimeout(()=>el.classList.remove('playing'),700);
 }
 
-/* ═══════════════════════════════
-   AI STATUS
-═══════════════════════════════ */
+/* ═══════════════════════════════ AI STATUS ═══════════════════════════════ */
 function setAIStatus(s,t){
   const bar=document.getElementById('ai-status-bar'),pulse=document.getElementById('ai-pulse'),txt=document.getElementById('ai-status-text');
   bar.className=s==='loading'?'loading':s==='ready'?'ready':s==='error'?'error':'';
@@ -365,9 +308,7 @@ function setAIStatus(s,t){
   txt.textContent=t;
 }
 
-/* ═══════════════════════════════
-   CAMERA + MEDIAPIPE
-═══════════════════════════════ */
+/* ═══════════════════════════════ CAMERA + MEDIAPIPE ═══════════════════════════════ */
 async function startCam(){
   try{
     camStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'},audio:false});
@@ -401,40 +342,10 @@ function initPose(vid,ov){
   },120);
 }
 
-/* ═══════════════════════════════════════════════════════════
-   FRONTAL DETECTION — ГОЛ ЛОГИК
-   
-   Хэрэглэгч камерын УРДААС шууд харж байгаа эсэхийг
-   4 хэмжүүрээр шалгана:
-
-   1. FACING (Урагш эргэсэн байдал):
-      - Хоёр мөрний ӨРГӨН (lSho.x - rSho.x) харьцааг
-        хоёр мөрний ЗАЙТАЙ харьцуулна
-      - Хажуугаас харахад: нэг мөр нуугдаж, өргөн багасна
-      - Урдаас харахад: хоёр мөр тэгш харагдана
-      - Шалгуур: shoulderWidth / faceWidth > 0.55
-
-   2. CENTER (Дундаас):
-      - Хамрын X байрлал хоёр мөрний дундтай тохирч байгаа эсэх
-      - Хажуу тийш эргэхэд хамар нэг мөрний ойролцоо очно
-      - Шалгуур: |nose.x - shoulderMid.x| < 0.10
-
-   3. TILT (Толгойн тэгш байдал):
-      - Хоёр чихний Y координатын зөрүү
-      - Толгой хазайсан = нэг чих нөгөөгөөсөө өндөр байна
-      - Шалгуур: |lEar.y - rEar.y| < 0.06
-
-   4. DISTANCE (Зай):
-      - Нүүрний хэмжээ (чихнүүдийн зай) камераас хэр холд байгаа
-      - Хэт ойр / хол байвал тааруу
-      - Шалгуур: earSpan 0.10..0.45 мужид байна
-═══════════════════════════════════════════════════════════ */
 function processPose(results, overlay){
   const ctx=overlay.getContext('2d');
   const W=overlay.width, H=overlay.height;
   ctx.clearRect(0,0,W,H);
-
-  /* Canvas transform:scaleX(-1) тул координат шууд */
   const px=x=>x*W, py=y=>y*H;
   const vis=p=>(p&&(p.visibility||0)>0.35);
 
@@ -447,7 +358,6 @@ function processPose(results, overlay){
   }
 
   const lm=results.poseLandmarks;
-  // MediaPipe landmark indices
   const NOSE=0, L_EAR=7, R_EAR=8, L_EYE=2, R_EYE=5;
   const L_SHLDR=11, R_SHLDR=12, L_ELBOW=13, R_ELBOW=14;
   const L_WRIST=15, R_WRIST=16, L_HIP=23, R_HIP=24;
@@ -459,50 +369,26 @@ function processPose(results, overlay){
   const lWri=lm[L_WRIST], rWri=lm[R_WRIST];
   const lHip=lm[L_HIP], rHip=lm[R_HIP];
 
-  /* ─────────────────────────────────────────────
-     1. УРАГШ ЭРГЭСЭН БАЙДАЛ
-     Мөрний өргөн / нүүрний өргөний харьцаа
-     Урдаас: мөрний өргөн ~ 2x нүүрний өргөн
-     Хажуугаас: мөрний өргөн багасна
-  ───────────────────────────────────────────── */
   const shoulderWidth = Math.abs(lSho.x - rSho.x);
   const faceWidth = Math.abs((vis(lEar)?lEar.x:lEye.x) - (vis(rEar)?rEar.x:rEye.x));
-  
-  // Мөрний өргөнийг нүүрний өргөнтэй харьцуулна
-  // Урдаас харахад: shoulderWidth / faceWidth ≈ 1.5–2.5
-  // Хажуугаас: энэ харьцаа 0.5 орчим болно
   const facingRatio = faceWidth > 0.01 ? shoulderWidth / faceWidth : 0;
-  // 1.2-аас дээш = урагш, 0.6-аас доош = хажуу
   const facingScore = Math.min(100, Math.max(0, (facingRatio - 0.5) / (2.0 - 0.5) * 100));
   const facingOk = facingScore >= 55;
 
-  /* ─────────────────────────────────────────────
-     2. ДУНДААС — хамрын X хоёр мөрний дундтай
-  ───────────────────────────────────────────── */
   const shoulderMidX = (lSho.x + rSho.x) / 2;
   const noseCenterOff = Math.abs(nose.x - shoulderMidX);
-  // 0 = яг дунд, 0.15+ = хэт хажуу
   const centerScore = Math.min(100, Math.max(0, (1 - noseCenterOff / 0.15) * 100));
   const centerOk = centerScore >= 60;
 
-  /* ─────────────────────────────────────────────
-     3. ТОЛГОЙН ТЭГШ БАЙДАЛ — чихнүүдийн Y зөрүү
-  ───────────────────────────────────────────── */
   const earTilt = (vis(lEar) && vis(rEar))
     ? Math.abs(lEar.y - rEar.y)
     : (vis(lEye) && vis(rEye)) ? Math.abs(lEye.y - rEye.y) * 0.7 : 0.05;
-  // 0 = тэгш, 0.08+ = хазайсан
   const tiltScore = Math.min(100, Math.max(0, (1 - earTilt / 0.10) * 100));
   const tiltOk = tiltScore >= 60;
 
-  /* ─────────────────────────────────────────────
-     4. КАМЕРААС ЗАЙ — нүүрний хэмжээ
-  ───────────────────────────────────────────── */
   const earSpan = (vis(lEar) && vis(rEar))
     ? Math.abs(lEar.x - rEar.x)
     : faceWidth * 0.8;
-  // Хэт ойр: earSpan > 0.40, хэт хол: earSpan < 0.08
-  // Тохиромжтой: 0.12–0.38
   const idealMin=0.10, idealMax=0.40;
   let distScore;
   if(earSpan < idealMin) distScore = earSpan / idealMin * 80;
@@ -511,10 +397,6 @@ function processPose(results, overlay){
   distScore = Math.min(100, Math.max(0, distScore));
   const distOk = distScore >= 55;
 
-  /* ─────────────────────────────────────────────
-     НИЙТ ОНООг тооцно
-     Facing-д хамгийн их жин өгнө
-  ───────────────────────────────────────────── */
   const totalScore = Math.round(facingScore * 0.40 + centerScore * 0.25 + tiltScore * 0.20 + distScore * 0.15);
 
   updateFrontalUI({
@@ -525,9 +407,6 @@ function processPose(results, overlay){
     dist:   { score: Math.round(distScore),    ok: distOk   },
   });
 
-  /* ══════════════════════════════════════════
-     OVERLAY ЗУРАХ
-  ══════════════════════════════════════════ */
   const overallOk  = totalScore >= 70;
   const overallWarn= totalScore >= 45;
   const mainColor  = overallOk ? '#2a8e4a' : (overallWarn ? '#b07020' : '#c04040');
@@ -536,7 +415,6 @@ function processPose(results, overlay){
   ctx.save();
   ctx.lineCap='round';ctx.lineJoin='round';
 
-  /* Биеийн хэлбэр */
   if(vis(lSho)&&vis(rSho)&&vis(lHip)&&vis(rHip)){
     const s=W*0.012;
     ctx.beginPath();
@@ -549,7 +427,6 @@ function processPose(results, overlay){
     ctx.fill();ctx.strokeStyle=mainColor;ctx.lineWidth=2;ctx.stroke();
   }
 
-  /* Гарнууд */
   [[lSho,lElb],[rSho,rElb],[lElb,lWri],[rElb,rWri]].forEach(([a,b])=>{
     if(!vis(a)||!vis(b))return;
     const t=W*0.030, x1=px(a.x),y1=py(a.y),x2=px(b.x),y2=py(b.y);
@@ -563,7 +440,6 @@ function processPose(results, overlay){
     ctx.fill();ctx.strokeStyle=mainColor;ctx.lineWidth=1.8;ctx.stroke();
   });
 
-  /* Мөрний cap */
   [lSho,rSho].forEach(s=>{
     if(!vis(s))return;
     ctx.beginPath();ctx.arc(px(s.x),py(s.y),W*0.032,0,Math.PI*2);
@@ -571,7 +447,6 @@ function processPose(results, overlay){
     ctx.fill();ctx.strokeStyle=mainColor;ctx.lineWidth=2;ctx.stroke();
   });
 
-  /* Бугуйнууд */
   [lWri,rWri].forEach(w=>{
     if(!vis(w))return;
     ctx.beginPath();ctx.arc(px(w.x),py(w.y),W*0.022,0,Math.PI*2);
@@ -579,7 +454,6 @@ function processPose(results, overlay){
     ctx.fill();ctx.strokeStyle=mainColor;ctx.lineWidth=2;ctx.stroke();
   });
 
-  /* Нүүрний тойрог */
   if(vis(nose)){
     const nx=px(nose.x),ny=py(nose.y),hr=W*0.058;
     ctx.beginPath();ctx.arc(nx,ny-hr*0.25,hr,0,Math.PI*2);
@@ -591,18 +465,15 @@ function processPose(results, overlay){
     ctx.fillStyle=mainColor;ctx.fill();
   }
 
-  /* Мөрний өргөн шугам — facing байдлыг харуулна */
   if(vis(lSho)&&vis(rSho)){
     const sx1=px(lSho.x),sy1=py(lSho.y),sx2=px(rSho.x),sy2=py(rSho.y);
     ctx.beginPath();ctx.moveTo(sx1,sy1);ctx.lineTo(sx2,sy2);
     ctx.strokeStyle=facingOk?'#2a8e4a':'#c04040';ctx.lineWidth=3;
     ctx.setLineDash(facingOk?[]:[6,3]);ctx.stroke();ctx.setLineDash([]);
-    // Тэмдэглэгээ
     const midX=(sx1+sx2)/2,midY=(sy1+sy2)/2;
     drawBadge(ctx,midX,midY-18,facingOk?'✓ Урагш':'✗ Хажуу',facingOk);
   }
 
-  /* Нүүр—дунд шугам */
   if(vis(nose)&&vis(lSho)&&vis(rSho)){
     const mx2=(px(lSho.x)+px(rSho.x))/2;
     ctx.beginPath();ctx.moveTo(mx2,py(lSho.y));ctx.lineTo(px(nose.x),py(nose.y)-W*0.04);
@@ -610,12 +481,10 @@ function processPose(results, overlay){
     ctx.lineWidth=1.5;ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
   }
 
-  /* Хажуу шалгах тэмдэглэгээ */
   if(vis(rWri)){
     drawBadge(ctx,px(rWri.x)+W*0.04,py(rWri.y),tiltOk?'✓ Тэгш':'✗ Хазайсан',tiltOk);
   }
 
-  /* Нийт оноо badge */
   if(vis(nose)){
     const nx=px(nose.x),ny=py(nose.y);
     const bw=70,bh=24,bx=Math.min(W-bw-4,Math.max(4,nx-bw/2)),by=Math.max(4,ny-W*0.09-bh);
@@ -627,7 +496,6 @@ function processPose(results, overlay){
     ctx.textAlign='left';
   }
 
-  /* Доод мессеж */
   let msg,mc;
   if(overallOk){msg='✓ Камерын урдаас зөв харж байна!';mc='#2a8e4a';}
   else if(!facingOk){msg='↺ Камераас урагш эргэнэ үү';mc='#c04040';}
@@ -650,9 +518,6 @@ function drawBadge(ctx,x,y,text,ok){
   ctx.fillText(text,x,y+4);ctx.textAlign='left';
 }
 
-/* ─────────────────────────────────────────────
-   FRONTAL UI UPDATE
-───────────────────────────────────────────── */
 function updateFrontalUI(data){
   if(!data){
     document.getElementById('frontal-score-num').textContent='—';
@@ -660,23 +525,15 @@ function updateFrontalUI(data){
     document.getElementById('frontal-score-wrap').className='';
     document.getElementById('frontal-score-label').firstChild.textContent='Хүн илрэхгүй байна';
     document.getElementById('frontal-score-hint').textContent='Камерын өмнө зогсоно уу';
-    ['facing','center','tilt','dist'].forEach(k=>{
-      setCheckUI(k,0,false);
-    });
+    ['facing','center','tilt','dist'].forEach(k=>{setCheckUI(k,0,false);});
     return;
   }
-
   const {total,facing,center,tilt,dist}=data;
   const cls=total>=70?'ok':total>=45?'warn':'bad';
   const el=document.getElementById('frontal-score-num');
   el.textContent=total+'%';el.className=cls;
   document.getElementById('frontal-score-wrap').className=cls;
-
-  const hints={
-    ok:'Урдаас яг зөв харж байна!',
-    warn:'Бага зэрэг засах хэрэгтэй',
-    bad:'Камерын урдаас шууд харна уу',
-  };
+  const hints={ok:'Урдаас яг зөв харж байна!',warn:'Бага зэрэг засах хэрэгтэй',bad:'Камерын урдаас шууд харна уу'};
   const subHints=[];
   if(!facing.ok) subHints.push('урагш эрг');
   if(!center.ok) subHints.push('дунд руу ор');
@@ -684,7 +541,6 @@ function updateFrontalUI(data){
   if(!dist.ok)   subHints.push('зай тохируул');
   document.getElementById('frontal-score-label').firstChild.textContent=hints[cls];
   document.getElementById('frontal-score-hint').textContent=subHints.length?'→ '+subHints.join(', '):'';
-
   setCheckUI('facing',facing.score,facing.ok,Math.round(facing.score)+'%');
   setCheckUI('center',center.score,center.ok,Math.round(center.score)+'%');
   setCheckUI('tilt',  tilt.score,  tilt.ok,  Math.round(tilt.score)+'%');
@@ -702,9 +558,7 @@ function setCheckUI(key,score,ok,valText){
   if(cv&&valText)cv.textContent=valText;
 }
 
-/* ═══════════════════════════════
-   FLUTE UI
-═══════════════════════════════ */
+/* ═══════════════════════════════ FLUTE UI ═══════════════════════════════ */
 function highlightFluteHoles(holes,color){
   for(let i=0;i<5;i++){const el=document.getElementById('fh'+i);el.setAttribute('fill',holes[i]?color:'#0a0808');el.setAttribute('r',holes[i]?'4.5':'6');}
   ['fh5a','fh5b'].forEach(id=>document.getElementById(id).setAttribute('fill',holes[5]?color:'#0a0808'));
@@ -718,32 +572,57 @@ function showHolesForNote(note){
     else{fp.classList.remove('pressed');if(cl)cl.classList.remove('active');}
   }
 }
-function setTarget(note){
+function setTarget(note,el){
   targetNote=note;
-  document.getElementById('target-note-name').textContent=note.sym+' — '+note.name;
-  document.getElementById('target-note-name').style.color=note.color;
+  document.getElementById('target-text').textContent=note.sym+' — '+note.name;
+  document.getElementById('target-text').style.color=note.color;
+  const numBadge=document.getElementById('target-num');
+  numBadge.textContent=note.num;numBadge.style.display='inline-flex';
+  numBadge.style.color=note.color;
+  numBadge.style.borderColor=note.color+'66';
+  numBadge.style.background=note.color+'18';
   document.getElementById('target-hint').textContent='Нүхний байрлал харж үлээнэ үү';
   document.querySelectorAll('.guide-card').forEach(c=>c.classList.toggle('target',c.dataset.sym===note.sym));
   showHolesForNote(note);
+  // Дуу гаргана
+  playNote(note.freq);
+  if(el) animateEl(el);
 }
 
 /* Guide cards */
 const gr=document.getElementById('guide-row');
 NOTES.forEach(note=>{
   const card=document.createElement('div');card.className='guide-card';card.dataset.sym=note.sym;
-  const gn=document.createElement('div');gn.className='gc-note';gn.textContent=note.sym;gn.style.color=note.color;
-  const gh=document.createElement('div');gh.className='gc-holes';
-  note.holes.forEach(h=>{const d=document.createElement('div');d.className='gc-dot'+(h?' filled':'');gh.appendChild(d);});
-  const gname=document.createElement('div');gname.className='gc-name';gname.textContent=note.name;
-  card.appendChild(gn);card.appendChild(gh);card.appendChild(gname);
-  card.addEventListener('click',()=>{if(!autoPlaying)setTarget(note);});
+  card.innerHTML=`
+    <div class="gc-num">№${note.num}</div>
+    <div class="gc-note" style="color:${note.color}">${note.sym}</div>
+    <div class="gc-holes">${note.holes.map(h=>`<div class="gc-dot${h?' filled':''}"></div>`).join('')}</div>
+    <div class="gc-name">${note.name}</div>
+  `;
+  card.addEventListener('click',function(){
+    if(autoPlaying)return;
+    setTarget(note,this);
+  });
   gr.appendChild(card);
+});
+
+/* Бишгүүр SVG дээр дарахад идэвхтэй нотын дуу */
+document.getElementById('flute-svg').addEventListener('click',function(){
+  if(targetNote){
+    playNote(targetNote.freq);
+    animateEl(this);
+  }
 });
 
 document.getElementById('btn-scale').addEventListener('click',function(){
   if(autoPlaying)return;autoPlaying=true;this.classList.add('on');
   let i=0;const btn=this;
-  function next(){if(i>=NOTES.length){autoPlaying=false;btn.classList.remove('on');return;}setTarget(NOTES[i++]);autoTimer=setTimeout(next,1200);}
+  function next(){
+    if(i>=NOTES.length){autoPlaying=false;btn.classList.remove('on');return;}
+    const card=document.querySelector(`[data-sym="${NOTES[i].sym}"]`);
+    setTarget(NOTES[i++],card);
+    autoTimer=setTimeout(next,1200);
+  }
   next();
 });
 
@@ -751,19 +630,15 @@ document.getElementById('btn-reset').addEventListener('click',()=>{
   autoPlaying=false;if(autoTimer)clearTimeout(autoTimer);
   document.querySelectorAll('.btn').forEach(b=>b.classList.remove('on'));
   targetNote=null;
-  document.getElementById('target-note-name').textContent='— сонгоно уу';
-  document.getElementById('target-note-name').style.color='#b07020';
+  document.getElementById('target-text').textContent='— сонгоно уу';
+  document.getElementById('target-text').style.color='#b07020';
+  document.getElementById('target-num').style.display='none';
   document.getElementById('target-hint').textContent='Доорх картаас нот сонгоод бишгүүрээ үлээнэ үү';
   document.querySelectorAll('.guide-card').forEach(c=>c.classList.remove('target'));
   highlightFluteHoles([0,0,0,0,0,0,0],'#0a0808');
   for(let i=0;i<7;i++){document.getElementById('fp'+i).classList.remove('pressed');const cl=document.getElementById('cl'+i);if(cl)cl.classList.remove('active');}
-  document.getElementById('det-note').textContent='—';document.getElementById('det-note').style.color='#334';
-  document.getElementById('det-freq').textContent='0 Гц';
-  document.getElementById('verdict').textContent='Хүлээж байна...';document.getElementById('verdict').className='';
-  document.getElementById('tuner-bar').style.left='50%';
 });
 
-document.getElementById('btn-mic').addEventListener('click',startMic);
 document.getElementById('btn-cam').addEventListener('click',startCam);
 </script>
 </body>
