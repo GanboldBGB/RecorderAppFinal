@@ -796,13 +796,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\notes_lesson.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-SK9zcm0xijFBZkd0FetMO1ZiBptR9ba0VdOB6K3qN9g="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"42024"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022SK9zcm0xijFBZkd0FetMO1ZiBptR9ba0VdOB6K3qN9g=\u0022"},{"Name":"Last-Modified","Value":"Fri, 01 May 2026 02:28:56 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"42024"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022SK9zcm0xijFBZkd0FetMO1ZiBptR9ba0VdOB6K3qN9g=\u0022"},{"Name":"Last-Modified","Value":"Wed, 06 May 2026 03:06:48 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/RecorderAppFinal/notes_lesson.sjc7g9m1ro.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\notes_lesson.html'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"sjc7g9m1ro"},{"Name":"integrity","Value":"sha256-SK9zcm0xijFBZkd0FetMO1ZiBptR9ba0VdOB6K3qN9g="},{"Name":"label","Value":"_content/RecorderAppFinal/notes_lesson.html"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"42024"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022SK9zcm0xijFBZkd0FetMO1ZiBptR9ba0VdOB6K3qN9g=\u0022"},{"Name":"Last-Modified","Value":"Fri, 01 May 2026 02:28:56 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"42024"},{"Name":"Content-Type","Value":"text/html"},{"Name":"ETag","Value":"\u0022SK9zcm0xijFBZkd0FetMO1ZiBptR9ba0VdOB6K3qN9g=\u0022"},{"Name":"Last-Modified","Value":"Wed, 06 May 2026 03:06:48 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/RecorderAppFinal/posture_coach.html">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\posture_coach.html'))</AssetFile>

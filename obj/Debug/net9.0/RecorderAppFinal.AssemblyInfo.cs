@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RecorderAppFinal")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a6ab6993127860c8c8a0588af4d8fa6f64e6fc7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d94ffba9a9045e4037d969d070e771129cf2e175")]
 [assembly: System.Reflection.AssemblyProductAttribute("RecorderAppFinal")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RecorderAppFinal")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
