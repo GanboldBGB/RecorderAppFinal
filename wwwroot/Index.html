@@ -1,0 +1,895 @@
+﻿<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Бишгүүр Сургалт</title>
+    <style>
+        :root {
+            --bg:  #0c0e14;
+            --s1:  #13151d;
+            --s2:  #191c28;
+            --s3:  #1f2235;
+            --bd:  #252840;
+            --ac:  #5b9cf6;
+            --tx:  #eef0f8;
+            --tx2: #9298b8;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body, html {
+            background: var(--bg);
+            color: var(--tx);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-wrapper { display: flex; height: 100vh; }
+
+        /* ── Sidebar ── */
+        .sidebar {
+            width: 260px;
+            background: var(--s1);
+            border-right: 1px solid var(--bd);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+        .sidebar::-webkit-scrollbar { width: 4px; }
+        .sidebar::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 3px; }
+
+        .sidebar-header {
+            display: flex; align-items: center; gap: 12px;
+            padding: 0 10px 30px;
+        }
+        .app-logo    { font-size: 28px; }
+        .app-title   { font-weight: 700; font-size: 18px; color: var(--tx); }
+        .app-subtitle{ font-size: 12px; color: var(--tx2); }
+
+        .sidebar-label {
+            font-size: 11px; text-transform: uppercase;
+            letter-spacing: 1px; color: var(--tx2);
+            margin: 20px 0 10px 10px;
+        }
+
+        .nav-menu { display: flex; flex-direction: column; gap: 5px; }
+
+        .nav-btn {
+            display: flex; align-items: center; gap: 15px;
+            padding: 12px 15px;
+            background: transparent; border: none;
+            color: var(--tx2); border-radius: 10px;
+            cursor: pointer; text-align: left;
+            transition: 0.2s; font-size: 15px; width: 100%;
+        }
+        .nav-btn:hover  { background: var(--s2); color: var(--tx); }
+        .nav-btn.active {
+            background: var(--s3); color: var(--ac);
+            border: 1px solid var(--bd);
+        }
+
+        /* ══════ ШИНЭ — Багийн танилцуулга & Гэрчилгээ товчнууд ══════ */
+        .sb-special {
+            margin-top: auto;
+            padding: 16px 4px 4px;
+            border-top: 1px solid var(--bd);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .sb-special-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 10px;
+            border: 1px solid #2a4070;
+            background: linear-gradient(135deg, #121e36, #111528);
+            color: #7ab8f5;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            text-align: left;
+            transition: all .2s;
+        }
+        .sb-special-btn:hover {
+            background: linear-gradient(135deg, #1a3060, #181d40);
+            border-color: #4a90d9;
+            color: #9ac8f8;
+            transform: translateX(2px);
+        }
+        .sb-special-btn.gold {
+            border-color: #503818;
+            background: linear-gradient(135deg, #201408, #1a1206);
+            color: #d8b840;
+        }
+        .sb-special-btn.gold:hover {
+            background: linear-gradient(135deg, #2e1e0c, #22180a);
+            border-color: #c09828;
+            color: #f0d060;
+        }
+
+        /* ══════ MODAL ══════ */
+        .lm-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.78);
+            backdrop-filter: blur(8px);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            animation: fadeIn .2s ease;
+        }
+        .lm-overlay.open { display: flex; }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+
+        .lm-box {
+            background: #0f111a;
+            border: 1px solid #272a3e;
+            border-radius: 18px;
+            width: 100%;
+            max-width: 720px;
+            max-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 28px 70px rgba(0,0,0,.75);
+            animation: slideUp .3s cubic-bezier(.34,1.56,.64,1);
+        }
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        .lm-header {
+            padding: 18px 24px;
+            border-bottom: 1px solid #1a1c2c;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+        .lm-badge {
+            font-size: 9px; font-weight: 700; letter-spacing: .1em;
+            text-transform: uppercase; padding: 3px 9px; border-radius: 5px;
+            display: inline-block; margin-bottom: 6px;
+        }
+        .lm-badge.blue { background: #0a1828; color: #4a90d9; border: 1px solid #1a3050; }
+        .lm-badge.gold { background: #1a1006; color: #c89828; border: 1px solid #302010; }
+        .lm-title { font-size: 20px; font-weight: 700; line-height: 1.2; }
+        .lm-close {
+            width: 32px; height: 32px; border-radius: 8px;
+            border: 1px solid #20222e; background: #13151e;
+            color: #888; font-size: 16px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: .15s;
+        }
+        .lm-close:hover { background: #1c1e2c; color: #e0e0e8; transform: rotate(90deg); }
+
+        .lm-body {
+            padding: 20px 24px 24px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .lm-body::-webkit-scrollbar { width: 5px; }
+        .lm-body::-webkit-scrollbar-thumb { background: #252838; border-radius: 3px; }
+
+        /* ── ТЕАМ ── */
+        .team-hero {
+            display: flex; align-items: center; gap: 14px;
+            padding: 14px 16px; margin-bottom: 14px;
+            background: linear-gradient(135deg, #080d1a, #0c1120);
+            border-radius: 12px; border: 1px solid #151e36;
+        }
+        .team-hero-icon { font-size: 36px; flex-shrink: 0; }
+        .team-hero-name { font-size: 16px; font-weight: 700; color: #7ab8f5; }
+        .team-hero-sub  { font-size: 11px; color: #5a6080; margin-top: 3px; }
+        .team-count-pill {
+            display: inline-flex; align-items: center; gap: 4px;
+            background: #0a1828; border: 1px solid #1a3050; border-radius: 20px;
+            padding: 3px 10px; font-size: 11px; color: #4a90d9; margin-top: 6px;
+        }
+
+        .search-wrap { position: relative; margin-bottom: 12px; }
+        .search-input {
+            width: 100%; padding: 9px 12px 9px 36px;
+            background: #080a10; border: 1px solid #1e2030;
+            border-radius: 9px; color: #d8d8e8;
+            font-size: 13px; font-family: inherit; outline: none;
+            transition: border-color .15s;
+        }
+        .search-input:focus { border-color: #3a70b0; }
+        .search-input::placeholder { color: #444; }
+        .search-icon {
+            position: absolute; left: 12px; top: 50%;
+            transform: translateY(-50%); font-size: 13px; pointer-events: none;
+            color: #555;
+        }
+
+        .team-table-wrap {
+            border-radius: 10px;
+            border: 1px solid #181a26;
+            background: #0a0c14;
+        }
+        .team-table { width: 100%; border-collapse: collapse; }
+        .team-table thead { background: #0c0e16; }
+        .team-table th {
+            padding: 10px 12px; font-size: 10px; font-weight: 700;
+            letter-spacing: .08em; text-transform: uppercase;
+            color: #5a6080; text-align: left;
+            border-bottom: 1px solid #1a1c28;
+            position: sticky; top: 0;
+            background: #0c0e16;
+        }
+        .team-table th:first-child { width: 36px; text-align: center; }
+        .t-row { border-bottom: 1px solid #0e1018; transition: background .12s; }
+        .t-row:last-child { border-bottom: none; }
+        .t-row:hover { background: #111320; }
+        .t-row td { padding: 10px 12px; font-size: 13px; vertical-align: middle; }
+        .t-row td:first-child { text-align: center; }
+        .t-num {
+            font-size: 10px; color: #3a3c50; font-family: monospace;
+            background: #0c0e16; border-radius: 4px; padding: 2px 6px;
+        }
+        .t-avatar {
+            width: 28px; height: 28px; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 11px; font-weight: 700; flex-shrink: 0;
+        }
+        .t-name { font-weight: 600; color: #ccccd8; display: flex; align-items: center; gap: 8px; }
+        .t-school { color: #5a6a8a; font-size: 12px; }
+        .t-subject {
+            display: inline-block; padding: 3px 9px; border-radius: 5px;
+            font-size: 11px; font-weight: 600;
+        }
+        .t-no-result { text-align: center; padding: 30px; color: #3a3c50; font-size: 13px; }
+
+        /* ── ГЭРЧИЛГЭЭ ── */
+        .cert-card {
+            background: linear-gradient(160deg, #0e0c06, #14100a, #0e0c06);
+            border: 2px solid #32240a;
+            border-radius: 14px; padding: 24px;
+            position: relative; overflow: hidden;
+        }
+        .cert-card::before {
+            content: '';
+            position: absolute; top: -50px; right: -50px;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, rgba(200,152,40,.12), transparent 70%);
+            pointer-events: none;
+        }
+        .cert-seal {
+            position: absolute; top: 18px; right: 20px;
+            font-size: 36px; opacity: .55;
+        }
+        .cert-tag {
+            font-size: 10px; font-weight: 700; letter-spacing: .14em;
+            color: #c09828; text-transform: uppercase; margin-bottom: 10px;
+        }
+        .cert-school-name {
+            font-size: 26px; font-weight: 800; color: #f0c840;
+            letter-spacing: .04em; margin-bottom: 4px;
+        }
+        .cert-school-full { font-size: 12px; color: #907020; margin-bottom: 14px; }
+        .cert-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #302010, transparent);
+            margin: 14px 0;
+        }
+        .cert-body {
+            background: linear-gradient(135deg, #1a1206, #120e04);
+            border: 1px solid #4a3010;
+            border-radius: 12px; padding: 16px 18px;
+            margin: 12px 0;
+        }
+        .cert-body-title {
+            font-size: 11px; font-weight: 700; letter-spacing: .08em;
+            color: #d0a030; text-transform: uppercase; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .cert-body-text {
+            font-size: 14px; color: #e8c060; line-height: 1.7;
+            font-weight: 600;
+        }
+        .cert-info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+            margin-top: 14px;
+        }
+        .cert-info-item {
+            background: rgba(255,255,255,.025);
+            border: 1px solid #2a1c08;
+            border-radius: 8px; padding: 10px 12px;
+        }
+        .cert-info-label {
+            font-size: 9px; letter-spacing: .1em; color: #604818;
+            text-transform: uppercase; margin-bottom: 4px;
+        }
+        .cert-info-value { font-size: 12px; color: #c09828; font-weight: 600; }
+        .cert-footer {
+            text-align: center; padding: 10px 14px; margin-top: 16px;
+            background: #080602; border-radius: 8px;
+            border: 1px solid #28180a;
+            font-size: 10px; color: #604818;
+        }
+
+        /* ── Үндсэн агуулга ── */
+        .main-content {
+            flex: 1; overflow-y: auto; padding: 30px;
+        }
+
+        .content-card {
+            background: var(--s1);
+            border: 1px solid var(--bd);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<div class="app-wrapper">
+
+    <!-- ══════════ SIDEBAR ══════════ -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <div class="app-logo">🎵</div>
+            <div>
+                <div class="app-title">Бишгүүр Сургалт</div>
+                <div class="app-subtitle">Recorder Learning System</div>
+            </div>
+        </div>
+
+        <div class="sidebar-label">ХИЧЭЭЛҮҮД</div>
+        <div class="nav-menu">
+            <button class="nav-btn" onclick="loadLesson('notes', this)">
+                <span>🎵</span> Нот сурах
+            </button>
+            <button class="nav-btn" onclick="loadLesson('fingering', this)">
+                <span>🤚</span> Хурууны байрлал
+            </button>
+            <button class="nav-btn" onclick="loadLesson('breathing', this)">
+                <span>💨</span> Амьсгалын техник
+            </button>
+            <button class="nav-btn" onclick="loadLesson('posture', this)">
+                <span>🧍</span> Биеийн галбир
+            </button>
+        </div>
+
+        <div class="sidebar-label">ХЯНАЛТ</div>
+        <div class="nav-menu">
+            <button class="nav-btn" onclick="loadLesson('sound', this)">
+                <span>🔊</span> Дуу авианы хяналт
+            </button>
+            <button class="nav-btn" onclick="loadLesson('songs', this)">
+                <span>🎸</span> Энгийн аянууд
+            </button>
+        </div>
+
+        <!-- ══════════ ШИНЭ — Багийн танилцуулга & Гэрчилгээ ══════════ -->
+        <div class="sb-special">
+            <button type="button" class="sb-special-btn" onclick="openTeamModal()">
+                <span style="font-size:16px;">👥</span> Багийн танилцуулга
+            </button>
+            <button type="button" class="sb-special-btn gold" onclick="openCertModal()">
+                <span style="font-size:16px;">📜</span> Оюуны өмчийн гэрчилгээ
+            </button>
+        </div>
+
+    </div>
+
+    <!-- ══════════ ҮНДСЭН АГУУЛГА ══════════ -->
+    <div class="main-content" id="main-wrapper">
+        <div id="main-container">
+
+            <!-- ══════ НҮҮР ХУУДАС — БИШГҮҮРИЙН ТҮҮХ ══════ -->
+            <div style="display:flex; flex-direction:column; gap:20px; max-width:860px; margin:0 auto;">
+
+                <!-- Hero хэсэг -->
+                <div style="background: linear-gradient(135deg, #1a1d2e 0%, #0f111a 100%);
+                            border: 1px solid var(--bd); border-radius: 18px;
+                            padding: 40px 40px 35px; position: relative; overflow: hidden;">
+                    <div style="position:absolute; top:-30px; right:-20px;
+                                font-size:160px; opacity:0.06; line-height:1;">🎵</div>
+                    <div style="display:flex; align-items:center; gap:15px; margin-bottom:18px;">
+                        <div style="width:5px; height:50px; background:var(--ac); border-radius:3px;"></div>
+                        <div>
+                            <div style="font-size:11px; letter-spacing:2px;
+                                        color:var(--tx2); text-transform:uppercase;">
+                                Тавтай морилно уу
+                            </div>
+                            <h1 style="font-size:28px; color:var(--tx); margin-top:4px;">
+                                Бишгүүр хөгжмийн түүх
+                            </h1>
+                        </div>
+                    </div>
+                    <p style="color:var(--tx2); font-size:15px; line-height:1.9; max-width:640px;">
+                        Бишгүүр — дэлхийн хамгийн эртний хөгжмийн зэмсгүүдийн нэг бөгөөд
+                        хүний соёл иргэншлийн хамт хөгжиж ирсэн гайхамшигт түүхтэй.
+                        Энэхүү сургалтын систем нь таныг бишгүүрийн урлагт суралцахад
+                        туслах зорилготой.
+                    </p>
+                </div>
+
+                <!-- Цаг хугацааны шугам -->
+                <div style="background:var(--s1); border:1px solid var(--bd);
+                            border-radius:18px; padding:30px 35px;">
+                    <div style="font-size:11px; letter-spacing:2px; color:var(--tx2);
+                                text-transform:uppercase; margin-bottom:25px;">
+                        📅 Түүхэн цаг хугацааны шугам
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:0;">
+
+                        <div style="display:flex; gap:20px; align-items:stretch;">
+                            <div style="display:flex; flex-direction:column; align-items:center; min-width:60px;">
+                                <div style="width:44px; height:44px; border-radius:50%;
+                                            background:#1a2a4a; border:2px solid var(--ac);
+                                            display:flex; align-items:center; justify-content:center;
+                                            font-size:18px; flex-shrink:0;">🦴</div>
+                                <div style="width:2px; flex:1; background:var(--bd);
+                                            margin:6px 0; min-height:30px;"></div>
+                            </div>
+                            <div style="padding-bottom:28px;">
+                                <div style="font-size:12px; color:var(--ac); font-weight:600; margin-bottom:4px;">~43,000 жилийн өмнө</div>
+                                <div style="font-size:15px; font-weight:700; color:var(--tx); margin-bottom:6px;">Хамгийн эртний бишгүүр</div>
+                                <div style="font-size:14px; color:var(--tx2); line-height:1.7;">Германы Хоэле Фелс агуйгаас шувуу болон мамонтын яснаас хийсэн бишгүүр олдсон нь дэлхийд мэдэгдэж буй хамгийн эртний хөгжмийн зэмсэг болсон байна.</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:20px; align-items:stretch;">
+                            <div style="display:flex; flex-direction:column; align-items:center; min-width:60px;">
+                                <div style="width:44px; height:44px; border-radius:50%;
+                                            background:#1a3a1a; border:2px solid #27ae60;
+                                            display:flex; align-items:center; justify-content:center;
+                                            font-size:18px; flex-shrink:0;">🏛️</div>
+                                <div style="width:2px; flex:1; background:var(--bd); margin:6px 0; min-height:30px;"></div>
+                            </div>
+                            <div style="padding-bottom:28px;">
+                                <div style="font-size:12px; color:#27ae60; font-weight:600; margin-bottom:4px;">Эртний Грек, Ром (МЭӨ 500)</div>
+                                <div style="font-size:15px; font-weight:700; color:var(--tx); margin-bottom:6px;">Соёлын бэлгэдэл болсон үе</div>
+                                <div style="font-size:14px; color:var(--tx2); line-height:1.7;">Эртний Грек, Ром, Египетийн соёл иргэншилд лимбэ хэлбэрийн хөгжим тахил өргөх, баяр наадам болон цэргийн ёслолд өргөн хэрэглэгдэж байсан.</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:20px; align-items:stretch;">
+                            <div style="display:flex; flex-direction:column; align-items:center; min-width:60px;">
+                                <div style="width:44px; height:44px; border-radius:50%;
+                                            background:#2a1a3a; border:2px solid #8e44ad;
+                                            display:flex; align-items:center; justify-content:center;
+                                            font-size:18px; flex-shrink:0;">👑</div>
+                                <div style="width:2px; flex:1; background:var(--bd); margin:6px 0; min-height:30px;"></div>
+                            </div>
+                            <div style="padding-bottom:28px;">
+                                <div style="font-size:12px; color:#8e44ad; font-weight:600; margin-bottom:4px;">Дундад зуун (1000–1400)</div>
+                                <div style="font-size:15px; font-weight:700; color:var(--tx); margin-bottom:6px;">Европт өргөн тархсан үе</div>
+                                <div style="font-size:14px; color:var(--tx2); line-height:1.7;">Дундад зууны Европт "recorder" нэртэй модон бишгүүр ордны хөгжимчид, тавцангийн жүжигчдийн дунд нэр хүндтэй хөгжмийн зэмсэг болж хөгжсөн.</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:20px; align-items:stretch;">
+                            <div style="display:flex; flex-direction:column; align-items:center; min-width:60px;">
+                                <div style="width:44px; height:44px; border-radius:50%;
+                                            background:#2a2a0a; border:2px solid #f1c40f;
+                                            display:flex; align-items:center; justify-content:center;
+                                            font-size:18px; flex-shrink:0;">🎼</div>
+                                <div style="width:2px; flex:1; background:var(--bd); margin:6px 0; min-height:30px;"></div>
+                            </div>
+                            <div style="padding-bottom:28px;">
+                                <div style="font-size:12px; color:#f1c40f; font-weight:600; margin-bottom:4px;">Барокко үе (1600–1750)</div>
+                                <div style="font-size:15px; font-weight:700; color:var(--tx); margin-bottom:6px;">Алтан үе — Бах, Вивалди</div>
+                                <div style="font-size:14px; color:var(--tx2); line-height:1.7;">Иоганн Себастьян Бах, Антонио Вивалди зэрэг агуу хөгжимчид бишгүүрт зориулсан олон бүтээл туурвисан нь энэ зэмсгийн хамгийн цэцэглэлтийн үе болсон.</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:20px; align-items:stretch;">
+                            <div style="display:flex; flex-direction:column; align-items:center; min-width:60px;">
+                                <div style="width:44px; height:44px; border-radius:50%;
+                                            background:#1a2a3a; border:2px solid var(--ac);
+                                            display:flex; align-items:center; justify-content:center;
+                                            font-size:18px; flex-shrink:0;">🌍</div>
+                            </div>
+                            <div style="padding-bottom:10px;">
+                                <div style="font-size:12px; color:var(--ac); font-weight:600; margin-bottom:4px;">Орчин үе (1900 — өнөөг хүртэл)</div>
+                                <div style="font-size:15px; font-weight:700; color:var(--tx); margin-bottom:6px;">Дэлхийн сургуулиудад нэвтэрсэн үе</div>
+                                <div style="font-size:14px; color:var(--tx2); line-height:1.7;">XX зуунаас эхлэн бишгүүр дэлхийн 100 гаруй улсын ерөнхий боловсролын сургуулиудад заавал заах хөгжмийн зэмсэг болж тогтсон. Японд 30 сая, Германд 15 сая, Австралид 10 сая гаруй хүн тоглодог.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Статистик карт -->
+                <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:15px;">
+                    <div style="background:var(--s1); border:1px solid var(--bd); border-radius:14px; padding:22px; text-align:center;">
+                        <div style="font-size:36px; font-weight:900; color:var(--ac); line-height:1;">43,000+</div>
+                        <div style="font-size:13px; color:var(--tx2); margin-top:6px;">жилийн түүхтэй</div>
+                    </div>
+                    <div style="background:var(--s1); border:1px solid var(--bd); border-radius:14px; padding:22px; text-align:center;">
+                        <div style="font-size:36px; font-weight:900; color:#27ae60; line-height:1;">100+</div>
+                        <div style="font-size:13px; color:var(--tx2); margin-top:6px;">улсад заагддаг</div>
+                    </div>
+                    <div style="background:var(--s1); border:1px solid var(--bd); border-radius:14px; padding:22px; text-align:center;">
+                        <div style="font-size:36px; font-weight:900; color:#f1c40f; line-height:1;">50M+</div>
+                        <div style="font-size:13px; color:var(--tx2); margin-top:6px;">тоглогч дэлхий даяар</div>
+                    </div>
+                </div>
+
+                <!-- Яагаад бишгүүр сурах вэ -->
+                <div style="background:var(--s1); border:1px solid var(--bd); border-radius:18px; padding:30px 35px; margin-bottom:30px;">
+                    <div style="font-size:11px; letter-spacing:2px; color:var(--tx2); text-transform:uppercase; margin-bottom:20px;">🎯 Яагаад бишгүүр сурах вэ?</div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+                        <div style="display:flex; gap:14px; align-items:flex-start; background:var(--s2); border-radius:12px; padding:16px;">
+                            <div style="font-size:24px;">🧠</div>
+                            <div>
+                                <div style="font-size:14px; font-weight:700; color:var(--tx); margin-bottom:4px;">Тархины хөгжил</div>
+                                <div style="font-size:13px; color:var(--tx2); line-height:1.6;">Хөгжим тоглох нь тархины хоёр хагасыг зэрэг ажиллуулж, санах ой болон анхаарлыг сайжруулдаг.</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:14px; align-items:flex-start; background:var(--s2); border-radius:12px; padding:16px;">
+                            <div style="font-size:24px;">💨</div>
+                            <div>
+                                <div style="font-size:14px; font-weight:700; color:var(--tx); margin-bottom:4px;">Амьсгалын чадвар</div>
+                                <div style="font-size:13px; color:var(--tx2); line-height:1.6;">Бишгүүр үлээх нь уушгины багтаамжийг нэмэгдүүлж, амьсгалын зөв техникийг сургадаг.</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:14px; align-items:flex-start; background:var(--s2); border-radius:12px; padding:16px;">
+                            <div style="font-size:24px;">👐</div>
+                            <div>
+                                <div style="font-size:14px; font-weight:700; color:var(--tx); margin-bottom:4px;">Хурууны нарийн моторик</div>
+                                <div style="font-size:13px; color:var(--tx2); line-height:1.6;">Хурууны нарийн хөдөлгөөн нь гарын булчин болон мэдрэлийг хөгжүүлдэг.</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:14px; align-items:flex-start; background:var(--s2); border-radius:12px; padding:16px;">
+                            <div style="font-size:24px;">🎒</div>
+                            <div>
+                                <div style="font-size:14px; font-weight:700; color:var(--tx); margin-bottom:4px;">Хялбар эхлэлийн зэмсэг</div>
+                                <div style="font-size:13px; color:var(--tx2); line-height:1.6;">Бусад хөгжмийн зэмсгийн суурь болдог тул хөгжмийн боловсролд хамгийн тохиромжтой эхлэл.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- ══════ НҮҮР ХУУДАС ТӨГСГӨЛ ══════ -->
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ══════════ MODAL 1: БАГИЙН ТАНИЛЦУУЛГА ══════════ -->
+<div class="lm-overlay" id="modal-team" onclick="if(event.target===this)closeTeamModal()">
+    <div class="lm-box">
+        <div class="lm-header">
+            <div>
+                <div class="lm-badge blue">👥 БИШГҮҮР СУРГАЛТЫН СИСТЕМ</div>
+                <div class="lm-title" style="color:#7ab8f5">Багийн танилцуулга</div>
+            </div>
+            <button class="lm-close" onclick="closeTeamModal()">✕</button>
+        </div>
+        <div class="lm-body">
+            <div class="team-hero">
+                <div class="team-hero-icon">🏫</div>
+                <div>
+                    <div class="team-hero-name">БИШГҮҮР СУРГАЛТЫН СИСТЕМ</div>
+                    <div class="team-hero-sub">Recorder Learning System · Багийн гишүүд</div>
+                    <div class="team-count-pill">👩‍🏫 <span id="team-count-lbl">26</span> багш</div>
+                </div>
+            </div>
+            <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input class="search-input" id="team-search-inp" type="text"
+                       placeholder="Нэр, сургууль, хичээлээр хайх..."
+                       oninput="renderTeamTable(this.value)">
+            </div>
+            <div class="team-table-wrap">
+                <table class="team-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Багшийн нэр</th>
+                            <th>Сургууль / байгууллага</th>
+                            <th>Хичээл</th>
+                        </tr>
+                    </thead>
+                    <tbody id="team-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ MODAL 2: ОЮУНЫ ӨМЧИЙН ГЭРЧИЛГЭЭ ══════════ -->
+<div class="lm-overlay" id="modal-cert" onclick="if(event.target===this)closeCertModal()">
+    <div class="lm-box" style="max-width:560px;">
+        <div class="lm-header">
+            <div>
+                <div class="lm-badge gold">📜 ОЮУНЫ ӨМЧИЙН ГЭРЧИЛГЭЭ</div>
+                <div class="lm-title" style="color:#e8c040">Бишгүүр Сургалтын Систем</div>
+            </div>
+            <button class="lm-close" onclick="closeCertModal()">✕</button>
+        </div>
+        <div class="lm-body">
+            <div class="cert-card">
+                <div class="cert-seal">🏅</div>
+                <div class="cert-tag">📌 Бүтээгч баг</div>
+                <div class="cert-school-name">БАГАТЭНГЭР</div>
+                <div class="cert-school-full">Олон улсын сургууль</div>
+
+                <div class="cert-divider"></div>
+
+                <div class="cert-body">
+                    <div class="cert-body-title">
+                        💻 Багийн нэр
+                    </div>
+                    <div class="cert-body-text">
+                        Багатэнгэр ОУ сургуулийн<br>
+                        Мэдээлэл технологийн баг
+                    </div>
+                </div>
+
+                <div class="cert-info-grid">
+                    <div class="cert-info-item">
+                        <div class="cert-info-label">📅 Огноо</div>
+                        <div class="cert-info-value">2025 он</div>
+                    </div>
+                    <div class="cert-info-item">
+                        <div class="cert-info-label">🎵 Бүтээгдэхүүн</div>
+                        <div class="cert-info-value">Бишгүүр Сургалт</div>
+                    </div>
+                    <div class="cert-info-item">
+                        <div class="cert-info-label">⚙️ Технологи</div>
+                        <div class="cert-info-value">HTML5 / JavaScript</div>
+                    </div>
+                    <div class="cert-info-item">
+                        <div class="cert-info-label">🏆 Эрх</div>
+                        <div class="cert-info-value">Хамгаалагдсан</div>
+                    </div>
+                </div>
+
+                <div class="cert-footer">
+                    © 2025 БАГАТЭНГЭР ОУ СУРГУУЛЬ · Бүх эрх хуулиар хамгаалагдсан
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ══════════════════════════════════════
+       БАГИЙН ӨГӨГДӨЛ — 26 багш
+    ══════════════════════════════════════ */
+    const TEAM = [
+        { name:'Баасанжав Цэдмаа',              school:'Ирээдүй',                                              subject:'Англи хэл' },
+        { name:'Махвал Золжаргал',              school:'Нийслэлийн нэгдүгээр сургууль',                       subject:'Газарзүйн багш' },
+        { name:'Дамдинбазар Цэрэннамжил',       school:'Ивээлийн найзууд цэцэрлэг',                           subject:'Монгол хэлний багш' },
+        { name:'Мөнхтөр Отгончимэг',            school:'—',                                                    subject:'Сургуулийн өмнөх боловсролын багш' },
+        { name:'Шура Болормаа',                 school:'Ерөнхий Боловсролын Номын ёс сургууль',                subject:'Мэдээллийн технологи' },
+        { name:'Г. Отгонтуяа',                  school:'62-р сургууль',                                        subject:'Дүрслэх урлаг' },
+        { name:'Гансүх Батгэрэл',               school:'Номын ёс сургууль',                                    subject:'Солонгос хэлний багш' },
+        { name:'Б. Дайрий',                     school:'НЕБ-ын Ирээдүй сургууль',                             subject:'Нийгмийн ухааны багш' },
+        { name:'Аюушжав овогтой Алтанцэцэг',    school:'НЕБ-ын Эрдмийн Өргөө сургууль',                       subject:'Бага ангийн багш' },
+        { name:'Мөнхбаатарын Нандин-Эрдэнэ',    school:'НЕБ-ын 45-р сургууль',                                 subject:'Дизайн технологи' },
+        { name:'Дарамбазар Сугармаа',           school:'11-р сургууль',                                        subject:'Биологи' },
+        { name:'Пүрвээ Үнэнбат',                school:'"Үр-Эрдэнэ" өдөр өнжүүлэх төв',                       subject:'Бага боловсролын багш' },
+        { name:'Балжинням Баттуяа',             school:'Нийслэлийн ерөнхий боловсролын "Ирээдүй" сургууль',    subject:'Бага ангийн багш' },
+        { name:'Амар овогтой Цэндбаатар',       school:'Цэлмэг Дижитал интернэйшнл сургууль',                  subject:'График дизайн' },
+        { name:'Баатар Армунаа',                school:'Шинэ эхлэл олон улсын хөтөлбөрийн сургууль',           subject:'Математикийн багш' },
+        { name:'Дүвчиндорж Оюунчимэг',          school:'—',                                                    subject:'Англи хэл' },
+        { name:'Отгоны Мөнхцэцэг',              school:'НЕБ-ын 63 дугаар сургууль',                            subject:'Тусгай хэрэгцээт боловсрол' },
+        { name:'Батнямын Даваажаргал',          school:'НЕБ-ийн "Хөгжил" сургууль',                            subject:'Англи хэлний багш' },
+        { name:'Дэмбэрэлбаясгалан Дэлгэрмаа',   school:'25-р сургууль',                                        subject:'Түүх, тусгай хэрэгцээт боловсролын багш' },
+        { name:'Ганмягмар овогтой Дөлгөөнсувд', school:'ШУТИС',                                                subject:'Мэдээлэл холбооны сүлжээний инжнерчлэл' },
+        { name:'Дэлгэрийн Амармэнд',            school:'52-р сургууль',                                        subject:'Мэдээллийн технологийн багш' },
+        { name:'Аръяа Болортуяа',               school:'31-р сургууль',                                        subject:'Мэдээлэл технологийн багш' },
+        { name:'Б. Долгорсүрэн',                school:'Ирээдүй',                                              subject:'Бага ангийн багш' },
+        { name:'Рагчаагийн Бигэрмаа',           school:'ШУТИС, Гадаад хэлний сургууль, Ази судлалын тэнхим',   subject:'Монгол хэл, уран зохиолын багш' },
+        { name:'Намшир Ариунзаяа',              school:'11-р сургууль',                                        subject:'Дүрслэх урлаг дизайн технологийн багш' },
+        { name:'Наранцэцэг Шинэбаяр',           school:'16-р сургууль',                                        subject:'Дизайн технологи багш' },
+    ];
+
+    const AV_COLORS = ['#4a90d9','#3dbe6a','#9a70d9','#d060a0','#d0a030','#e07050','#3dc8b0','#5090e0','#c050c0','#50c080','#d97070','#7090e0'];
+
+    /* Хичээлийн төрөлд харгалзах өнгөний загвар */
+    function subjectStyle(s) {
+        if (s.includes('МТ') || s.includes('Мэдээл') || s.includes('инжнер'))
+            return 'background:#081424;color:#4890d8;border:1px solid #102040';
+        if (s.includes('Дизайн') || s.includes('График') || s.includes('Дүрслэх'))
+            return 'background:#14082a;color:#9060d0;border:1px solid #201040';
+        if (s.includes('Англи'))
+            return 'background:#081a1a;color:#30b0a0;border:1px solid #0e2828';
+        if (s.includes('Монгол') || s.includes('уран'))
+            return 'background:#081a10;color:#30a860;border:1px solid #0e2818';
+        if (s.includes('Биологи'))
+            return 'background:#081808;color:#40a840;border:1px solid #0e2810';
+        if (s.includes('Бага') || s.includes('өмнөх'))
+            return 'background:#1a1808;color:#c0a020;border:1px solid #282408';
+        if (s.includes('Математик'))
+            return 'background:#081428;color:#4080d0;border:1px solid #102038';
+        if (s.includes('Түүх') || s.includes('Нийгмийн'))
+            return 'background:#181408;color:#b08020;border:1px solid #281e08';
+        if (s.includes('Тусгай'))
+            return 'background:#201008;color:#d06820;border:1px solid #301808';
+        if (s.includes('Солонгос'))
+            return 'background:#180818;color:#d060b0;border:1px solid #280828';
+        if (s.includes('Газар'))
+            return 'background:#081808;color:#40a840;border:1px solid #0e2810';
+        return 'background:#101216;color:#607080;border:1px solid #181e24';
+    }
+
+    /* Хүснэгтийг рендерлэх — хайлт хийсэн үед шүүнэ */
+    function renderTeamTable(query) {
+        query = (query || '').toLowerCase().trim();
+        const list = query
+            ? TEAM.filter(m =>
+                m.name.toLowerCase().includes(query) ||
+                m.school.toLowerCase().includes(query) ||
+                m.subject.toLowerCase().includes(query))
+            : TEAM;
+
+        document.getElementById('team-count-lbl').textContent = list.length;
+        const tbody = document.getElementById('team-tbody');
+        tbody.innerHTML = '';
+
+        if (!list.length) {
+            tbody.innerHTML = '<tr><td colspan="4" class="t-no-result">🔍 Тохирох багш олдсонгүй</td></tr>';
+            return;
+        }
+
+        list.forEach(m => {
+            const realIndex = TEAM.indexOf(m);
+            const col = AV_COLORS[realIndex % AV_COLORS.length];
+            // Овог үсэгийг арилгаж эхний үсэгийг авах
+            const init = m.name.replace(/^[А-ЯӨҮа-яөүA-Z]\.\s*/, '').charAt(0).toUpperCase();
+
+            const tr = document.createElement('tr');
+            tr.className = 't-row';
+            tr.innerHTML = `
+                <td><span class="t-num">${String(realIndex + 1).padStart(2, '0')}</span></td>
+                <td>
+                    <div class="t-name">
+                        <span class="t-avatar" style="background:${col}1e;border:1.5px solid ${col}55;color:${col}">${init}</span>
+                        ${m.name}
+                    </div>
+                </td>
+                <td><span class="t-school">${m.school}</span></td>
+                <td><span class="t-subject" style="${subjectStyle(m.subject)}">${m.subject}</span></td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    /* Modal нээх / хаах */
+    function openTeamModal() {
+        renderTeamTable('');
+        document.getElementById('team-search-inp').value = '';
+        document.getElementById('modal-team').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => document.getElementById('team-search-inp').focus(), 280);
+    }
+    function closeTeamModal() {
+        document.getElementById('modal-team').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    function openCertModal() {
+        document.getElementById('modal-cert').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeCertModal() {
+        document.getElementById('modal-cert').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    /* ESC товчоор хаах */
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeTeamModal();
+            closeCertModal();
+        }
+    });
+
+    /* ══════════════════════════════════════
+       ХИЧЭЭЛ АЧААЛАХ
+    ══════════════════════════════════════ */
+    function loadLesson(lessonType, element) {
+        const mainContainer = document.getElementById('main-container');
+        const mainWrapper   = document.getElementById('main-wrapper');
+
+        document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+        if (element) element.classList.add('active');
+
+        if (lessonType === 'notes') {
+            mainWrapper.style.padding  = '0';
+            mainWrapper.style.overflow = 'hidden';
+            mainContainer.innerHTML = `
+                <div style="height:100vh; width:100%; overflow:hidden;">
+                    <iframe src="/notes_lesson.html"
+                            style="width:100%; height:100%; border:none;"
+                            allow="autoplay"></iframe>
+                </div>`;
+        }
+        else if (lessonType === 'fingering') {
+            mainWrapper.style.padding  = '0';
+            mainWrapper.style.overflow = 'hidden';
+            mainContainer.innerHTML = `
+                <div style="height:100vh; width:100%; overflow:hidden;">
+                    <iframe src="/fingering_lesson.html"
+                            style="width:100%; height:100%; border:none;"
+                            allow="autoplay"></iframe>
+                </div>`;
+        }
+        else if (lessonType === 'posture') {
+            mainWrapper.style.padding  = '30px';
+            mainWrapper.style.overflow = 'auto';
+            mainContainer.innerHTML = `
+                <div style="height:calc(100vh - 80px); width:100%; border-radius:16px;
+                            overflow:hidden; border:1px solid #252840; background:#000;">
+                    <iframe src="/posture_coach.html"
+                            style="width:100%; height:100%; border:none;"
+                            allow="camera; microphone;"></iframe>
+                </div>`;
+        }
+        else if (lessonType === 'breathing') {
+            mainWrapper.style.padding  = '30px';
+            mainWrapper.style.overflow = 'auto';
+            mainContainer.innerHTML = `
+                <div style="height:calc(100vh - 80px); width:100%; border-radius:16px;
+                            overflow:hidden; border:1px solid #252840; background:#1a1a2e;">
+                    <iframe src="/breathing_lesson.html"
+                            style="width:100%; height:100%; border:none;"></iframe>
+                </div>`;
+        }
+        else if (lessonType === 'songs') {
+            window.location.href = '/engiin-ayalguu.html';
+            return;
+        }
+        else if (lessonType === 'sound') {
+            mainWrapper.style.padding  = '30px';
+            mainWrapper.style.overflow = 'auto';
+            mainContainer.innerHTML = `
+                <div style="height:calc(100vh - 80px); width:100%; border-radius:16px;
+                            overflow:hidden; border:1px solid #252840; background:#1a1a2e;">
+                    <iframe src="/flute_trainer.html"
+                            style="width:100%; height:100%; border:none;"
+                            allow="camera; microphone;"></iframe>
+                </div>`;
+        }
+        else {
+            mainWrapper.style.padding  = '30px';
+            mainWrapper.style.overflow = 'auto';
+            mainContainer.innerHTML = `
+                <div style="padding:40px; text-align:center; background:var(--s1);
+                            border:1px solid var(--bd); border-radius:16px;
+                            max-width:900px; margin:0 auto;">
+                    <h1 style="color:#fff; font-size:2.5rem;">Хичээл</h1>
+                    <p style="color:#9298b8; margin-top:20px; font-size:1.1rem;">
+                        Энэхүү хичээлийн агуулга удахгүй орох болно.
+                    </p>
+                    <div style="margin-top:40px; opacity:0.2; font-size:100px;">📖</div>
+                </div>`;
+        }
+    }
+</script>
+
+</body>
+</html>

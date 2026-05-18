@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Нууцлалын бодлого — Бишгүүр Сургалт</title>
+    <style>
+        :root {
+            --bg:  #0c0e14;
+            --s1:  #13151d;
+            --s2:  #191c28;
+            --bd:  #252840;
+            --ac:  #5b9cf6;
+            --tx:  #eef0f8;
+            --tx2: #9298b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--tx);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+        .back-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 8px 14px;
+            background: var(--s1);
+            border: 1px solid var(--bd);
+            color: var(--tx2);
+            border-radius: 8px;
+            font-size: 13px;
+            text-decoration: none;
+            transition: 0.2s;
+            margin-bottom: 30px;
+        }
+        .back-btn:hover { color: var(--tx); background: var(--s2); border-color: var(--ac); }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--bd);
+        }
+        .page-icon {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, #1e3a5f, #0f1e35);
+            border: 1px solid var(--bd);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+        }
+        .page-title h1 { font-size: 24px; font-weight: 700; }
+        .page-title p  { font-size: 13px; color: var(--tx2); margin-top: 4px; }
+
+        .card {
+            background: var(--s1);
+            border: 1px solid var(--bd);
+            border-radius: 14px;
+            padding: 26px 30px;
+            margin-bottom: 18px;
+        }
+        .card h2 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--tx);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card p {
+            color: var(--tx2);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .card p:last-child { margin-bottom: 0; }
+        .card ul {
+            color: var(--tx2);
+            font-size: 14px;
+            padding-left: 22px;
+        }
+        .card ul li { margin-bottom: 6px; }
+        .card strong { color: var(--tx); }
+
+        .footer-note {
+            text-align: center;
+            color: var(--tx2);
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--bd);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <a href="/" class="back-btn">← Буцах</a>
+
+    <div class="page-header">
+        <div class="page-icon">🔒</div>
+        <div class="page-title">
+            <h1>Нууцлалын бодлого</h1>
+            <p>Privacy Policy · Бишгүүр Сургалтын Систем</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📋 Ерөнхий мэдээлэл</h2>
+        <p>
+            <strong>Бишгүүр Сургалтын Систем</strong> нь Багатэнгэр Олон Улсын Сургуулийн
+            Мэдээлэл Технологийн багийн бүтээгдэхүүн юм. Энэхүү систем нь бишгүүр хөгжмийн
+            зэмсэг тоглож сурахад туслах боловсролын зорилгоор бүтээгдсэн.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>🎯 Бид хэрэглэгчээс ямар мэдээлэл цуглуулдаг вэ?</h2>
+        <p>
+            Энэхүү систем нь <strong>хэрэглэгчийн хувийн мэдээллийг цуглуулдаггүй</strong>.
+            Бид ямар ч хэлбэрээр:
+        </p>
+        <ul>
+            <li>Нэр, имэйл, утасны дугаар цуглуулдаггүй</li>
+            <li>Хэрэглэгчийн данс үүсгэхийг шаарддаггүй</li>
+            <li>Cookies-аар хувийн мэдээлэл хадгалдаггүй</li>
+            <li>Бусад этгээдэд мэдээлэл дамжуулдаггүй</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📷 Камер ба микрофоны хандалт</h2>
+        <p>
+            "Биеийн галбир" болон "Дуу авианы хяналт" хичээлүүдэд таны браузер
+            <strong>камер болон микрофоны зөвшөөрөл</strong> асуух болно. Эдгээр өгөгдөл:
+        </p>
+        <ul>
+            <li>Зөвхөн таны төхөөрөмж дээр локалаар боловсруулагдана</li>
+            <li>Сервер рүү илгээгддэггүй, бичигддэггүй</li>
+            <li>Хичээл дууссаны дараа автоматаар устдаг</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🤖 Гуравдагч талын үйлчилгээ</h2>
+        <p>
+            Зарим хичээлд <strong>MediaPipe</strong> (Google-ийн нээлттэй эх сурвалжтай AI
+            сан) ашиглагддаг бөгөөд биеийн байрлал тогтоох зориулалттай. Энэ нь таны
+            браузер дотор ажиллах ба өгөгдөл гадагш дамждаггүй.
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>📞 Холбоо барих</h2>
+        <p>
+            Нууцлалын бодлоготой холбоотой асуудал, санал хүсэлт байвал
+            Багатэнгэр ОУ сургууль руу хандана уу.
+        </p>
+    </div>
+
+    <div class="footer-note">
+        © 2025 Багатэнгэр ОУ сургууль · Бүх эрх хуулиар хамгаалагдсан
+    </div>
+
+</div>
+</body>
+</html>
