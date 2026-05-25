@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Алдаа гарлаа — Бишгүүр Сургалт</title>
+    <style>
+        :root {
+            --bg:  #0c0e14;
+            --s1:  #13151d;
+            --s2:  #191c28;
+            --bd:  #252840;
+            --ac:  #5b9cf6;
+            --tx:  #eef0f8;
+            --tx2: #9298b8;
+            --err: #e74c3c;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--tx);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .error-card {
+            max-width: 520px;
+            width: 100%;
+            background: var(--s1);
+            border: 1px solid var(--bd);
+            border-radius: 18px;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .error-card::before {
+            content: '';
+            position: absolute;
+            top: -60px; right: -60px;
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, rgba(231,76,60,0.08), transparent 70%);
+            pointer-events: none;
+        }
+        .error-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        @keyframes bounce {
+            0%,100% { transform: translateY(0); }
+            50%     { transform: translateY(-8px); }
+        }
+        .error-code {
+            font-size: 14px;
+            color: var(--err);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--tx);
+            margin-bottom: 12px;
+        }
+        .error-message {
+            font-size: 15px;
+            color: var(--tx2);
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: var(--ac);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #4a8ce0;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: var(--s2);
+            color: var(--tx);
+            border: 1px solid var(--bd);
+        }
+        .btn-secondary:hover {
+            background: #1f2235;
+            border-color: var(--ac);
+        }
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--bd);
+            color: var(--tx2);
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-card">
+
+    <div class="error-icon">⚠️</div>
+    <div class="error-code">Error · Алдаа</div>
+    <h1>Алдаа гарлаа</h1>
+    <p class="error-message">
+        Хүсэлтийг боловсруулахад алдаа гарлаа.<br>
+        Та хуудсаа дахин ачааллаад үзнэ үү, эсвэл нүүр хуудас руу буцаарай.
+    </p>
+
+    <div class="btn-group">
+        <a href="/" class="btn btn-primary">🏠 Нүүр хуудас</a>
+        <button onclick="location.reload()" class="btn btn-secondary">↻ Дахин ачаалах</button>
+    </div>
+
+    <div class="footer-note">
+        © 2025 Бишгүүр Сургалтын Систем · Багатэнгэр ОУ сургууль
+    </div>
+
+</div>
+
+</body>
+</html>

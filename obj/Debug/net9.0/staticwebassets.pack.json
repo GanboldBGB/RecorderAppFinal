@@ -5,12 +5,28 @@
       "PackagePath": "staticwebassets\\RecorderAppFinal.lyeqylhuzg.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\CNAME",
+      "PackagePath": "staticwebassets"
+    },
+    {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\breathing_lesson.html",
       "PackagePath": "staticwebassets\\breathing_lesson.html"
     },
     {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\css\\cursor.css",
+      "PackagePath": "staticwebassets\\css\\cursor.css"
+    },
+    {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\engiin-ayalguu.html",
+      "PackagePath": "staticwebassets\\engiin-ayalguu.html"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\error.html",
+      "PackagePath": "staticwebassets\\error.html"
     },
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\favicon.ico",
@@ -23,6 +39,14 @@
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\flute_trainer.html",
       "PackagePath": "staticwebassets\\flute_trainer.html"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\js\\analytics.js",
+      "PackagePath": "staticwebassets\\js\\analytics.js"
     },
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\js\\site.js",
@@ -275,6 +299,10 @@
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\posture_coach.html",
       "PackagePath": "staticwebassets\\posture_coach.html"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\privacy.html",
+      "PackagePath": "staticwebassets\\privacy.html"
     },
     {
       "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.RecorderAppFinal.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
