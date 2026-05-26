@@ -61,6 +61,17 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
 #frontal-score-label{font-size:13px;font-weight:600;color:#8090a0;line-height:1.4}
 #frontal-score-label small{display:block;font-size:10px;color:#445;margin-top:2px;font-weight:400}
 
+/* ── 🎨 AI ТУСЛАХ БААТАР (зураг) ── */
+.mascot-wrap{display:flex;align-items:center;gap:12px;background:#0a0c10;border:1px solid #22263a;border-radius:10px;padding:9px 11px;transition:border-color .3s}
+.mascot-fig{position:relative;width:74px;height:74px;flex-shrink:0}
+.mascot-fig.bounce{animation:mbounce .5s ease}
+@keyframes mbounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-7px)}60%{transform:translateY(2px)}}
+.mascot-img{width:74px;height:74px;object-fit:cover;object-position:top center;border-radius:50%;border:3px solid #3a7fd4;background:#0a0c10;display:block;transition:border-color .3s}
+.mascot-fb{width:74px;height:74px;border-radius:50%;border:3px solid #3a7fd4;background:#12151e;display:none;align-items:center;justify-content:center;font-size:32px}
+.mascot-mood{position:absolute;right:-3px;bottom:-1px;font-size:17px;width:26px;height:26px;background:#0a0c10;border:2px solid #22263a;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1}
+.mascot-bubble{flex:1;min-width:0}
+.mascot-msg{font-size:12.5px;font-weight:600;color:#c8d0e0;line-height:1.45}
+
 /* ── ХУРУУ ТАВИЛТ + БИШГҮҮР (баруун талд) ── */
 .flute-panel-inner{display:flex;align-items:flex-start;justify-content:center;gap:0;padding:6px 0}
 .hand-panel{display:flex;flex-direction:column;gap:0;padding-top:46px}
@@ -112,6 +123,19 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
 #target-hint{font-size:11px;color:#445;max-width:260px;line-height:1.6}
 
 .flute-help{font-size:11px;color:#556;text-align:center;line-height:1.6;margin-top:8px;padding-top:8px;border-top:1px solid #1a1e2a}
+
+/* ── 🦸 ТОМ AI ТУСЛАХ БААТАР (зүүн талд) ── */
+.buddy{position:fixed;left:20px;bottom:20px;width:240px;z-index:60;display:none;flex-direction:column;align-items:center;gap:10px}
+@media(min-width:1180px){.buddy{display:flex}}
+.buddy-bubble{align-self:stretch;background:#12151e;border:2px solid #3a7fd4;border-radius:16px;padding:12px 14px;font-size:14px;font-weight:600;color:#dde0e8;line-height:1.5;position:relative;box-shadow:0 12px 30px rgba(0,0,0,.45);transition:border-color .3s;text-align:center}
+.buddy-bubble::after{content:"";position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);border:10px solid transparent;border-top-color:#3a7fd4}
+.buddy-fig{position:relative;width:200px;height:230px}
+.buddy-img{width:100%;height:100%;object-fit:cover;object-position:top center;border-radius:20px;border:3px solid #3a7fd4;background:#0a0c10;display:block;transition:border-color .3s}
+.buddy-img.talk{animation:talk .55s ease}
+@keyframes talk{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-7px) rotate(-1.5deg)}70%{transform:translateY(-2px) rotate(1deg)}}
+.buddy-fb{position:absolute;inset:0;border-radius:20px;border:3px solid #3a7fd4;background:#12151e;display:none;align-items:center;justify-content:center;font-size:64px}
+.buddy-voice{background:#12151e;border:1px solid #3a7fd4;color:#7eb8ff;font-family:inherit;font-size:12px;font-weight:600;padding:8px 14px;border-radius:20px;cursor:pointer;transition:all .13s}
+.buddy-voice:hover{background:#13294a}
 </style>
 </head>
 <body>
@@ -147,6 +171,19 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
       <video id="cam-video" autoplay playsinline muted></video>
       <canvas id="cam-overlay"></canvas>
       <div id="cam-placeholder">📷 Камер асаагаагүй байна<br><small style="color:#334;font-size:11px">Доорх товч дарна уу</small></div>
+    </div>
+
+    <!-- 🎨 AI ТУСЛАХ БААТАР -->
+    <div class="mascot-wrap" id="mascot-wrap">
+      <div class="mascot-fig" id="mascot">
+        <img class="mascot-img" id="mascot-img" src="/hero2025.png" alt="AI баатар"
+             onerror="this.style.display='none';document.getElementById('mascot-fb').style.display='flex';">
+        <div class="mascot-fb" id="mascot-fb">🧍</div>
+        <div class="mascot-mood" id="mascot-mood">👋</div>
+      </div>
+      <div class="mascot-bubble">
+        <div class="mascot-msg" id="mascot-msg">Сайн уу! 👋 Камераа асаагаад зөв суух дасгал хийцгээе!</div>
+      </div>
     </div>
 
     <div id="frontal-score-wrap">
@@ -190,7 +227,7 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
       </div>
       <div id="flute-container">
         <svg id="flute-svg" viewBox="0 0 80 420" xmlns="http://www.w3.org/2000/svg"
-             style="cursor:pointer;" id="flute-svg-clickable" title="Бишгүүр дээр дарж дуу сонсох">
+             style="cursor:pointer;" title="Бишгүүр дээр дарж дуу сонсох">
           <defs>
             <linearGradient id="wg" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0%" stop-color="#a07838"/>
@@ -252,6 +289,17 @@ h1{font-size:18px;font-weight:600;letter-spacing:.08em;color:#c8d0e0;text-align:
   <button class="btn" id="btn-reset">✕ Тайлах</button>
 </div>
 
+<!-- 🦸 ТОМ AI ТУСЛАХ БААТАР (өргөн дэлгэцэнд зүүн талд) -->
+<div class="buddy" id="buddy">
+  <div class="buddy-bubble" id="buddy-bubble">👋 Сайн уу! Камераа асаагаарай</div>
+  <div class="buddy-fig">
+    <img class="buddy-img" id="buddy-img" src="/hero2025.png" alt="AI баатар"
+         onerror="this.style.display='none';document.getElementById('buddy-fb').style.display='flex';">
+    <div class="buddy-fb" id="buddy-fb">🧍</div>
+  </div>
+  <button class="buddy-voice" id="buddy-voice" onclick="toggleVoice()">🔊 Дуу: Асаалттай</button>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
 <script>
 /* ═══════════════════════════════ NOTES ═══════════════════════════════ */
@@ -267,6 +315,70 @@ const NOTES=[
 ];
 let targetNote=null,autoPlaying=false,autoTimer=null;
 let camStream=null,poseInstance=null,poseInterval=null,poseSending=false;
+
+/* ═══════════ 🔊 ДУУГААР ЗӨВЛӨХ (MP3 бичлэг + нөөц robot хоолой) ═══════════ */
+let voiceOn=true,lastVoiceKey='',lastVoiceT=0,curAudio=null;
+const VOICE_DIR='/voice/';
+const VOICE_FILES={hello:'v-hello',good:'v-good',right:'v-right',left:'v-left',forward:'v-forward',center:'v-center',tilt:'v-tilt',far:'v-far',near:'v-near'};
+function pickVoice(){const vs=(window.speechSynthesis?speechSynthesis.getVoices():[])||[];
+  return vs.find(v=>/mn|mongol/i.test((v.lang||'')+' '+(v.name||'')))||vs.find(v=>/^ru/i.test(v.lang||''))||null;}
+function ttsSpeak(text){
+  if(!('speechSynthesis'in window)||!text)return;
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='mn-MN';u.rate=.96;u.pitch=1.05;const v=pickVoice();if(v)u.voice=v;speechSynthesis.speak(u);}catch(e){}
+}
+function speak(key,fallbackText){
+  if(!voiceOn||!key)return;
+  const now=Date.now();
+  if(key===lastVoiceKey&&now-lastVoiceT<6000)return;
+  if(now-lastVoiceT<1500)return;
+  lastVoiceKey=key;lastVoiceT=now;
+  const file=VOICE_FILES[key];
+  if(file){
+    try{
+      if(curAudio){curAudio.pause();curAudio=null;}
+      const a=new Audio(VOICE_DIR+file+'.mp3');
+      curAudio=a;
+      a.onerror=()=>ttsSpeak(fallbackText);          /* MP3 олдохгүй бол robot */
+      a.play().catch(()=>ttsSpeak(fallbackText));     /* тоглуулж чадахгүй бол robot */
+      return;
+    }catch(e){}
+  }
+  ttsSpeak(fallbackText);
+}
+function toggleVoice(){voiceOn=!voiceOn;const b=document.getElementById('buddy-voice');if(b)b.textContent=voiceOn?'🔊 Дуу: Асаалттай':'🔇 Дуу: Унтраалттай';if(!voiceOn){if(curAudio)curAudio.pause();if(window.speechSynthesis)speechSynthesis.cancel();}}
+if(window.speechSynthesis)speechSynthesis.onvoiceschanged=()=>{};
+
+/* ═══════════ 🎨 ТУСЛАХ БААТАР ═══════════ */
+function setMascot(state,msg,voiceKey,voiceText){
+  const M={
+    happy:{c:'#2a8e4a',mood:'😄'},
+    good :{c:'#2a8e4a',mood:'🙂'},
+    think:{c:'#b07020',mood:'🤔'},
+    oops :{c:'#c04040',mood:'😟'},
+    idle :{c:'#3a7fd4',mood:'👋'},
+  };
+  const cfg=M[state]||M.idle;
+  /* жижиг туслах */
+  document.getElementById('mascot-wrap').style.borderColor=cfg.c+'66';
+  document.getElementById('mascot-img').style.borderColor=cfg.c;
+  document.getElementById('mascot-fb').style.borderColor=cfg.c;
+  document.getElementById('mascot-mood').textContent=cfg.mood;
+  const m=document.getElementById('mascot-msg');
+  const changed=m.textContent!==msg;
+  if(changed){
+    m.textContent=msg;
+    const mc=document.getElementById('mascot');
+    mc.classList.remove('bounce');void mc.offsetWidth;mc.classList.add('bounce');
+  }
+  /* том баатар (buddy) */
+  const bb=document.getElementById('buddy-bubble'),bi=document.getElementById('buddy-img'),bf=document.getElementById('buddy-fb');
+  if(bb){bb.style.borderColor=cfg.c;bb.textContent=cfg.mood+' '+msg;}
+  if(bi)bi.style.borderColor=cfg.c;
+  if(bf)bf.style.borderColor=cfg.c;
+  if(changed&&bi){bi.classList.remove('talk');void bi.offsetWidth;bi.classList.add('talk');}
+  /* дуугаар зөвлөх (зөвлөгөө өөрчлөгдөхөд) */
+  if(changed) speak(voiceKey, voiceText||msg.replace(/[^\u0400-\u04FF\s.,!?]/g,'').trim());
+}
 
 /* ═══════════════════════════════ AUDIO — нотын дуу ═══════════════════════════════ */
 let audioCtx=null;
@@ -323,6 +435,7 @@ async function startCam(){
       initPose(vid,ov);
     });
     const bc=document.getElementById('btn-cam');bc.textContent='📷 Асаалттай';bc.classList.add('on');
+    setMascot('idle','Сайн байна! 😊 Камерын өмнө цэх суугаад над руу хараарай','hello','Сайн байна уу. Камерын өмнө цэх суугаарай.');
   }catch(e){alert('Камерын зөвшөөрөл өгнө үү!\n'+e.message);}
 }
 
@@ -382,6 +495,12 @@ function processPose(results, overlay){
   const centerScore = Math.min(100, Math.max(0, (1 - noseCenterOff / 0.15) * 100));
   const centerOk = centerScore >= 60;
 
+  /* Дэлгэц толин тусгал тул screenX = 1 - x. Хүн хүрээний аль талд байгааг тогтооно */
+  const screenMid = 1 - shoulderMidX;
+  let moveHint = '';
+  if(screenMid < 0.40) moveHint = 'right';      /* зүүн талд байна → баруун зөө */
+  else if(screenMid > 0.60) moveHint = 'left';  /* баруун талд байна → зүүн зөө */
+
   const earTilt = (vis(lEar) && vis(rEar))
     ? Math.abs(lEar.y - rEar.y)
     : (vis(lEye) && vis(rEye)) ? Math.abs(lEye.y - rEye.y) * 0.7 : 0.05;
@@ -403,6 +522,7 @@ function processPose(results, overlay){
 
   updateFrontalUI({
     total: totalScore,
+    moveHint: moveHint,
     facing: { score: Math.round(facingScore), ok: facingOk },
     center: { score: Math.round(centerScore), ok: centerOk },
     tilt:   { score: Math.round(tiltScore),   ok: tiltOk   },
@@ -528,6 +648,7 @@ function updateFrontalUI(data){
     document.getElementById('frontal-score-label').firstChild.textContent='Хүн илрэхгүй байна';
     document.getElementById('frontal-score-hint').textContent='Камерын өмнө зогсоно уу';
     ['facing','center','tilt','dist'].forEach(k=>{setCheckUI(k,0,false);});
+    setMascot('idle','Чамайг харахгүй байна 👀 Камерын өмнө зогсооч!','','');
     return;
   }
   const {total,facing,center,tilt,dist}=data;
@@ -547,6 +668,26 @@ function updateFrontalUI(data){
   setCheckUI('center',center.score,center.ok,Math.round(center.score)+'%');
   setCheckUI('tilt',  tilt.score,  tilt.ok,  Math.round(tilt.score)+'%');
   setCheckUI('dist',  dist.score,  dist.ok,  Math.round(dist.score)+'%');
+
+  /* 🎨 Туслах баатрын зөвлөгөө + дуу */
+  if(cls==='ok'){
+    setMascot('happy','Гайхалтай! 🎉 Маш зөв сууж байна. Ингээд бишгүүрээ үлээгээрэй!','good','Гайхалтай. Маш зөв сууж байна.');
+  }else{
+    let mMsg,mKey,mVoice;
+    if(!facing.ok){mMsg='Камер луугаа урагшаа эргээрэй ↺';mKey='forward';mVoice='Камер луугаа урагшаа эргээрэй.';}
+    else if(!center.ok){
+      if(data.moveHint==='right'){mMsg='Баруун тал руу зөөгөөрэй →';mKey='right';mVoice='Баруун тал руу бага зэрэг зөөгөөрэй.';}
+      else if(data.moveHint==='left'){mMsg='← Зүүн тал руу зөөгөөрэй';mKey='left';mVoice='Зүүн тал руу бага зэрэг зөөгөөрэй.';}
+      else{mMsg='Камерын яг голд ороорой ⊙';mKey='center';mVoice='Камерын яг голд ороорой.';}
+    }
+    else if(!tilt.ok){mMsg='Толгойгоо хазайлгалгүй тэгш барь ↕';mKey='tilt';mVoice='Толгойгоо тэгш барина уу.';}
+    else if(!dist.ok){
+      if(dist.score<40){mMsg='Камераас арай хол суу ↔';mKey='far';mVoice='Камераас арай хол суугаарай.';}
+      else{mMsg='Камер руу арай ойртоорой ↔';mKey='near';mVoice='Камер руу арай ойртоорой.';}
+    }
+    else {mMsg='Бага зэрэг засаарай, чи чадна! 💪';mKey='';mVoice='Бага зэрэг засаарай.';}
+    setMascot(cls==='warn'?'think':'oops', mMsg, mKey, mVoice);
+  }
 }
 
 function setCheckUI(key,score,ok,valText){
@@ -586,7 +727,6 @@ function setTarget(note,el){
   document.getElementById('target-hint').textContent='Нүхний байрлал харж үлээнэ үү';
   document.querySelectorAll('.guide-card').forEach(c=>c.classList.toggle('target',c.dataset.sym===note.sym));
   showHolesForNote(note);
-  // Дуу гаргана
   playNote(note.freq);
   if(el) animateEl(el);
 }
@@ -642,6 +782,9 @@ document.getElementById('btn-reset').addEventListener('click',()=>{
 });
 
 document.getElementById('btn-cam').addEventListener('click',startCam);
+
+/* Эхлэлийн mascot */
+setMascot('idle','Сайн уу! 👋 Камераа асаагаад зөв суух дасгал хийцгээе!');
 </script>
 </body>
 </html>

@@ -53,6 +53,20 @@ body{background:#0a0c10;color:#dde0e8;font-family:'Segoe UI',Arial,sans-serif;he
 .btn:active{transform:scale(.97)}
 .btn.on{background:#0e1e34;border-color:#3a7fd4;color:#6aacf0}
 
+/* ── 🎨 AI БААТАР ТУСЛАХ (зураг) ── */
+.mascot-wrap{display:flex;align-items:center;gap:12px;background:#0e1018;border:1px solid #22263a;border-radius:12px;padding:10px 12px;transition:border-color .3s}
+.mascot-fig{position:relative;width:78px;height:78px;flex-shrink:0}
+.mascot-fig.bounce{animation:mbounce .5s ease}
+@keyframes mbounce{0%,100%{transform:translateY(0)}30%{transform:translateY(-8px)}60%{transform:translateY(2px)}}
+.mascot-img{width:78px;height:78px;object-fit:cover;object-position:top center;border-radius:50%;border:3px solid #3a7fd4;background:#0a0c10;display:block;transition:border-color .3s}
+.mascot-fb{width:78px;height:78px;border-radius:50%;border:3px solid #3a7fd4;background:#12151e;display:none;align-items:center;justify-content:center;font-size:34px}
+.mascot-mood{position:absolute;right:-3px;bottom:-1px;font-size:18px;width:27px;height:27px;background:#0e1018;border:2px solid #22263a;border-radius:50%;display:flex;align-items:center;justify-content:center;line-height:1}
+.mascot-bubble{flex:1;min-width:0}
+.mascot-msg{font-size:13px;font-weight:600;color:#c8d0e0;line-height:1.45}
+.mascot-demo-btn{margin-top:8px;padding:6px 14px;font-size:12px;border-radius:8px;border:1px solid #3a7fd4;background:#0e1e34;color:#7eb8ff;cursor:pointer;font-family:inherit;transition:all .13s;font-weight:600}
+.mascot-demo-btn:hover{background:#13294a}
+.mascot-demo-btn:active{transform:scale(.96)}
+
 /* Guide cards */
 .guide-section{margin-top:auto;padding-top:8px}
 .guide-title{font-size:10px;color:#445;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
@@ -130,6 +144,21 @@ body{background:#0a0c10;color:#dde0e8;font-family:'Segoe UI',Arial,sans-serif;he
       <div class="tuner-label"><span>♭ Доогуур</span><span>Тааруу</span><span>♯ Дээгүүр</span></div>
       <div id="tuner-bar-bg"><div id="tuner-center"></div><div id="tuner-bar"></div></div>
     </div>
+
+    <!-- 🎨 AI БААТАР ТУСЛАХ -->
+    <div class="mascot-wrap" id="mascot-wrap">
+      <div class="mascot-fig" id="mascot">
+        <img class="mascot-img" id="mascot-img" src="/hero2025.png" alt="AI баатар"
+             onerror="this.style.display='none';document.getElementById('mascot-fb').style.display='flex';">
+        <div class="mascot-fb" id="mascot-fb">🎶</div>
+        <div class="mascot-mood" id="mascot-mood">🎵</div>
+      </div>
+      <div class="mascot-bubble">
+        <div class="mascot-msg" id="mascot-msg">Сайн уу! 🎵 Доороос нот сонгоод эхэлцгээе!</div>
+        <button class="mascot-demo-btn" id="mascot-demo-btn" style="display:none">🔊 Зөв нотыг сонсох</button>
+      </div>
+    </div>
+
     <button class="btn" id="btn-mic">🎤 Микрофон асаах</button>
     <div class="guide-section">
       <div class="guide-title">Нот сонгох</div>
@@ -200,6 +229,47 @@ const NOTES=[
   {name:"До'",sym:"C'",num:7,freq:1047,holes:[0,0,0,0,0,0,0],color:"#e03030"},
 ];
 let targetNote=null,autoPlaying=false,autoTimer=null,audioCtx=null,analyser=null,waveAnim=null,pitchInterval=null;
+let demoUntil=0;
+
+/* ═══════════ 🎨 AI БААТАР ТУСЛАХ ═══════════ */
+function setMascot(state,msg,showDemo){
+  const M={
+    happy:{c:'#2a8e4a',mood:'😄'},
+    good :{c:'#2a8e4a',mood:'🙂'},
+    think:{c:'#b07020',mood:'🤔'},
+    oops :{c:'#c04040',mood:'😟'},
+    idle :{c:'#3a7fd4',mood:'🎵'},
+  };
+  const cfg=M[state]||M.idle;
+  document.getElementById('mascot-wrap').style.borderColor=cfg.c+'66';
+  document.getElementById('mascot-img').style.borderColor=cfg.c;
+  document.getElementById('mascot-fb').style.borderColor=cfg.c;
+  document.getElementById('mascot-mood').textContent=cfg.mood;
+  const m=document.getElementById('mascot-msg');
+  if(m.textContent!==msg){
+    m.textContent=msg;
+    const mc=document.getElementById('mascot');
+    mc.classList.remove('bounce');void mc.offsetWidth;mc.classList.add('bounce');
+  }
+  const db=document.getElementById('mascot-demo-btn');
+  if(db) db.style.display=showDemo?'inline-block':'none';
+}
+
+/* Зорилтот нотыг сонсгох (дуу гаргах) */
+function playDemoNote(freq){
+  const ac=getCtx();if(ac.state==='suspended')ac.resume();
+  const t=ac.currentTime;
+  const osc=ac.createOscillator(),g=ac.createGain();
+  osc.type='sine';osc.frequency.setValueAtTime(freq,t);
+  const osc2=ac.createOscillator(),g2=ac.createGain();
+  osc2.type='triangle';osc2.frequency.setValueAtTime(freq*2,t);
+  osc.connect(g);osc2.connect(g2);g.connect(ac.destination);g2.connect(ac.destination);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.42,t+.05);g.gain.exponentialRampToValueAtTime(.25,t+.3);g.gain.exponentialRampToValueAtTime(.001,t+1.2);
+  g2.gain.setValueAtTime(0,t);g2.gain.linearRampToValueAtTime(.07,t+.05);g2.gain.exponentialRampToValueAtTime(.001,t+1.2);
+  osc.start(t);osc.stop(t+1.3);osc2.start(t);osc2.stop(t+1.3);
+  demoUntil=Date.now()+1350;  /* демо тоглож байх үед микрофоны таних түр зогсооно */
+  if(targetNote) setMascot('good','🔊 Сонсооч... ['+targetNote.sym+' '+targetNote.name+'] нот ингэж дуулдана',true);
+}
 
 function buildNumStrip(){
   const s=document.getElementById('num-strip');
@@ -236,20 +306,38 @@ async function startMic(){
       const sw=wc.width/bb.length;let x=0;for(let i=0;i<bb.length;i++){const v=bb[i]/128,y=v*wc.height/2;i===0?wx.moveTo(x,y):wx.lineTo(x,y);x+=sw;}wx.stroke();})();
     pitchInterval=setInterval(()=>{analyser.getFloatTimeDomainData(buf);updatePitchUI(detectPitch(buf,getCtx().sampleRate));},80);
     const bm=document.getElementById('btn-mic');bm.textContent='🎤 Асаалттай';bm.classList.add('on');
+    setMascot('idle', targetNote?('['+targetNote.sym+' '+targetNote.name+'] нотыг үлээгээрэй 🎧'):'Доороос нот сонгоод бишгүүрээ үлээгээрэй 👇', !!targetNote);
   }catch(e){alert('Микрофоны зөвшөөрөл өгнө үү!\n'+e.message);}
 }
 
 function updatePitchUI(freq){
+  if(Date.now()<demoUntil) return;  /* демо тоглож байх үед алгасна */
   const det=freqToNote(freq),dn=document.getElementById('det-note'),df=document.getElementById('det-freq'),dnum=document.getElementById('det-num'),ve=document.getElementById('verdict'),tb=document.getElementById('tuner-bar');
-  if(!det||freq<=0){dn.textContent='—';dn.style.color='#334';dnum.textContent='—';dnum.style.color='#334';df.textContent='0 Гц';ve.textContent='Дуу илрэхгүй';ve.className='';tb.style.left='50%';updateNumStrip('');return;}
+  if(!det||freq<=0){
+    dn.textContent='—';dn.style.color='#334';dnum.textContent='—';dnum.style.color='#334';df.textContent='0 Гц';ve.textContent='Дуу илрэхгүй';ve.className='';tb.style.left='50%';updateNumStrip('');
+    setMascot('idle', targetNote?('['+targetNote.sym+' '+targetNote.name+'] нотыг үлээгээрэй, сонсож байна 🎧'):'Доороос нот сонгоорой 👇', !!targetNote);
+    return;
+  }
   dn.textContent=det.note.sym;dn.style.color=det.note.color;dnum.textContent='№'+det.note.num;dnum.style.color=det.note.color;df.textContent=Math.round(freq)+' Гц';updateNumStrip(det.note.sym);
   const cents=1200*Math.log2(freq/det.note.freq),pct=Math.min(100,Math.max(0,50+cents));tb.style.left=pct+'%';
   tb.style.background=Math.abs(cents)<10?'#2a8e4a':Math.abs(cents)<25?'#b07020':'#c04040';
   if(targetNote){
-    if(det.note.sym===targetNote.sym){if(Math.abs(cents)<15){ve.textContent='✓ Зөв! №'+targetNote.num+' — '+targetNote.name;ve.className='correct';highlightFluteHoles(targetNote.holes,'#2a8e4a');}
-    else{ve.textContent=cents>0?'↑ Дээгүүр':'↓ Доогуур';ve.className='close';}}
-    else{ve.textContent='✗ №'+det.note.num+' '+det.note.sym+' — №'+targetNote.num+' '+targetNote.sym+' биш';ve.className='wrong';highlightFluteHoles(targetNote.holes,'#c04040');}
-  }else{ve.textContent='№'+det.note.num+' — '+det.note.name+' нот';ve.className='';showHolesForNote(det.note);}
+    if(det.note.sym===targetNote.sym){
+      if(Math.abs(cents)<15){
+        ve.textContent='✓ Зөв! №'+targetNote.num+' — '+targetNote.name;ve.className='correct';highlightFluteHoles(targetNote.holes,'#2a8e4a');
+        setMascot('happy','Гайхалтай! 🎉 ['+targetNote.sym+' '+targetNote.name+'] нотыг яг зөв тоглолоо!',false);
+      }else{
+        ve.textContent=cents>0?'↑ Дээгүүр':'↓ Доогуур';ve.className='close';
+        setMascot('think', cents>0?'Нот зөв! Гэхдээ арай өндөр байна — зөөлөн үлээгээрэй ↓':'Нот зөв! Гэхдээ арай нам байна — чанга үлээгээрэй ↑', false);
+      }
+    }else{
+      ve.textContent='✗ №'+det.note.num+' '+det.note.sym+' — №'+targetNote.num+' '+targetNote.sym+' биш';ve.className='wrong';highlightFluteHoles(targetNote.holes,'#c04040');
+      setMascot('oops','Өөр нот байна! Чи ['+det.note.sym+'] тоглолоо. Зорилтот ['+targetNote.sym+' '+targetNote.name+'] нот ингэж дуулдана:',true);
+    }
+  }else{
+    ve.textContent='№'+det.note.num+' — '+det.note.name+' нот';ve.className='';showHolesForNote(det.note);
+    setMascot('idle','['+det.note.sym+' '+det.note.name+'] нот сонслоо 👂 Зорилтот нот сонгоорой',false);
+  }
 }
 
 function highlightFluteHoles(h,c){for(let i=0;i<5;i++){const e=document.getElementById('fh'+i);e.setAttribute('fill',h[i]?c:'#0a0808');e.setAttribute('r',h[i]?'4.5':'6');}
@@ -258,7 +346,8 @@ function highlightFluteHoles(h,c){for(let i=0;i<5;i++){const e=document.getEleme
 function showHolesForNote(n){highlightFluteHoles(n.holes,'#3a7fd4');for(let i=0;i<7;i++){const fp=document.getElementById('fp'+i),cl=document.getElementById('cl'+i);if(n.holes[i]){fp.classList.add('pressed');if(cl)cl.classList.add('active');}else{fp.classList.remove('pressed');if(cl)cl.classList.remove('active');}}}
 function setTarget(n){targetNote=n;document.getElementById('target-text').textContent=n.sym+' — '+n.name;document.getElementById('target-text').style.color=n.color;
 const b=document.getElementById('target-num-badge');b.textContent=n.num;b.style.display='inline-flex';b.style.color=n.color;b.style.borderColor=n.color+'66';b.style.background=n.color+'18';
-document.getElementById('target-hint').textContent='Нүхний байрлал харж үлээнэ үү';document.querySelectorAll('.guide-card').forEach(c=>c.classList.toggle('target',c.dataset.sym===n.sym));showHolesForNote(n);updateNumStrip(n.sym);}
+document.getElementById('target-hint').textContent='Нүхний байрлал харж үлээнэ үү';document.querySelectorAll('.guide-card').forEach(c=>c.classList.toggle('target',c.dataset.sym===n.sym));showHolesForNote(n);updateNumStrip(n.sym);
+setMascot('idle','['+n.sym+' '+n.name+'] нотыг үлээгээрэй! Эсвэл 🔊 дарж сонсоорой',true);}
 
 const gr=document.getElementById('guide-row');
 NOTES.forEach(n=>{const c=document.createElement('div');c.className='guide-card';c.dataset.sym=n.sym;
@@ -273,10 +362,15 @@ document.getElementById('target-text').textContent='— сонгоно уу';doc
 document.getElementById('target-hint').textContent='Доорх картаас нот сонгоод бишгүүрээ үлээнэ үү';document.querySelectorAll('.guide-card').forEach(c=>c.classList.remove('target'));
 highlightFluteHoles([0,0,0,0,0,0,0],'#0a0808');for(let i=0;i<7;i++){document.getElementById('fp'+i).classList.remove('pressed');const cl=document.getElementById('cl'+i);if(cl)cl.classList.remove('active');}
 document.getElementById('det-note').textContent='—';document.getElementById('det-note').style.color='#334';document.getElementById('det-num').textContent='—';document.getElementById('det-num').style.color='#334';
-document.getElementById('det-freq').textContent='0 Гц';document.getElementById('verdict').textContent='Хүлээж байна...';document.getElementById('verdict').className='';document.getElementById('tuner-bar').style.left='50%';updateNumStrip('');});
+document.getElementById('det-freq').textContent='0 Гц';document.getElementById('verdict').textContent='Хүлээж байна...';document.getElementById('verdict').className='';document.getElementById('tuner-bar').style.left='50%';updateNumStrip('');
+setMascot('idle','Доороос нот сонгоод эхэлцгээе! 🎵',false);});
+
+/* Демо товч — зорилтот нотыг сонсгоно */
+document.getElementById('mascot-demo-btn').addEventListener('click',()=>{ if(targetNote) playDemoNote(targetNote.freq); });
 
 document.getElementById('btn-mic').addEventListener('click',startMic);
 buildNumStrip();
+setMascot('idle','Сайн уу! 🎵 Доороос нот сонгоод эхэлцгээе!',false);
 </script>
 </body>
 </html>
