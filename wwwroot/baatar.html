@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AI Баатар — Бишгүүр</title>
+<link rel="stylesheet" href="/css/cursor.css">
+<script src="/js/analytics.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#2a2150;
+  --ink2:#6b6390;
+  --card:#ffffff;
+  --p1:#7c5cff;   /* нил ягаан */
+  --p2:#5b8def;   /* цэнхэр */
+  --p3:#9b6cff;
+  --soft:#f1edff;
+  --line:#ece7fb;
+  --gold:#f5b740;
+  --ok:#33c06f;
+  --bad:#ef5d6b;
+  --shadow:0 10px 30px rgba(90,60,180,.14);
+}
+body{
+  font-family:'Nunito',sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 500px at 80% -5%, #b6c6ff55, transparent 60%),
+    radial-gradient(900px 500px at -10% 10%, #d9c4ff55, transparent 55%),
+    linear-gradient(160deg,#eef0ff,#f6f1ff 60%,#fdf3ff);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,.disp{font-family:'Fredoka',sans-serif;}
+
+.app{max-width:460px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;position:relative;padding-bottom:78px}
+
+/* ── Top bar ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px}
+.brand{display:flex;align-items:center;gap:8px;font-family:'Fredoka';font-weight:700;font-size:22px;color:var(--ink)}
+.brand .logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:var(--shadow)}
+.user-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:5px 12px 5px 5px;box-shadow:var(--shadow)}
+.user-chip .av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#ffd9b3,#ffb98a);display:flex;align-items:center;justify-content:center;font-size:16px}
+.user-chip small{display:block;font-size:10px;color:var(--ink2);line-height:1.1}
+.user-chip b{font-size:12px;font-family:'Fredoka'}
+
+/* ── View container ── */
+.view{padding:6px 18px 20px;animation:fade .35s ease}
+.view.hide{display:none}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ── Hero banner (home) ── */
+.hero-banner{position:relative;border-radius:24px;overflow:hidden;padding:26px 20px;color:#fff;
+  background:linear-gradient(135deg,#6a3df0,#8b5cff 45%,#5b8def);box-shadow:var(--shadow);margin-bottom:18px;min-height:200px;display:flex;flex-direction:column;justify-content:flex-start}
+.hero-banner::after{content:"";position:absolute;right:-30px;top:-30px;width:170px;height:170px;background:radial-gradient(circle,#ffffff44,transparent 70%)}
+.hero-banner h1{font-size:27px;line-height:1.12;font-weight:700;position:relative;z-index:2;max-width:62%}
+.hero-banner p{font-size:13px;opacity:.92;margin-top:8px;position:relative;z-index:2;max-width:60%;line-height:1.5}
+.hero-banner .bn-char{position:absolute;right:-6px;bottom:-10px;width:172px;height:200px;z-index:1;filter:drop-shadow(0 8px 16px rgba(20,10,60,.35))}
+.cta{margin-top:16px;align-self:flex-start;position:relative;z-index:3;background:linear-gradient(135deg,#ffd24a,#ffb01f);color:#5a3a00;border:none;font-family:'Fredoka';font-weight:600;font-size:15px;padding:12px 22px;border-radius:30px;cursor:pointer;box-shadow:0 8px 18px rgba(255,160,20,.4);transition:transform .15s}
+.cta:active{transform:scale(.96)}
+
+/* ── Section title ── */
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 12px}
+.sec-head h2{font-size:18px;font-weight:600}
+.sec-head a{font-size:13px;color:var(--p1);font-weight:700;cursor:pointer;text-decoration:none}
+
+/* ── Hero cards grid ── */
+.hero-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.hero-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px 8px;text-align:center;cursor:pointer;box-shadow:var(--shadow);transition:transform .15s}
+.hero-card:active{transform:scale(.96)}
+.hero-card .ring{width:74px;height:74px;margin:0 auto 8px;border-radius:50%;padding:3px;background:linear-gradient(135deg,var(--p1),var(--p2));display:flex}
+.hero-card .ring>div{flex:1;border-radius:50%;background:#f4f1ff;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.hero-card .ring svg{width:100%;height:100%}
+.hero-card .hname{font-family:'Fredoka';font-weight:600;font-size:13px}
+.hero-card .hlvl{font-size:10px;color:var(--ink2);margin-top:1px}
+.hero-card.add{display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px dashed #cdbff5;background:#faf8ff;color:var(--p1)}
+.hero-card.add .plus{width:40px;height:40px;border-radius:50%;background:#efe9ff;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:8px}
+.hero-card.add small{font-size:10px;color:var(--ink2);line-height:1.2}
+
+/* ── Bottom nav ── */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:460px;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 4px calc(9px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(90,60,180,.08);z-index:50}
+.nav button{background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-family:'Nunito';font-size:10px;font-weight:700;color:#b3abce;cursor:pointer;padding:2px 6px;transition:color .15s}
+.nav button .ic{font-size:19px;line-height:1}
+.nav button.active{color:var(--p1)}
+
+/* ── Creator ── */
+.builder-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.back-btn{width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:17px;cursor:pointer;box-shadow:var(--shadow);color:var(--ink)}
+.builder-head h2{font-size:18px}
+.stepper{display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 10px;box-shadow:var(--shadow);margin-bottom:14px}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;position:relative}
+.step .dot{width:34px;height:34px;border-radius:11px;background:#f0ecff;display:flex;align-items:center;justify-content:center;font-size:15px;color:#a99fd0;transition:all .2s}
+.step.on .dot{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;box-shadow:0 6px 14px rgba(124,92,255,.4)}
+.step.done .dot{background:#e6fff0;color:var(--ok)}
+.step small{font-size:8.5px;color:var(--ink2);font-weight:700;text-align:center}
+.step.on small{color:var(--p1)}
+
+.preview{position:relative;border-radius:22px;overflow:hidden;background:linear-gradient(160deg,#dfe7ff,#efe4ff);box-shadow:var(--shadow);margin-bottom:14px;aspect-ratio:1/.92;display:flex;align-items:center;justify-content:center}
+.preview svg{width:78%;height:92%;filter:drop-shadow(0 8px 16px rgba(40,20,90,.25))}
+
+.opt-block{background:#fff;border:1px solid var(--line);border-radius:18px;padding:13px 14px;box-shadow:var(--shadow);margin-bottom:12px}
+.opt-block .lab{font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--ink2);text-transform:uppercase;margin-bottom:10px}
+.elem-row{display:flex;gap:8px;justify-content:space-between}
+.elem{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
+.elem .orb{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;border:3px solid transparent;transition:all .15s;background:#f4f1ff}
+.elem.sel .orb{border-color:var(--p1);transform:scale(1.06);box-shadow:0 6px 14px rgba(124,92,255,.3)}
+.elem small{font-size:10px;font-weight:700;color:var(--ink2)}
+.elem.sel small{color:var(--p1)}
+
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.sw{width:38px;height:38px;border-radius:50%;cursor:pointer;border:3px solid #fff;box-shadow:0 0 0 1px var(--line);position:relative;transition:transform .15s}
+.sw.sel{transform:scale(1.12);box-shadow:0 0 0 3px var(--p1)}
+.sw.sel::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:15px;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+
+.inst-row{display:flex;gap:8px;justify-content:space-between}
+.inst{flex:1;aspect-ratio:1;border-radius:14px;background:#f4f1ff;border:3px solid transparent;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;transition:all .15s}
+.inst.sel{border-color:var(--p1);background:#efe9ff;transform:translateY(-2px)}
+
+.name-input{width:100%;padding:13px 16px;border:2px solid var(--line);border-radius:14px;font-family:'Fredoka';font-size:16px;color:var(--ink);outline:none;transition:border-color .15s}
+.name-input:focus{border-color:var(--p1)}
+
+.big-btn{width:100%;padding:15px;border:none;border-radius:16px;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-family:'Fredoka';font-weight:600;font-size:16px;cursor:pointer;box-shadow:0 10px 22px rgba(124,92,255,.4);transition:transform .15s;margin-top:2px}
+.big-btn:active{transform:scale(.98)}
+.big-btn.ghost{background:#fff;color:var(--p1);border:2px solid var(--line);box-shadow:var(--shadow)}
+
+/* ── Hero detail ── */
+.detail-portrait{position:relative;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,#d7e6ff,#e9ddff);box-shadow:var(--shadow);aspect-ratio:1/.85;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.detail-portrait svg{width:74%;height:92%;filter:drop-shadow(0 10px 18px rgba(40,20,90,.28))}
+.dt-name{display:flex;align-items:center;gap:8px;font-size:25px;font-weight:700}
+.dt-title{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:30px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--p1);margin:8px 0;box-shadow:var(--shadow)}
+.lvl-wrap{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);margin-bottom:14px}
+.lvl-top{display:flex;justify-content:space-between;align-items:center;font-family:'Fredoka';font-weight:600;font-size:14px;margin-bottom:7px}
+.lvl-top span{font-size:11px;color:var(--ink2);font-family:'Nunito';font-weight:700}
+.xp-bg{height:11px;background:#eee6ff;border-radius:7px;overflow:hidden}
+.xp-fill{height:100%;border-radius:7px;background:linear-gradient(90deg,var(--p1),var(--p2));transition:width .5s}
+
+.subhead{font-family:'Fredoka';font-weight:600;font-size:13px;color:var(--ink2);letter-spacing:.04em;text-transform:uppercase;margin:16px 2px 9px}
+
+.ability{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;box-shadow:var(--shadow);margin-bottom:8px}
+.ability .ab-ic{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
+.ability b{font-size:13px;font-family:'Fredoka'}
+.ability small{display:block;font-size:10px;color:var(--ink2)}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px 4px;text-align:center;box-shadow:var(--shadow)}
+.stat .si{font-size:18px}
+.stat .sv{font-family:'Fredoka';font-weight:700;font-size:18px;color:var(--p1);margin-top:1px}
+.stat small{font-size:8.5px;color:var(--ink2);font-weight:700}
+
+.story-box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);margin-top:10px}
+.story-box .subhead{margin-top:0}
+.story-box p{font-size:13px;line-height:1.65;color:#4a4470}
+
+/* ── Quests ── */
+.quest{background:#fff;border:1px solid var(--line);border-radius:15px;padding:11px 13px;box-shadow:var(--shadow);margin-bottom:9px;display:flex;align-items:center;gap:11px}
+.quest .q-ic{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
+.quest .q-body{flex:1;min-width:0}
+.quest .q-text{font-size:12.5px;font-weight:700;line-height:1.3}
+.quest .q-barbg{height:7px;background:#eee6ff;border-radius:5px;overflow:hidden;margin-top:6px}
+.quest .q-bar{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--p1),var(--p2));transition:width .4s}
+.quest .q-meta{display:flex;justify-content:space-between;align-items:center;margin-top:5px}
+.quest .q-prog{font-size:10px;color:var(--ink2);font-weight:700}
+.quest .q-xp{font-size:11px;font-weight:800;color:var(--gold)}
+.q-btn{border:none;border-radius:20px;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-family:'Nunito';font-weight:800;font-size:11px;padding:7px 12px;cursor:pointer;flex-shrink:0;transition:transform .12s}
+.q-btn:active{transform:scale(.94)}
+.q-btn.done{background:#e6fff0;color:var(--ok);cursor:default}
+
+/* ── Achievements ── */
+.ach-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px}
+.ach{text-align:center}
+.ach .medal{width:100%;aspect-ratio:1;border-radius:16px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:5px;position:relative}
+.ach.locked .medal{filter:grayscale(1);opacity:.45}
+.ach.got .medal{background:linear-gradient(160deg,#fff7e6,#ffeec2);border-color:#ffd98a}
+.ach small{font-size:8.5px;color:var(--ink2);font-weight:700;line-height:1.2;display:block}
+
+/* tabs */
+.tabs{display:flex;background:#efe9ff;border-radius:14px;padding:4px;margin-bottom:14px}
+.tabs button{flex:1;border:none;background:none;font-family:'Fredoka';font-weight:600;font-size:13px;padding:9px;border-radius:11px;color:var(--ink2);cursor:pointer;transition:all .2s}
+.tabs button.on{background:#fff;color:var(--p1);box-shadow:var(--shadow)}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 20px;border-radius:30px;font-weight:700;font-size:13px;opacity:0;pointer-events:none;transition:all .3s;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+.empty{text-align:center;color:var(--ink2);padding:30px 10px;font-size:13px}
+
+@media(min-width:520px){
+  .app{box-shadow:0 0 60px rgba(90,60,180,.12);background:rgba(255,255,255,.25);}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand"><span class="logo">🎵</span> Бишгүүр</div>
+    <div class="user-chip">
+      <span class="av">🧒</span>
+      <div><small>Сурагч</small><b id="user-lvl">Level 1 ⭐</b></div>
+    </div>
+  </div>
+
+  <!-- ═══════ НҮҮР ═══════ -->
+  <div class="view" id="v-home">
+    <div class="hero-banner">
+      <h1>Өөрийн AI<br>баатраа бүтээ!</h1>
+      <p>Чиний төсөөллийн баатар хөгжмийн ертөнцөд амилна.</p>
+      <button class="cta" onclick="go('create')">БААТРАА БҮТЭЭХ ✨</button>
+      <div class="bn-char" id="banner-char"></div>
+    </div>
+
+    <div class="sec-head">
+      <h2>Миний баатрууд (<span id="hero-count">0</span>)</h2>
+    </div>
+    <div class="hero-grid" id="hero-grid"></div>
+  </div>
+
+  <!-- ═══════ БААТАР ҮҮСГЭХ ═══════ -->
+  <div class="view hide" id="v-create">
+    <div class="builder-head">
+      <button class="back-btn" onclick="go('home')">←</button>
+      <h2>Баатар үүсгэх ✨</h2>
+    </div>
+
+    <div class="stepper" id="stepper"></div>
+
+    <div class="preview" id="create-preview"></div>
+
+    <div class="opt-block">
+      <div class="lab">🔮 Төрлөө сонго</div>
+      <div class="elem-row" id="elem-row"></div>
+    </div>
+
+    <div class="opt-block">
+      <div class="lab">🎨 Хувцасны өнгө</div>
+      <div class="swatches" id="color-row"></div>
+    </div>
+
+    <div class="opt-block">
+      <div class="lab">🎺 Зэмсэг сонго</div>
+      <div class="inst-row" id="inst-row"></div>
+    </div>
+
+    <div class="opt-block">
+      <div class="lab">✏️ Баатрын нэр</div>
+      <input class="name-input" id="name-input" maxlength="14" placeholder="Жишээ: Аялгуу"/>
+    </div>
+
+    <button class="big-btn" onclick="createHero()">Баатраа бүтээх →</button>
+  </div>
+
+  <!-- ═══════ МИНИЙ БААТАР ═══════ -->
+  <div class="view hide" id="v-detail">
+    <div class="builder-head">
+      <button class="back-btn" onclick="go('home')">←</button>
+      <h2>Миний баатар</h2>
+    </div>
+
+    <div class="detail-portrait" id="detail-portrait"></div>
+
+    <div class="dt-name"><span id="dt-name">—</span> ✏️</div>
+    <div class="dt-title" id="dt-title">—</div>
+
+    <div class="lvl-wrap">
+      <div class="lvl-top">Level <span id="dt-level">1</span><span id="dt-xp">0 / 100 XP</span></div>
+      <div class="xp-bg"><div class="xp-fill" id="dt-xpfill" style="width:0%"></div></div>
+    </div>
+
+    <div class="subhead">⚡ Чадварууд</div>
+    <div id="dt-abilities"></div>
+
+    <div class="subhead">📊 Үзүүлэлт</div>
+    <div class="stat-grid" id="dt-stats"></div>
+
+    <div class="subhead">📜 Өнөөдрийн даалгавар</div>
+    <div id="dt-quests"></div>
+
+    <div class="subhead">🏆 Шагнал</div>
+    <div class="ach-grid" id="dt-ach"></div>
+
+    <div class="story-box">
+      <div class="subhead">✨ Түүх</div>
+      <p id="dt-story">—</p>
+    </div>
+
+    <button class="big-btn ghost" style="margin-top:14px" onclick="deleteHero()">🗑 Баатрыг устгах</button>
+  </div>
+
+</div>
+
+<!-- Bottom nav -->
+<div class="nav" id="nav">
+  <button data-v="home" class="active" onclick="go('home')"><span class="ic">🏠</span>Нүүр</button>
+  <button onclick="location.href='/'"><span class="ic">📘</span>Хичээл</button>
+  <button onclick="go('quests')"><span class="ic">✅</span>Даалгавар</button>
+  <button data-v="home2" onclick="go('home')"><span class="ic">🛡️</span>Баатрууд</button>
+  <button onclick="go('profile')"><span class="ic">👤</span>Профайл</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ══════════════ ӨГӨГДӨЛ ══════════════ */
+const ELEMENTS={
+  fire :{name:'Гал',     icon:'🔥', a1:'#ff7a3c',a2:'#ffcf6a', title:'Галын бишгүүрчин',
+         stats:{hp:100,pow:95,def:65,spd:80}, ab:[['Галын аялгуу','🔥'],['Дөлийн хэмнэл','🥁'],['Халуун эрч','✨']],
+         story:n=>`${n} бол галын дөлнөөс төрсөн зоригт бишгүүрчин. Хүйтэн өвлийн шөнө түүний бишгүүрийн аялгуу гал голомтыг асааж, эргэн тойрны хүн бүхний зүрхийг дулаацуулдаг гэдэг. Айдас, цөхрөл нөмрөхөд ${n} зоригтой эгшиг тоглож, бусдад урам зориг бэлэглэдэг. Түүний дөл хэзээ ч хэнийг ч түлдэггүй — зөвхөн гэрэл, дулаан түгээдэг.`},
+  water:{name:'Ус',      icon:'💧', a1:'#3aa0ff',a2:'#8fe3ff', title:'Усны бишгүүрчин',
+         stats:{hp:110,pow:70,def:95,spd:75}, ab:[['Усан долгио','🌊'],['Тайван хамгаалалт','🛡️'],['Цэвэр эрч','💧']],
+         story:n=>`${n} бол тунгалаг уулын рашаанаас мэндэлсэн номхон бишгүүрчин. Түүний аялгуу горхины мэлмэрэл, нуурын тогтуун амьсгал мэт зөөлөн уярам. Хэн нэгэн уй гашуу, ядаргаатай байвал ${n}-ийн хөгжим сэтгэлийн шархыг анагааж, дотор амар амгаланг авчирдаг. Усны баатар бол тэвчээр, тайван байдлын бэлгэдэл юм.`},
+  wind :{name:'Салхи',   icon:'🌀', a1:'#4ac0c0',a2:'#bfeaff', title:'Салхины бишгүүрчин',
+         stats:{hp:100,pow:80,def:70,spd:95}, ab:[['Салхин аялгуу','🌬️'],['Хурдан хэмнэл','💨'],['Нисэх эрч','🪶']],
+         story:n=>`${n} бол тал нутгийн салхинд төрсөн хурдан бишгүүрчин. Түүний аялгууг салхи холын ууланд, өвөг дээдсийн нутаг хүртэл зөөж хүргэдэг. ${n} хаашаа ч хорьж баршгүй чөлөөт сэтгэлтэй — бишгүүрийнхээ эгшгээр шувуудтай ярьж, үүлсийг хөтөлдөг гэдэг. Хаана гуниг бачимдал байна, тийшээ салхи мэт нисэн очиж, аялгуугаараа сэргээдэг.`},
+  light:{name:'Гэрэл',   icon:'☀️', a1:'#f5b740',a2:'#fff0b0', title:'Гэрлийн бишгүүрчин',
+         stats:{hp:120,pow:80,def:80,spd:80}, ab:[['Гэрэлт аялгуу','🌟'],['Эдгээх хэмнэл','💛'],['Гэрэл эрч','☀️']],
+         story:n=>`${n} бол үүрийн гэгээнээс үүссэн гэрэлт бишгүүрчин. Хамгийн харанхуй шөнө ч түүний аялгуу туяа мэт замыг гэрэлтүүлж, төөрсөн хүнд найдвар бэлэглэдэг. ${n}-ийн хөгжим зовсон сэтгэлийг эдгээж, унтарсан урам зоригийг дахин асаадаг увидастай. Тэрээр хэнийг ч харанхуйд орхидоггүй.`},
+  dark :{name:'Харанхуй',icon:'🌙', a1:'#8b6cff',a2:'#d0baff', title:'Шөнийн бишгүүрчин',
+         stats:{hp:105,pow:90,def:85,spd:75}, ab:[['Шөнийн аялгуу','🌙'],['Нууц хэмнэл','🔮'],['Од эрч','⭐']],
+         story:n=>`${n} бол одтой тэнгэрийн дор төрсөн нууцлаг бишгүүрчин. Бусад нойрсох цагт ${n} шөнийн нам гүмд ганцаараа аялгуу тоглож, зүүдэнд сайхан түүх зурдаг. Түүний хөгжмийг сонссон хүүхэд амар тайван унтаж, гайхамшигт зүүд зүүдэлдэг гэдэг. Харанхуйгаас огт айдаггүй ${n} өөрөө од мэт гэрэлтэн, шөнийг манаж хамгаалдаг.`},
+};
+const COLORS=['#3a7fd4','#e0463f','#33b56a','#9b5cff','#f5b740','#f4f1ff','#2b2b3a'];
+const INSTRUMENTS={
+  bishguur:{icon:'🎵',name:'Бишгүүр'},
+  panflute:{icon:'🪈',name:'Лимбэ'},
+  horn:{icon:'📯',name:'Бүрээ'},
+  harp:{icon:'🎼',name:'Ятга'},
+  staff:{icon:'🪄',name:'Бариул'},
+};
+const STEPS=[['🔮','Төрөл'],['👕','Хувцас'],['🎺','Зэмсэг'],['📊','Күч'],['✏️','Нэр']];
+
+/* ══════════════ ХАДГАЛАЛТ (localStorage + fallback) ══════════════ */
+const DB={_m:{},
+  get(k,def){try{const v=localStorage.getItem(k);return v?JSON.parse(v):def;}catch(e){return (k in this._m)?this._m[k]:def;}},
+  set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){this._m[k]=v;}}
+};
+function loadHeroes(){return DB.get('bishguur_heroes',[]);}
+function saveHeroes(h){DB.set('bishguur_heroes',h);}
+const today=()=>new Date().toISOString().slice(0,10);
+
+/* ══════════════ БААТРЫН ЗУРАГ (SVG) ══════════════ */
+function heroSVG(el,robe){
+  const E=ELEMENTS[el]||ELEMENTS.wind;
+  const a1=E.a1,a2=E.a2;
+  const rid='r'+Math.random().toString(36).slice(2,7);
+  return `<svg viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg">
+   <defs>
+     <radialGradient id="au${rid}" cx="50%" cy="45%" r="55%">
+       <stop offset="0%" stop-color="${a2}" stop-opacity=".9"/>
+       <stop offset="55%" stop-color="${a1}" stop-opacity=".45"/>
+       <stop offset="100%" stop-color="${a1}" stop-opacity="0"/>
+     </radialGradient>
+     <linearGradient id="ro${rid}" x1="0" y1="0" x2="0" y2="1">
+       <stop offset="0%" stop-color="${shade(robe,18)}"/>
+       <stop offset="100%" stop-color="${shade(robe,-22)}"/>
+     </linearGradient>
+   </defs>
+   <circle cx="110" cy="112" r="100" fill="url(#au${rid})"/>
+   <!-- floating notes -->
+   <g fill="${a1}" opacity=".7">
+     <circle cx="40" cy="70" r="5"/><rect x="44" y="50" width="2.4" height="22" rx="1"/>
+     <circle cx="182" cy="58" r="4.5"/><rect x="185.6" y="40" width="2.2" height="20" rx="1"/>
+     <circle cx="178" cy="150" r="4"/>
+   </g>
+   <!-- robe / body -->
+   <path d="M74,150 Q62,150 60,166 L50,214 Q49,222 57,222 L163,222 Q171,222 170,214 L160,166 Q158,150 146,150 Z" fill="url(#ro${rid})" stroke="${shade(robe,-30)}" stroke-width="2"/>
+   <!-- collar -->
+   <path d="M92,150 L110,166 L128,150 Z" fill="${shade(robe,-30)}"/>
+   <!-- sleeves -->
+   <ellipse cx="62" cy="178" rx="15" ry="20" fill="url(#ro${rid})" stroke="${shade(robe,-30)}" stroke-width="2"/>
+   <ellipse cx="158" cy="178" rx="15" ry="20" fill="url(#ro${rid})" stroke="${shade(robe,-30)}" stroke-width="2"/>
+   <!-- belt -->
+   <rect x="68" y="190" width="84" height="9" rx="4" fill="${a1}"/>
+   <!-- neck -->
+   <rect x="101" y="138" width="18" height="16" rx="6" fill="#f0b98c"/>
+   <!-- head -->
+   <circle cx="110" cy="104" r="40" fill="#ffd9b3"/>
+   <ellipse cx="72" cy="106" rx="6" ry="8" fill="#ffd9b3"/>
+   <ellipse cx="148" cy="106" rx="6" ry="8" fill="#ffd9b3"/>
+   <!-- hair -->
+   <path d="M72,98 Q64,56 110,52 Q156,56 148,98 Q150,74 128,66 Q120,76 110,62 Q100,76 92,66 Q70,74 72,98 Z" fill="#5a3a22"/>
+   <!-- headband -->
+   <rect x="72" y="86" width="76" height="11" rx="5.5" fill="${a1}"/>
+   <circle cx="110" cy="91.5" r="5" fill="${a2}" stroke="#fff" stroke-width="1.5"/>
+   <!-- eyes -->
+   <ellipse cx="96" cy="106" rx="8.5" ry="10.5" fill="#fff"/>
+   <ellipse cx="124" cy="106" rx="8.5" ry="10.5" fill="#fff"/>
+   <circle cx="97" cy="108" r="5" fill="#3a2a18"/>
+   <circle cx="125" cy="108" r="5" fill="#3a2a18"/>
+   <circle cx="94.5" cy="105" r="2" fill="#fff"/>
+   <circle cx="122.5" cy="105" r="2" fill="#fff"/>
+   <!-- cheeks -->
+   <circle cx="84" cy="118" r="5" fill="#ff9a9a" opacity=".55"/>
+   <circle cx="136" cy="118" r="5" fill="#ff9a9a" opacity=".55"/>
+   <!-- smile -->
+   <path d="M99,122 Q110,131 121,122" stroke="#c46a3a" stroke-width="3" fill="none" stroke-linecap="round"/>
+   <!-- flute (across body) -->
+   <g transform="rotate(-28 110 178)">
+     <rect x="58" y="174" width="104" height="9" rx="4.5" fill="#cfa24e" stroke="#8a6a28" stroke-width="1.4"/>
+     <circle cx="78" cy="178.5" r="2" fill="#5a3f12"/><circle cx="92" cy="178.5" r="2" fill="#5a3f12"/>
+     <circle cx="106" cy="178.5" r="2" fill="#5a3f12"/><circle cx="120" cy="178.5" r="2" fill="#5a3f12"/>
+     <circle cx="134" cy="178.5" r="2" fill="#5a3f12"/>
+     <ellipse cx="160" cy="178.5" rx="7" ry="9" fill="#b8863a"/>
+   </g>
+   <!-- hands -->
+   <circle cx="86" cy="196" r="8.5" fill="#ffd9b3" stroke="#f0b98c" stroke-width="1.3"/>
+   <circle cx="128" cy="172" r="8.5" fill="#ffd9b3" stroke="#f0b98c" stroke-width="1.3"/>
+  </svg>`;
+}
+function shade(hex,p){
+  hex=hex.replace('#','');if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');
+  let r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);
+  const f=v=>Math.max(0,Math.min(255,Math.round(v+(p/100)*255)));
+  return '#'+[f(r),f(g),f(b)].map(v=>v.toString(16).padStart(2,'0')).join('');
+}
+
+/* ══════════════ NAVIGATION ══════════════ */
+let activeId=null;
+function setActive(id){
+  activeId=id;
+  try{const h=loadHeroes().find(x=>x.id===id);
+    localStorage.setItem('bishguur_active',JSON.stringify(h?{id:h.id,name:h.name,el:h.el,robe:h.robe,lvl:level(h.xp)}:{}));
+  }catch(e){}
+}
+function go(where){
+  document.querySelectorAll('.view').forEach(v=>v.classList.add('hide'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  if(where==='home'){
+    document.getElementById('v-home').classList.remove('hide');
+    document.querySelector('[data-v="home"]').classList.add('active');
+    renderHome();
+  }else if(where==='create'){
+    document.getElementById('v-create').classList.remove('hide');
+    resetCreator();
+  }else if(where==='detail'){
+    document.getElementById('v-detail').classList.remove('hide');
+    renderDetail();
+  }else if(where==='profile'||where==='quests'){
+    const hs=loadHeroes();
+    if(!hs.length){toast('Эхлээд баатар үүсгээрэй! ✨');go('create');return;}
+    if(!activeId)setActive(hs[0].id);
+    document.getElementById('v-detail').classList.remove('hide');
+    renderDetail();
+    if(where==='quests')setTimeout(()=>document.querySelector('#dt-quests').scrollIntoView({behavior:'smooth',block:'center'}),150);
+  }
+  window.scrollTo(0,0);
+}
+
+/* ══════════════ НҮҮР ══════════════ */
+function renderHome(){
+  const hs=loadHeroes();
+  document.getElementById('hero-count').textContent=hs.length;
+  document.getElementById('banner-char').innerHTML=heroSVG(hs[0]?hs[0].el:'wind',hs[0]?hs[0].robe:'#3a7fd4');
+  const maxLvl=hs.reduce((m,h)=>Math.max(m,level(h.xp)),1);
+  document.getElementById('user-lvl').textContent='Level '+maxLvl+' ⭐';
+  const grid=document.getElementById('hero-grid');
+  grid.innerHTML='';
+  hs.forEach(h=>{
+    const d=document.createElement('div');d.className='hero-card';
+    d.innerHTML=`<div class="ring"><div>${heroSVG(h.el,h.robe)}</div></div>
+      <div class="hname">${esc(h.name)}</div><div class="hlvl">Level ${level(h.xp)}</div>`;
+    d.onclick=()=>{setActive(h.id);go('detail');};
+    grid.appendChild(d);
+  });
+  const add=document.createElement('div');add.className='hero-card add';
+  add.innerHTML=`<div class="plus">+</div><small>Шинээр<br>үүсгэх</small>`;
+  add.onclick=()=>go('create');
+  grid.appendChild(add);
+}
+
+/* ══════════════ ҮҮСГЭХ ══════════════ */
+let draft={el:'wind',robe:'#3a7fd4',inst:'bishguur',name:''};
+function resetCreator(){
+  draft={el:'wind',robe:'#3a7fd4',inst:'bishguur',name:''};
+  document.getElementById('name-input').value='';
+  // stepper
+  document.getElementById('stepper').innerHTML=STEPS.map((s,i)=>
+    `<div class="step ${i===0?'on':''}"><div class="dot">${s[0]}</div><small>${i+1}. ${s[1]}</small></div>`).join('');
+  // elements
+  document.getElementById('elem-row').innerHTML=Object.entries(ELEMENTS).map(([k,e])=>
+    `<div class="elem ${k==='wind'?'sel':''}" data-el="${k}" onclick="pickEl('${k}')">
+       <div class="orb" style="background:${e.a2}66">${e.icon}</div><small>${e.name}</small></div>`).join('');
+  // colors
+  document.getElementById('color-row').innerHTML=COLORS.map(c=>
+    `<div class="sw ${c==='#3a7fd4'?'sel':''}" data-c="${c}" style="background:${c}" onclick="pickColor('${c}')"></div>`).join('');
+  // instruments
+  document.getElementById('inst-row').innerHTML=Object.entries(INSTRUMENTS).map(([k,i])=>
+    `<div class="inst ${k==='bishguur'?'sel':''}" data-i="${k}" onclick="pickInst('${k}')" title="${i.name}">${i.icon}</div>`).join('');
+  paintPreview();
+}
+function paintPreview(){document.getElementById('create-preview').innerHTML=heroSVG(draft.el,draft.robe);updateSteps();}
+function updateSteps(){
+  const done=[true,true,true,true,draft.name.trim().length>0];
+  const cur=draft.name.trim()?4:3;
+  document.querySelectorAll('#stepper .step').forEach((s,i)=>{s.classList.toggle('done',i<cur);s.classList.toggle('on',i===cur);});
+}
+function pickEl(k){draft.el=k;document.querySelectorAll('.elem').forEach(e=>e.classList.toggle('sel',e.dataset.el===k));paintPreview();}
+function pickColor(c){draft.robe=c;document.querySelectorAll('.sw').forEach(s=>s.classList.toggle('sel',s.dataset.c===c));paintPreview();}
+function pickInst(k){draft.inst=k;document.querySelectorAll('.inst').forEach(i=>i.classList.toggle('sel',i.dataset.i===k));}
+document.addEventListener('input',e=>{if(e.target.id==='name-input'){draft.name=e.target.value;updateSteps();}});
+
+function createHero(){
+  const name=draft.name.trim();
+  if(!name){toast('Баатартаа нэр өгөөрэй ✏️');document.getElementById('name-input').focus();return;}
+  const hs=loadHeroes();
+  hs.push({id:'h'+Date.now(),name,el:draft.el,robe:draft.robe,inst:draft.inst,xp:0,quests:{}});
+  saveHeroes(hs);
+  setActive(hs[hs.length-1].id);
+  toast('🎉 '+name+' баатар бүтэглээ!');
+  go('detail');
+}
+
+/* ══════════════ ДЭЛГЭРЭНГҮЙ ══════════════ */
+const level=xp=>Math.floor(xp/100)+1;
+function getHero(){return loadHeroes().find(h=>h.id===activeId);}
+function renderDetail(){
+  const h=getHero();if(!h){go('home');return;}
+  const E=ELEMENTS[h.el];
+  document.getElementById('detail-portrait').innerHTML=heroSVG(h.el,h.robe);
+  document.getElementById('dt-name').textContent=h.name;
+  document.getElementById('dt-title').innerHTML=E.icon+' '+E.title;
+  const lv=level(h.xp),inLv=h.xp%100;
+  document.getElementById('dt-level').textContent=lv;
+  document.getElementById('dt-xp').textContent=inLv+' / 100 XP';
+  document.getElementById('dt-xpfill').style.width=inLv+'%';
+  document.getElementById('user-lvl').textContent='Level '+lv+' ⭐';
+  // abilities
+  const abColors=[E.a1,'#5b8def','#33c06f'];
+  document.getElementById('dt-abilities').innerHTML=E.ab.map((a,i)=>
+    `<div class="ability"><div class="ab-ic" style="background:${abColors[i]}">${a[1]}</div>
+      <div><b>${a[0]}</b><small>Level ${Math.max(1,lv- i)}</small></div></div>`).join('');
+  // stats (+ level bonus)
+  const s=E.stats,b=(lv-1)*3;
+  document.getElementById('dt-stats').innerHTML=[
+    ['❤️',s.hp+b*2,'Эрүүл мэнд'],['🎵',s.pow+b,'Хүч'],['🛡️',s.def+b,'Хамгаалалт'],['⚡',s.spd+b,'Хурд']
+  ].map(x=>`<div class="stat"><div class="si">${x[0]}</div><div class="sv">${x[1]}</div><small>${x[2]}</small></div>`).join('');
+  document.getElementById('dt-story').textContent=E.story(h.name);
+  renderQuests(h);
+  renderAch(h);
+}
+
+/* ══════════════ ДААЛГАВАР ══════════════ */
+const QUESTS=[
+  {id:'note',  ic:'🎵',col:'#7c5cff',text:'"До" нотыг 10 удаа зөв үлээ',goal:10,step:2,xp:20,link:'#sound'},
+  {id:'prac',  ic:'⏱️',col:'#33c06f',text:'15 минут дасгал хий',goal:15,step:5,xp:20,link:'#songs'},
+  {id:'lesson',ic:'⭐',col:'#f5b740',text:'Шинэ хичээл үз',goal:1,step:1,xp:10,link:'#fingering'},
+];
+function questState(h){
+  if(!h.quests||h.quests.day!==today())h.quests={day:today(),note:0,prac:0,lesson:0,claimed:{}};
+  return h.quests;
+}
+function renderQuests(h){
+  const q=questState(h);
+  document.getElementById('dt-quests').innerHTML=QUESTS.map(Q=>{
+    const cur=Math.min(q[Q.id]||0,Q.goal),pct=Math.round(cur/Q.goal*100),full=cur>=Q.goal,claimed=q.claimed&&q.claimed[Q.id];
+    return `<div class="quest"><div class="q-ic" style="background:${Q.col}">${Q.ic}</div>
+      <div class="q-body"><div class="q-text">${Q.text}</div>
+        <div class="q-barbg"><div class="q-bar" style="width:${pct}%"></div></div>
+        <div class="q-meta"><span class="q-prog">${cur} / ${Q.goal}</span><span class="q-xp">+${Q.xp} XP</span></div>
+      </div>
+      ${full?(claimed?`<button class="q-btn done">✓ Авсан</button>`:`<button class="q-btn" onclick="claimQuest('${Q.id}')">🎁 Авах</button>`)
+            :`<button class="q-btn" onclick="doQuest('${Q.id}')">Хийх →</button>`}</div>`;
+  }).join('');
+}
+function doQuest(id){
+  const h=getHero();const q=questState(h);const Q=QUESTS.find(x=>x.id===id);
+  q[id]=Math.min((q[id]||0)+Q.step,Q.goal);
+  saveActive(h);
+  if(Q.link){ location.href='/'+Q.link; }   /* үндсэн сайт дээр тухайн хичээл/дасгал руу очино */
+  else renderQuests(h);
+}
+function claimQuest(id){
+  const h=getHero();const q=questState(h);const Q=QUESTS.find(x=>x.id===id);
+  if(!q.claimed)q.claimed={};
+  if(q.claimed[id])return;
+  q.claimed[id]=true;
+  const before=level(h.xp);h.xp+=Q.xp;const after=level(h.xp);
+  saveActive(h);renderDetail();
+  toast(after>before?('🎉 Level '+after+' боллоо! +'+Q.xp+' XP'):('+'+Q.xp+' XP авлаа! ✨'));
+}
+function saveActive(h){const hs=loadHeroes();const i=hs.findIndex(x=>x.id===h.id);if(i>=0){hs[i]=h;saveHeroes(hs);}}
+
+/* ══════════════ ШАГНАЛ ══════════════ */
+function renderAch(h){
+  const lv=level(h.xp),hs=loadHeroes();
+  const list=[
+    {ic:'🥉',name:'Анхны алхам',got:hs.length>=1},
+    {ic:'🥈',name:'Хичээнгүй сурагч',got:h.xp>=100},
+    {ic:'🏅',name:'Аялгуу мастер',got:lv>=3},
+    {ic:'👑',name:lv>=5?'Домог':'???',got:lv>=5},
+  ];
+  document.getElementById('dt-ach').innerHTML=list.map(a=>
+    `<div class="ach ${a.got?'got':'locked'}"><div class="medal">${a.got?a.ic:'🔒'}</div><small>${a.name}</small></div>`).join('');
+}
+
+/* ══════════════ УСТГАХ ══════════════ */
+function deleteHero(){
+  const h=getHero();if(!h)return;
+  if(!confirm(h.name+' баатрыг устгах уу?'))return;
+  saveHeroes(loadHeroes().filter(x=>x.id!==h.id));
+  activeId=null;try{localStorage.removeItem('bishguur_active');}catch(e){}
+  toast('Баатрыг устгалаа');go('home');
+}
+
+/* ══════════════ TUSLAH ══════════════ */
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+let toastT;
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200);}
+
+/* эхлэл */
+renderHome();
+</script>
+</body>
+</html>

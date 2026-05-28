@@ -430,6 +430,24 @@
         </div>
     </div>
 
+    <!-- 🦸 Идэвхтэй баатрын чип (дээд баруун) -->
+    <style>
+      #hero-chip{position:fixed;top:12px;right:16px;z-index:300;display:none;align-items:center;gap:9px;
+        background:linear-gradient(135deg,#7c5cff,#5b8def);color:#fff;border-radius:30px;padding:6px 15px 6px 7px;
+        cursor:pointer;box-shadow:0 6px 18px rgba(124,92,255,.45);border:none;font-family:inherit;transition:transform .15s}
+      #hero-chip:hover{transform:translateY(-1px)}
+      #hero-chip:active{transform:scale(.97)}
+      #hero-chip.show{display:flex}
+      #hero-chip .h-em{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.25);
+        display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+      #hero-chip small{display:block;font-size:9px;opacity:.9;line-height:1.1;text-align:left}
+      #hero-chip b{font-size:13px;line-height:1.2;text-align:left}
+    </style>
+    <button id="hero-chip" onclick="location.href='/baatar.html'" title="Миний AI баатар руу очих">
+      <span class="h-em" id="hero-chip-emoji">🦸</span>
+      <div><small>Миний баатар</small><b id="hero-chip-name">—</b></div>
+    </button>
+
     <!-- Харанхуй дэвсгэр (цэс нээгдэхэд) -->
     <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="closeSidebar()"></div>
 
@@ -456,6 +474,9 @@
             </button>
             <button class="nav-btn" onclick="loadLesson('posture', this)">
                 <span>🧍</span> Биеийн галбир
+            </button>
+            <button class="nav-btn" onclick="window.location.href='/baatar.html'" style="background:linear-gradient(135deg,#7c5cff,#5b8def);color:#fff;font-weight:700;margin-top:6px;">
+                <span>🦸</span> AI Баатар бүтээх
             </button>
         </div>
 
@@ -992,6 +1013,28 @@
                 </div>`;
         }
     }
+
+    /* 🦸 Идэвхтэй баатрын нэрийг дээд талд харуулах */
+    (function(){
+      try{
+        const a=JSON.parse(localStorage.getItem('bishguur_active')||'{}');
+        if(a&&a.name){
+          document.getElementById('hero-chip-name').textContent=a.name+(a.lvl?(' • Lv'+a.lvl):'');
+          document.getElementById('hero-chip').classList.add('show');
+        }
+      }catch(e){}
+    })();
+
+    /* 🔗 Даалгавраас ирсэн бол тухайн хичээлийг шууд нээх (#sound, #notes гэх мэт) */
+    (function(){
+      const map={'#notes':'notes','#fingering':'fingering','#posture':'posture','#breathing':'breathing','#sound':'sound','#songs':'songs'};
+      const key=map[location.hash];
+      if(key){
+        const btns=Array.prototype.slice.call(document.querySelectorAll('.nav-btn'));
+        const btn=btns.find(function(b){const o=b.getAttribute('onclick')||'';return o.indexOf("'"+key+"'")>=0;});
+        loadLesson(key, btn||null);
+      }
+    })();
 </script>
 
 </body>

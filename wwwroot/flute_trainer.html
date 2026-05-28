@@ -48,6 +48,20 @@ body{background:#0a0c10;color:#dde0e8;font-family:'Segoe UI',Arial,sans-serif;he
 #tuner-bar-bg{width:100%;height:10px;background:#1a1e2a;border-radius:5px;position:relative;overflow:hidden}
 #tuner-bar{position:absolute;top:0;height:100%;width:4px;background:#3a7fd4;border-radius:2px;left:50%;transform:translateX(-50%);transition:left .1s}
 #tuner-center{position:absolute;top:0;left:50%;width:1px;height:100%;background:#2a2e3a}
+
+/* ⭐ Одтой шагнал */
+.star-box{background:#0e1018;border:1px solid #22263a;border-radius:12px;padding:11px 13px;display:flex;flex-direction:column;gap:8px}
+.star-top{display:flex;align-items:center;justify-content:space-between}
+.star-row{display:flex;gap:6px}
+.star{font-size:26px;color:#2a2e3a;transition:color .2s,transform .2s;line-height:1}
+.star.lit{color:#f5c33b;text-shadow:0 0 10px rgba(245,195,59,.6)}
+.star.pop{animation:starpop .45s ease}
+@keyframes starpop{0%{transform:scale(.3) rotate(-30deg)}60%{transform:scale(1.35) rotate(10deg)}100%{transform:scale(1) rotate(0)}}
+.star-total{font-size:12px;color:#8090a0;font-weight:700}
+.star-total b{color:#f5c33b;font-size:14px}
+.hold-label{font-size:10px;color:#556;display:flex;justify-content:space-between;align-items:center}
+.hold-bg{width:100%;height:8px;background:#1a1e2a;border-radius:5px;overflow:hidden}
+.hold-bar{height:100%;width:0%;background:linear-gradient(90deg,#3a7fd4,#f5c33b);border-radius:5px;transition:width .12s}
 .btn{padding:10px 20px;font-size:13px;border-radius:9px;border:1px solid #22263a;background:#12151e;color:#dde0e8;cursor:pointer;font-family:inherit;transition:all .13s;width:100%}
 .btn:hover{background:#1a1e2e;border-color:#3a7fd4}
 .btn:active{transform:scale(.97)}
@@ -145,6 +159,16 @@ body{background:#0a0c10;color:#dde0e8;font-family:'Segoe UI',Arial,sans-serif;he
       <div id="tuner-bar-bg"><div id="tuner-center"></div><div id="tuner-bar"></div></div>
     </div>
 
+    <!-- ⭐ Одтой шагнал -->
+    <div class="star-box">
+      <div class="star-top">
+        <div class="star-row" id="star-row"><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <div class="star-total">⭐ Нийт од: <b id="star-total">0</b></div>
+      </div>
+      <div class="hold-label"><span id="hold-text">Нот сонгоод тогтвортой бариарай</span></div>
+      <div class="hold-bg"><div class="hold-bar" id="hold-bar"></div></div>
+    </div>
+
     <!-- 🎨 AI БААТАР ТУСЛАХ -->
     <div class="mascot-wrap" id="mascot-wrap">
       <div class="mascot-fig" id="mascot">
@@ -231,6 +255,45 @@ const NOTES=[
 let targetNote=null,autoPlaying=false,autoTimer=null,audioCtx=null,analyser=null,waveAnim=null,pitchInterval=null;
 let demoUntil=0;
 
+/* ═══════════ ⭐ ОДТОЙ ШАГНАЛ (аажмаар нэмэгдэнэ) ═══════════ */
+let holdMs=0,lastTick=0,starsAttempt=0,totalStars=0;
+const STAR_MS=[1000,1900,2700];  /* 1, 2, 3 дахь одыг авах хугацаа (мс) */
+function loadStars(){try{return parseInt(localStorage.getItem('bishguur_flute_stars'))||0;}catch(e){return 0;}}
+function saveStars(){try{localStorage.setItem('bishguur_flute_stars',totalStars);}catch(e){}}
+function setHoldUI(frac){const b=document.getElementById('hold-bar');if(b)b.style.width=Math.min(100,frac*100)+'%';}
+function clearStarRow(){document.querySelectorAll('#star-row .star').forEach(s=>s.classList.remove('lit','pop'));}
+function lightStar(i){const s=document.querySelectorAll('#star-row .star')[i];if(s){s.classList.remove('pop');void s.offsetWidth;s.classList.add('lit','pop');}}
+function resetHold(){holdMs=0;starsAttempt=0;clearStarRow();setHoldUI(0);}
+function chime(n){  /* од авах бүрд өсөх дуу */
+  const ac=getCtx();if(ac.state==='suspended')ac.resume();
+  const f=[0,659,784,1047][n]||784;const t=ac.currentTime;
+  const o=ac.createOscillator(),g=ac.createGain();
+  o.type='triangle';o.frequency.setValueAtTime(f,t);o.connect(g);g.connect(ac.destination);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.35,t+.03);g.gain.exponentialRampToValueAtTime(.001,t+.45);
+  o.start(t);o.stop(t+.5);
+  if(n>=3){[1319,1568].forEach((ff,k)=>{const tt=t+.12+k*.1;const oo=ac.createOscillator(),gg=ac.createGain();oo.type='triangle';oo.frequency.setValueAtTime(ff,tt);oo.connect(gg);gg.connect(ac.destination);gg.gain.setValueAtTime(0,tt);gg.gain.linearRampToValueAtTime(.3,tt+.03);gg.gain.exponentialRampToValueAtTime(.001,tt+.4);oo.start(tt);oo.stop(tt+.45);});}
+}
+/* Зөв нот тогтвортой барих тусам од нэмэгдэнэ */
+function addHold(dt){
+  holdMs=Math.min(STAR_MS[2],holdMs+dt);
+  setHoldUI(holdMs/STAR_MS[2]);
+  while(starsAttempt<3 && holdMs>=STAR_MS[starsAttempt]){
+    starsAttempt++;
+    lightStar(starsAttempt-1);
+    totalStars++;saveStars();
+    document.getElementById('star-total').textContent=totalStars;
+    chime(starsAttempt);
+  }
+  if(starsAttempt>=3){
+    document.getElementById('hold-text').textContent='⭐⭐⭐ Гайхалтай! Бүх одыг авлаа!';
+    setMascot('happy','Гайхалтай! 🎉 3 од авлаа! Үргэлжлүүлээрэй!',false);
+  }else{
+    const remain=Math.max(0,(STAR_MS[starsAttempt]-holdMs)/1000);
+    document.getElementById('hold-text').textContent='Тогтвортой барь... дараагийн ⭐ '+remain.toFixed(1)+' сек';
+    setMascot('happy','Сайн байна! Тогтвортой барьж бай ⭐',false);
+  }
+}
+
 /* ═══════════ 🎨 AI БААТАР ТУСЛАХ ═══════════ */
 function setMascot(state,msg,showDemo){
   const M={
@@ -312,9 +375,11 @@ async function startMic(){
 
 function updatePitchUI(freq){
   if(Date.now()<demoUntil) return;  /* демо тоглож байх үед алгасна */
+  const now=Date.now();let dt=now-(lastTick||now);lastTick=now;if(dt>300)dt=300;
   const det=freqToNote(freq),dn=document.getElementById('det-note'),df=document.getElementById('det-freq'),dnum=document.getElementById('det-num'),ve=document.getElementById('verdict'),tb=document.getElementById('tuner-bar');
   if(!det||freq<=0){
     dn.textContent='—';dn.style.color='#334';dnum.textContent='—';dnum.style.color='#334';df.textContent='0 Гц';ve.textContent='Дуу илрэхгүй';ve.className='';tb.style.left='50%';updateNumStrip('');
+    decayHold(dt);
     setMascot('idle', targetNote?('['+targetNote.sym+' '+targetNote.name+'] нотыг үлээгээрэй, сонсож байна 🎧'):'Доороос нот сонгоорой 👇', !!targetNote);
     return;
   }
@@ -325,18 +390,31 @@ function updatePitchUI(freq){
     if(det.note.sym===targetNote.sym){
       if(Math.abs(cents)<15){
         ve.textContent='✓ Зөв! №'+targetNote.num+' — '+targetNote.name;ve.className='correct';highlightFluteHoles(targetNote.holes,'#2a8e4a');
-        setMascot('happy','Гайхалтай! 🎉 ['+targetNote.sym+' '+targetNote.name+'] нотыг яг зөв тоглолоо!',false);
+        /* ⭐ тогтвортой барих тусам од нэмэгдэнэ */
+        addHold(dt);
       }else{
         ve.textContent=cents>0?'↑ Дээгүүр':'↓ Доогуур';ve.className='close';
+        decayHold(dt);
         setMascot('think', cents>0?'Нот зөв! Гэхдээ арай өндөр байна — зөөлөн үлээгээрэй ↓':'Нот зөв! Гэхдээ арай нам байна — чанга үлээгээрэй ↑', false);
       }
     }else{
       ve.textContent='✗ №'+det.note.num+' '+det.note.sym+' — №'+targetNote.num+' '+targetNote.sym+' биш';ve.className='wrong';highlightFluteHoles(targetNote.holes,'#c04040');
+      decayHold(dt);
       setMascot('oops','Өөр нот байна! Чи ['+det.note.sym+'] тоглолоо. Зорилтот ['+targetNote.sym+' '+targetNote.name+'] нот ингэж дуулдана:',true);
     }
   }else{
     ve.textContent='№'+det.note.num+' — '+det.note.name+' нот';ve.className='';showHolesForNote(det.note);
     setMascot('idle','['+det.note.sym+' '+det.note.name+'] нот сонслоо 👂 Зорилтот нот сонгоорой',false);
+  }
+}
+/* Буруу/завсарласан үед барих хугацааг буулгах */
+function decayHold(dt){
+  if(holdMs<=0)return;
+  holdMs=Math.max(0,holdMs-dt*1.4);
+  setHoldUI(holdMs/STAR_MS[2]);
+  if(holdMs<=0){
+    if(starsAttempt>0){starsAttempt=0;clearStarRow();}
+    if(targetNote)document.getElementById('hold-text').textContent='['+targetNote.name+'] нотыг тогтвортой бариарай';
   }
 }
 
@@ -347,7 +425,8 @@ function showHolesForNote(n){highlightFluteHoles(n.holes,'#3a7fd4');for(let i=0;
 function setTarget(n){targetNote=n;document.getElementById('target-text').textContent=n.sym+' — '+n.name;document.getElementById('target-text').style.color=n.color;
 const b=document.getElementById('target-num-badge');b.textContent=n.num;b.style.display='inline-flex';b.style.color=n.color;b.style.borderColor=n.color+'66';b.style.background=n.color+'18';
 document.getElementById('target-hint').textContent='Нүхний байрлал харж үлээнэ үү';document.querySelectorAll('.guide-card').forEach(c=>c.classList.toggle('target',c.dataset.sym===n.sym));showHolesForNote(n);updateNumStrip(n.sym);
-setMascot('idle','['+n.sym+' '+n.name+'] нотыг үлээгээрэй! Эсвэл 🔊 дарж сонсоорой',true);}
+setMascot('idle','['+n.sym+' '+n.name+'] нотыг үлээгээрэй! Эсвэл 🔊 дарж сонсоорой',true);
+resetHold();document.getElementById('hold-text').textContent='['+n.name+'] нотыг тогтвортой бариарай';}
 
 const gr=document.getElementById('guide-row');
 NOTES.forEach(n=>{const c=document.createElement('div');c.className='guide-card';c.dataset.sym=n.sym;
@@ -363,13 +442,14 @@ document.getElementById('target-hint').textContent='Доорх картаас н
 highlightFluteHoles([0,0,0,0,0,0,0],'#0a0808');for(let i=0;i<7;i++){document.getElementById('fp'+i).classList.remove('pressed');const cl=document.getElementById('cl'+i);if(cl)cl.classList.remove('active');}
 document.getElementById('det-note').textContent='—';document.getElementById('det-note').style.color='#334';document.getElementById('det-num').textContent='—';document.getElementById('det-num').style.color='#334';
 document.getElementById('det-freq').textContent='0 Гц';document.getElementById('verdict').textContent='Хүлээж байна...';document.getElementById('verdict').className='';document.getElementById('tuner-bar').style.left='50%';updateNumStrip('');
-setMascot('idle','Доороос нот сонгоод эхэлцгээе! 🎵',false);});
+setMascot('idle','Доороос нот сонгоод эхэлцгээе! 🎵',false);resetHold();document.getElementById('hold-text').textContent='Нот сонгоод тогтвортой бариарай';});
 
 /* Демо товч — зорилтот нотыг сонсгоно */
 document.getElementById('mascot-demo-btn').addEventListener('click',()=>{ if(targetNote) playDemoNote(targetNote.freq); });
 
 document.getElementById('btn-mic').addEventListener('click',startMic);
 buildNumStrip();
+totalStars=loadStars();document.getElementById('star-total').textContent=totalStars;
 setMascot('idle','Сайн уу! 🎵 Доороос нот сонгоод эхэлцгээе!',false);
 </script>
 </body>
