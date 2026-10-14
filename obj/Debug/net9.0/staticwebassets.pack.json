@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets"
     },
     {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\baatar.html",
+      "PackagePath": "staticwebassets\\baatar.html"
+    },
+    {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\breathing_lesson.html",
       "PackagePath": "staticwebassets\\breathing_lesson.html"
     },
@@ -39,6 +43,10 @@
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\flute_trainer.html",
       "PackagePath": "staticwebassets\\flute_trainer.html"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\hero2025.png",
+      "PackagePath": "staticwebassets\\hero2025.png"
     },
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\index.html",
@@ -303,6 +311,42 @@
     {
       "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\privacy.html",
       "PackagePath": "staticwebassets\\privacy.html"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-center.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-center.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-far.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-far.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-forward.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-forward.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-good.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-good.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-hello.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-hello.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-left.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-left.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-near.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-near.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-right.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-right.mp3"
+    },
+    {
+      "Id": "C:\\Users\\uta llc\\RecorderAppFinal\\wwwroot\\voice\\v-tilt.mp3",
+      "PackagePath": "staticwebassets\\voice\\v-tilt.mp3"
     },
     {
       "Id": "obj\\Debug\\net9.0\\staticwebassets\\msbuild.RecorderAppFinal.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

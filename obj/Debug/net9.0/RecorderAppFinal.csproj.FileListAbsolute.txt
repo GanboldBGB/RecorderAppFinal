@@ -107,9 +107,10 @@ C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\t03r0jfm29-m3scv24
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\1swnhf782q-vgd3o4dg9a.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\lv2aaqfm5v-ris1a89ko1.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\kr8m6ypfvi-cqpwapc5ob.gz
-C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\2znae6ui7u-1et4qz6lta.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\bzhc33sfve-oizgo8r1xm.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\7xd93zwe3s-wtp7i9fbta.gz
-C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\re9ba9pexf-9zdf8he70p.gz
 C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\nhiyyniuwp-ngrwcvpx05.gz
-C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\5nxf1gitl0-bm293ma8i9.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\szw5wjikcu-d8rhvuz4o5.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\2znae6ui7u-kbu03cr8r2.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\5nxf1gitl0-b5quztr2xj.gz
+C:\Users\uta llc\RecorderAppFinal\obj\Debug\net9.0\compressed\re9ba9pexf-5xkzmfxs49.gz

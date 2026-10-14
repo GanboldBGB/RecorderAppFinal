@@ -4,8 +4,6 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Энгийн Аялгуу — Бишгүүр Сургалт</title>
-    <link rel="stylesheet" href="/css/cursor.css">
-    <script src="/js/analytics.js"></script>
     <style>
         :root {
             --bg:  #0c0e14;
@@ -186,6 +184,32 @@
         .note-G { background: linear-gradient(135deg,#1a5276,#2980b9); }
         .note-A { background: linear-gradient(135deg,#4a235a,#8e44ad); }
         .note-B { background: linear-gradient(135deg,#6e2c00,#ba4a00); }
+        /* 2-р октавын нотууд — дээш гарсан гэдгийг жижиг тэмдгээр харуулна */
+        .note-C2 { background: linear-gradient(135deg,#c0392b,#ff6060); box-shadow: inset 0 2px 0 rgba(255,255,255,.35); }
+        .note-D2 { background: linear-gradient(135deg,#d35400,#ff9040); box-shadow: inset 0 2px 0 rgba(255,255,255,.35); }
+        .note-E2 { background: linear-gradient(135deg,#b7950b,#ffe050); box-shadow: inset 0 2px 0 rgba(255,255,255,.35); }
+        .note-F2 { background: linear-gradient(135deg,#1e8449,#50d080); box-shadow: inset 0 2px 0 rgba(255,255,255,.35); }
+        .note-G2 { background: linear-gradient(135deg,#1a5276,#50a8e0); box-shadow: inset 0 2px 0 rgba(255,255,255,.35); }
+        /* note-sym дэх дээд октавын жижиг «'» тэмдгийг тод харуулна */
+        .note-sym .oct-mark { font-size: 10px; vertical-align: super; margin-left: 1px; opacity: 0.9; }
+
+        /* 🕒 Урт нот (ТОМ үсэг = 2x) — өргөн, 2x тэмдэгтэй */
+        .note-block.long-note {
+            border: 2px solid rgba(255,255,255,0.4);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        .note-block .dur-badge {
+            position: absolute;
+            top: 2px; right: 4px;
+            background: rgba(0,0,0,0.55);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 1px 5px;
+            border-radius: 4px;
+            line-height: 1.2;
+        }
 
         .progress-bar-wrap { background: var(--s2); border-radius: 4px; height: 5px; overflow: hidden; margin-top: 10px; }
         .progress-bar { height: 100%; background: var(--ac); border-radius: 4px; transition: width 0.3s; }
@@ -395,26 +419,35 @@
 ═══════════════════════════════ */
 const NOTE_COLORS = {
     C:'#e74c3c', D:'#e67e22', E:'#f1c40f',
-    F:'#27ae60', G:'#2980b9', A:'#8e44ad', B:'#ba4a00'
+    F:'#27ae60', G:'#2980b9', A:'#8e44ad', B:'#ba4a00',
+    "C2":'#e03030', "D2":'#d05010', "E2":'#f0b020', "F2":'#1e8449', "G2":'#1a5276'
 };
 const NOTE_MN = {
-    C:'До', D:'Ре', E:'Ми', F:'Фа', G:'Соль', A:'Ля', B:'Си'
+    C:'До', D:'Ре', E:'Ми', F:'Фа', G:'Соль', A:'Ля', B:'Си',
+    "C2":"До'", "D2":"Ре'", "E2":"Ми'", "F2":"Фа'", "G2":"Соль'"
 };
 const NOTE_NUM = {
-    C:7, D:6, E:5, F:4, G:3, A:2, B:1
+    C:7, D:6, E:5, F:4, G:3, A:2, B:1,
+    "C2":7, "D2":6, "E2":5, "F2":4, "G2":3
 };
 const NOTE_FREQ = {
-    C:523.25, D:587.33, E:659.25, F:698.46, G:784.00, A:880.00, B:987.77
+    C:523.25, D:587.33, E:659.25, F:698.46, G:784.00, A:880.00, B:987.77,
+    "C2":1046.50, "D2":1174.66, "E2":1318.51, "F2":1396.91, "G2":1567.98
 };
 
 const FINGERING = {
-    C: [true,  true,  true,  true,  true,  true,  true ],
-    D: [true,  true,  true,  true,  true,  true,  false],
-    E: [true,  true,  true,  true,  true,  false, false],
-    F: [true,  true,  true,  true,  false, true,  false],
-    G: [true,  true,  true,  true,  false, false, false],
-    A: [true,  true,  true,  false, false, false, false],
-    B: [true,  true,  false, false, false, false, false],
+    C:  [true,  true,  true,  true,  true,  true,  true ],
+    D:  [true,  true,  true,  true,  true,  true,  false],
+    E:  [true,  true,  true,  true,  true,  false, false],
+    F:  [true,  true,  true,  true,  false, true,  false],
+    G:  [true,  true,  true,  true,  false, false, false],
+    A:  [true,  true,  true,  false, false, false, false],
+    B:  [true,  true,  false, false, false, false, false],
+    "C2": [false, false, false, false, false, false, false],
+    "D2": [false, true,  true,  true,  true,  true,  false],
+    "E2": [false, true,  true,  true,  true,  false, false],
+    "F2": [false, true,  true,  true,  false, true,  false],
+    "G2": [false, true,  true,  true,  false, false, false],
 };
 
 /* ═══════════════════════════════
@@ -453,8 +486,16 @@ function playFreq(freq, duration) {
     osc.start(t); osc.stop(t + duration + 0.05);
     osc2.start(t); osc2.stop(t + duration + 0.05);
 }
+/* Нотыг урт нь (beats) болон цэвэр нэрлэд нь задлана. "G.2" → {sym:'G', beats:2} */
+function parseNote(n) {
+    if (!n) return {sym:n, beats:1};
+    const i = n.indexOf('.');
+    if (i < 0) return {sym:n, beats:1};
+    return {sym: n.slice(0,i), beats: parseFloat(n.slice(i+1)) || 1};
+}
 function playNoteSym(sym, duration) {
-    if (NOTE_FREQ[sym]) playFreq(NOTE_FREQ[sym], duration);
+    const p = parseNote(sym);
+    if (NOTE_FREQ[p.sym]) playFreq(NOTE_FREQ[p.sym], duration);
 }
 function playCurrent() {
     if (currentSong && currentSong.notes[currentIdx]) {
@@ -474,10 +515,11 @@ const SONGS = [
         bpm: 80,
         desc: "Б. Цэвээнсүрэнгийн зохиосон 'Хоёр нар' дуу. Хамгийн дээд, доод эгшгийг олж цараагаар тодорхойлж тоглоно.",
         tip: "G (Соль, №3) болон A (Ля, №2) хоёрыг сайн ялга. Хэмнэлээ алдалгүй жигд тогло.",
-        notes: ["G","A","G","E","D","E","G","A",
-                "G","G","E","D","E","G","A","G",
-                "E","D","C","D","E","G","A","G",
-                "E","D","C"]
+        notes: ["G","G","G","G","E","A","A","C2.2","A","C2.2","A","G",
+                "A","D","D","A","G","E","D","D","D","G","E",
+                "A","A","A","B","G","G","E","E","C2.2","A","A",
+                "D","D","D","A","G","A","E","D","D","A","G",
+                "G","D","C2.4"]
     },
     {
         id: 2,
@@ -487,12 +529,12 @@ const SONGS = [
         bpm: 90,
         desc: "Моцартын алдартай 'Бүлтгэр одод' хүүхдийн дуу. Тоон тэмдэглэгээ: 7733 2235 — 6673 3445 5567",
         tip: "Энэ хамгийн алдартай хүүхдийн дуу. 7=До, 6=Ре, 5=Ми, 4=Фа, 3=Соль гэдгээ санаарай. Нот хооронд жигд хэмнэлтэй тогло.",
-        notes: ["C","C","G","G","A","A","G",
-                "F","F","E","E","D","D","C",
-                "G","G","F","F","E","E","D",
-                "G","G","F","F","E","E","D",
-                "C","C","G","G","A","A","G",
-                "F","F","E","E","D","D","C"]
+        notes: ["C","C","G","G","A","A","G.2",
+                "F","F","E","E","D","D","C.2",
+                "G","G","F","F","E","E","D.2",
+                "G","G","F","F","E","E","D.2",
+                "C","C","G","G","A","A","G.2",
+                "F","F","E","E","D","D","C.2"]
     },
     {
         id: 3,
@@ -502,10 +544,10 @@ const SONGS = [
         bpm: 80,
         desc: "Алдартай 'Hot cross buns' англи хүүхдийн дуу. Тоон тэмдэглэгээ: 123 | 123 | 33332222 | 123",
         tip: "Зөвхөн B (Си, №1), A (Ля, №2), G (Соль, №3) гурван нот л байна. Хамгийн анхны дасгалд тохиромжтой.",
-        notes: ["B","A","G",
-                "B","A","G",
+        notes: ["B","A","G.2",
+                "B","A","G.2",
                 "G","G","G","G","A","A","A","A",
-                "B","A","G"]
+                "B","A","G.2"]
     },
     {
         id: 4,
@@ -518,11 +560,11 @@ const SONGS = [
         notes: ["G","G","E",
                 "G","G","E",
                 "G","F","E","D",
-                "C","C",
+                "C.2","C.2",
                 "A","A","A","A",
                 "G","G","E",
                 "G","F","E","D",
-                "C","C"]
+                "C.2","C.2"]
     },
     {
         id: 5,
@@ -532,14 +574,11 @@ const SONGS = [
         bpm: 80,
         desc: "Алдартай 'Are you sleeping / Frère Jacques' хүүхдийн дуу. Andante хэмнэлтэй. Канон хэлбэрээр тоглодог.",
         tip: "Тоон тэмдэглэгээ: 3213 3213 (G A B G давталт). Дөрвөн хэсгээс бүрдэнэ. Эхний хэсгийг сайн дасгалла.",
-        notes: ["G","A","B","G",
-                "G","A","B","G",
-                "B","A","A",
-                "B","A","A",
-                "A","E","A","A","B","G",
-                "A","E","A","A","B","G",
-                "G","D","G",
-                "G","D","G"]
+        notes: ["G","A","B","G","G","A","B","G",
+                "B","C2","D2.2","B","C2","D2.2",
+                "D2","E2","D2","C2","B","G.2",
+                "D2","E2","D2","C2","B","G.2",
+                "G","D","G.2","G","D","G.2"]
     },
     {
         id: 6,
@@ -550,13 +589,13 @@ const SONGS = [
         desc: "С. Гончигсумлаа зохиосон 'Есөн сарын нэгэн' сургуулийн дуу. Дунд зэргийн хэмнэлтэй. Хичээл шинэ жилийн эхлэлийн тухай.",
         tip: "5333 (E G G G), 253 (A E G) хэв давтагдана. E (Ми), G (Соль), A (Ля), C (До), D (Ре) нотууд хэрэглэгдэнэ.",
         notes: ["E","G","G","G",
-                "A","E","G",
+                "A","E","G.2",
                 "E","G","G","G",
-                "A","E","G",
+                "A","E","G.2",
                 "E","E","E","A",
                 "G","E","D","C",
                 "D","D","D","G",
-                "E","D","C"]
+                "E","D","C.2"]
     },
     {
         id: 7,
@@ -567,17 +606,17 @@ const SONGS = [
         desc: "О. Сэрээтэрийн 'Бас гоё' уянгат хүүхдийн дуу. Дунд зэргийн хэмнэлтэй. Урт-богино нотуудын ялгаатай.",
         tip: "Урт дуутай нотууд (5—, 7—, 2.—) болон богино нотуудын ялгааг анхаараарай. Уянгалаг тоглоно.",
         notes: ["G","G","A",
-                "E","D",
+                "E.2","D.2",
                 "G","E",
-                "E",
+                "E.4",
                 "G","G","A",
-                "E","D",
+                "E.2","D.2",
                 "E","D","C",
-                "C",
+                "C.4",
                 "G","A","G",
-                "A",
+                "A.4",
                 "E","E","D","G",
-                "C","C"]
+                "C.2","C.2"]
     },
     {
         id: 8,
@@ -587,22 +626,13 @@ const SONGS = [
         bpm: 130,
         desc: "Жак Оффенбахын алдартай 'Can Can' аялгуу. Vivo (амьд хурдан) хэмнэлтэй. Францын алдартай бүжгийн аялгуу.",
         tip: "Хурдан хэмнэлтэй учир эхэндээ удаан тогло. BPM-ийг бууруулаад дасгалла, дараа нэмж болно. Нот дарааллыг нягт цээжил.",
-        notes: ["C",
-                "D","F","E","D",
-                "G","G",
-                "G","A","E","F",
-                "D","D",
-                "D","F","E","D",
-                "C","A","B","A",
-                "G","F","E","D",
-                "C",
-                "D","F","E","D",
-                "G","G",
-                "G","A","E","F",
-                "D","D",
-                "D","F","E","D",
-                "C","G","E","E",
-                "C","C"]
+        notes: ["C","D","F","E","D","G.2","G.2",
+                "G","A","E","F","D.2","D.2",
+                "D","F","E","D","C.2","C2.2","B.2","A.2","G.2","F.2",
+                "E","D","C.4",
+                "C","D","F","E","D","G.2","G.2",
+                "G","A","E","F","D.2","D.2",
+                "D","F","E","D","C","G","D","E","C.4"]
     }
 ];
 
@@ -647,7 +677,8 @@ function showFingering(note) {
     const closed = '#1a0a02';
     const open   = '#f0d080';
 
-    document.getElementById('cur-note-name').textContent = note;
+    const isHigh = (note.length === 2 && note[1] === '2');
+    document.getElementById('cur-note-name').innerHTML = note[0] + (isHigh ? '<span style="font-size:0.5em;vertical-align:super;margin-left:2px;">•</span>' : '');
     document.getElementById('cur-note-name').style.color = color;
     document.getElementById('cur-note-mn').textContent   = NOTE_MN[note];
     document.getElementById('cur-note-mn').style.color   = color;
@@ -699,21 +730,33 @@ function selectSong(id) {
     document.getElementById('tip-text').innerHTML =
         `<strong>${currentSong.desc}</strong><br><br>💡 ${currentSong.tip}`;
 
-    showFingering(currentSong.notes[0]);
+    showFingering(parseNote(currentSong.notes[0]).sym);
     highlightNote(0);
     updateProgress(0);
 }
 
+/* 2-р октавын тэмдэглэгээ: "C2" → "C'" (нотын шугам дээрх цэгтэй) */
+function displaySym(n) {
+    if (n && n.length === 2 && n[1] === '2')
+        return n[0] + '<span class="oct-mark">•</span>';
+    return n;
+}
 function buildNotesRow() {
     if (!currentSong) return;
     document.getElementById('notes-row').innerHTML =
-        currentSong.notes.map((n, i) => `
-            <div class="note-block note-${n}" id="nb-${i}" onclick="jumpToNote(${i})">
-                <div class="note-num">${NOTE_NUM[n]}</div>
-                <div class="note-sym">${n}</div>
+        currentSong.notes.map((n, i) => {
+            const p = parseNote(n);
+            const extra = p.beats >= 2 ? ' long-note' : '';
+            const widthStyle = p.beats >= 2 ? `min-width:${52 + (p.beats-1)*42}px;` : '';
+            const durBadge = p.beats >= 2 ? `<div class="dur-badge">×${p.beats}</div>` : '';
+            return `
+            <div class="note-block note-${p.sym}${extra}" id="nb-${i}" onclick="jumpToNote(${i})" style="${widthStyle}">
+                <div class="note-num">${NOTE_NUM[p.sym]||''}</div>
+                <div class="note-sym">${displaySym(p.sym)}</div>
                 <div class="note-idx">${i + 1}</div>
-            </div>
-        `).join('');
+                ${durBadge}
+            </div>`;
+        }).join('');
 }
 
 function highlightNote(idx) {
@@ -729,10 +772,11 @@ function highlightNote(idx) {
 function jumpToNote(idx) {
     if (!currentSong) return;
     currentIdx = idx;
+    const p = parseNote(currentSong.notes[idx]);
     highlightNote(idx);
-    showFingering(currentSong.notes[idx]);
+    showFingering(p.sym);
     updateProgress(idx);
-    playNoteSym(currentSong.notes[idx], 0.5);
+    playNoteSym(p.sym, 0.5 * p.beats);
 }
 
 function updateProgress(idx) {
@@ -767,7 +811,7 @@ function resetSong() {
         el.classList.remove('active', 'played'));
     if (currentSong) {
         highlightNote(0);
-        showFingering(currentSong.notes[0]);
+        showFingering(parseNote(currentSong.notes[0]).sym);
         updateProgress(0);
     }
 }
@@ -775,13 +819,17 @@ function resetSong() {
 function scheduleNext() {
     if (!isPlaying || !currentSong) return;
 
-    const noteSym = currentSong.notes[currentIdx];
+    const noteRaw = currentSong.notes[currentIdx];
+    const p = parseNote(noteRaw);
     highlightNote(currentIdx);
-    showFingering(noteSym);
+    showFingering(p.sym);
     updateProgress(currentIdx);
 
-    const noteDuration = (60 / currentBPM) * 0.9;
-    playNoteSym(noteSym, noteDuration);
+    /* beats = нотын урт (1 = энгийн, 2 = ТОМ үсэг = 2 дахин удаан) */
+    const beatMs      = (60 / currentBPM) * 1000;
+    const slotMs      = beatMs * p.beats;
+    const noteDuration= (slotMs / 1000) * 0.92;
+    playNoteSym(p.sym, noteDuration);
 
     currentIdx++;
 
@@ -797,11 +845,11 @@ function scheduleNext() {
             document.getElementById('cur-note-numbig').style.display = 'none';
             document.getElementById('recorder-svg').style.filter =
                 'drop-shadow(0 0 18px #27ae60)';
-        }, (60 / currentBPM) * 1000);
+        }, slotMs);
         return;
     }
 
-    playTimer = setTimeout(scheduleNext, (60 / currentBPM) * 1000);
+    playTimer = setTimeout(scheduleNext, slotMs);
 }
 
 function updateBPM(val) {

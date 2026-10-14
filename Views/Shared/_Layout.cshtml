@@ -58,17 +58,6 @@
             color: #3a3d50;
             padding: 0 .4rem .5rem;
         }
-<div style="padding:20px;background:red;color:white;font-size:20px;">
-    ТОВЧНУУД ЭНД БАЙХ ЁСТОЙ
-</div>
-<button onclick="alert('Багийн танилцуулга')" 
-        style="background:blue;color:white;padding:10px;width:100%;font-size:14px;border:none;cursor:pointer;margin-bottom:5px;">
-    👥 Багийн танилцуулга
-</button>
-<button onclick="alert('Гэрчилгээ')" 
-        style="background:gold;color:black;padding:10px;width:100%;font-size:14px;border:none;cursor:pointer;">
-    📜 Оюуны өмчийн гэрчилгээ
-</button>
         .nav-item {
             display: flex;
             align-items: center;
@@ -433,7 +422,7 @@
                     <div>
                         <div class="team-hero-name">БИШГҮҮР СУРГАЛТЫН СИСТЕМ</div>
                         <div class="team-hero-sub">Recorder Learning System · Багийн гишүүд</div>
-                        <div class="team-count-pill">👩‍🏫 <span id="team-count-lbl">26</span> багш</div>
+                        <div class="team-count-pill">👩‍🏫 <span id="team-count-lbl">27</span> багш</div>
                     </div>
                 </div>
                 <div class="search-wrap">
@@ -491,6 +480,16 @@
 
                     <div class="cert-divider"></div>
 
+                    <div class="cert-section-title">🎵 Хөгжмийн Багш</div>
+                    <div class="cert-initiator-box" style="border-color:#4a3818;">
+                        <div class="cert-init-title" style="color:#d8b060;">🏫 Сүхбаатар дүүргийн 16-р сургууль</div>
+                        <div class="cert-init-names">
+                            <span class="cert-init-name" style="font-size:13px;padding:5px 12px;">Цэвээнжавын Мөнхтуул</span>
+                        </div>
+                    </div>
+
+                    <div class="cert-divider"></div>
+
                     <div class="cert-section-title">💻 Мэдээлэл Технологийн Багш Гишүүд</div>
                     <div id="cert-members-list"></div>
 
@@ -534,6 +533,7 @@
             { name:'Рагчаагийн Бигэрмаа',          school:'ШУТИС, Гадаад хэлний сургууль',                   subject:'Монгол хэл, уран зохиол' },
             { name:'Намшир Ариунзаяа',             school:'11-р сургууль',                                    subject:'Дүрслэх урлаг, дизайн технологи' },
             { name:'Наранцэцэг Шинэбаяр',          school:'16-р сургууль',                                    subject:'Дизайн технологи' },
+            { name:'Цэвээнжавын Мөнхтуул',          school:'Сүхбаатар дүүргийн 16-р сургууль',                 subject:'Хөгжмийн багш' },
         ];
 
         const CERT = [
@@ -545,6 +545,7 @@
             { name:'Аръяа Болортуяа',              role:'МТ багш — 31-р сургууль' },
             { name:'Намшир Ариунзаяа',             role:'Дүрслэх урлаг дизайн — 11-р сургууль' },
             { name:'Наранцэцэг Шинэбаяр',          role:'Дизайн технологи — 16-р сургууль' },
+            { name:'Цэвээнжавын Мөнхтуул',          role:'Хөгжмийн багш — СБД 16-р сургууль' },
         ];
 
         const AV = ['#4a90d9','#3dbe6a','#9a70d9','#d060a0','#d0a030','#e07050','#3dc8b0','#5090e0','#c050c0','#50c080'];
@@ -570,6 +571,8 @@
                 return 'background:#201008;color:#d06820;border:1px solid #301808';
             if (s.includes('Солонгос'))
                 return 'background:#180818;color:#d060b0;border:1px solid #280828';
+            if (s.includes('Хөгжм'))
+                return 'background:#1a0820;color:#d050a0;border:1px solid #2a0e30';
             if (s.includes('Газар'))
                 return 'background:#081808;color:#40a840;border:1px solid #0e2810';
             return 'background:#101216;color:#607080;border:1px solid #181e24';
