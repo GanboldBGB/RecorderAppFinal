@@ -4,6 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Бишгүүр Сургалт</title>
+    <!-- 📱 PWA / Android апп -->
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#13151d">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Бишгүүр">
     <link rel="stylesheet" href="/css/cursor.css">
     <script src="/js/analytics.js"></script>
     <style>
@@ -1043,5 +1050,13 @@
     })();
 </script>
 
+<script>
+    /* 📱 PWA — service worker бүртгэх */
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js').catch(function () {});
+        });
+    }
+</script>
 </body>
 </html>

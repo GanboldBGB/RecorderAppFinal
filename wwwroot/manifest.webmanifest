@@ -1,0 +1,19 @@
+{
+  "name": "Бишгүүр Сургалт",
+  "short_name": "Бишгүүр",
+  "description": "Бишгүүр (recorder) тоглож сурах систем — нот, хурууны байрлал, амьсгал, AI камер, дуу авианы хяналт.",
+  "lang": "mn",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0c0e14",
+  "theme_color": "#13151d",
+  "categories": ["education", "music"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
