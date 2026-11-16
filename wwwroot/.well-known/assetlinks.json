@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "mn.bishguur.app",
+        "sha256_cert_fingerprints": ["17:0C:28:56:05:88:87:E5:D9:ED:CE:0F:86:BF:BE:8D:5B:4D:BB:4C:46:6C:03:F8:29:10:9D:AE:A7:EC:9A:2C"]
+      }
+    }]
