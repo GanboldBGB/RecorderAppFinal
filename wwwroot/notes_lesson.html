@@ -351,6 +351,7 @@ body {
 }
 .hole-closed { background: #1a0a02; border-color: #6b4c1e; color: #fff; }
 .hole-open { background: #f0d080; border-color: #b8860b; color: #333; }
+.hole-half { background: linear-gradient(90deg,#1a0a02 50%,#f0d080 50%); border-color: #c4b5fd; color: #fff; }
 
 .tip-box {
   background: var(--s2);
@@ -746,8 +747,35 @@ const NOTES = [
       {label:'2-р хуруу',closed:false},{label:'3-р хуруу',closed:false},
       {label:'4-р хуруу',closed:false},{label:'5-р хуруу',closed:false},
       {label:'6-р хуруу',closed:false}]},
+  /* ══ 2-р октавын нотууд (Си-ээс дээш) ══ */
+  { sym:'C2', mn:"До²",  num:7, color:'#ff5a5a', freq:1046.50, high:true,
+    desc:'2-р октавын До — Си (B) нотоос дээш дараагийн нот. 1-р октавын До-оос нэг октав өндөр, тод дуутай.',
+    tip:'Эрхий болон 2-р хуруугаар хаана, бусад нүхийг нээнэ. Амьсгалаа арай хурдан, тогтвортой гаргаарай.',
+    fingers:[
+      {label:'Эрхий (ар)',closed:true},{label:'1-р хуруу',closed:false},
+      {label:'2-р хуруу',closed:true},{label:'3-р хуруу',closed:false},
+      {label:'4-р хуруу',closed:false},{label:'5-р хуруу',closed:false},
+      {label:'6-р хуруу',closed:false}]},
+  { sym:'D2', mn:"Ре²",  num:6, color:'#ff9a40', freq:1174.66, high:true,
+    desc:'2-р октавын Ре — До² нотоос дээш. Эрхий хуруугаа нээдэг онцлогтой.',
+    tip:'Зөвхөн 2-р хуруугаар хаана. Эрхий хурууг бүрэн нээнэ. Амьсгалыг зөөлөн хэрнээ хурдан гаргана.',
+    fingers:[
+      {label:'Эрхий (ар)',closed:false},{label:'1-р хуруу',closed:false},
+      {label:'2-р хуруу',closed:true},{label:'3-р хуруу',closed:false},
+      {label:'4-р хуруу',closed:false},{label:'5-р хуруу',closed:false},
+      {label:'6-р хуруу',closed:false}]},
+  { sym:'E2', mn:"Ми²",  num:5, color:'#ffd84a', freq:1318.51, high:true,
+    desc:'2-р октавын Ми — эрхий хурууг хагас нээж (pinch) тоглодог өндөр нот.',
+    tip:'Эрхий хурууны хумсаар нүхийг хагас нээнэ. 1, 2, 3, 4, 5-р хурууг хааж, 6-р нүхийг нээнэ.',
+    fingers:[
+      {label:'Эрхий (ар)',closed:'half'},{label:'1-р хуруу',closed:true},
+      {label:'2-р хуруу',closed:true},{label:'3-р хуруу',closed:true},
+      {label:'4-р хуруу',closed:true},{label:'5-р хуруу',closed:true},
+      {label:'6-р хуруу',closed:false}]},
 ];
 
+/* "C2" → "C²" гэж харуулна */
+function L(sym){ return (sym && sym.length===2 && sym[1]==='2') ? sym[0]+'²' : sym; }
 let currentNote = null;
 let learnedNotes = new Set();
 let currentMode = 'learn';
@@ -805,7 +833,7 @@ function playNoteBySym(sym, animateEl) {
 }
 
 function playNoteByNum(num) {
-  const note = NOTES.find(n => n.num === num);
+  const note = NOTES.find(n => n.num === num && !n.high);
   if (!note) return;
   playNote(note.freq);
   const item = document.querySelector(`[data-num="${num}"]`);
@@ -834,16 +862,16 @@ function stopAndPlay(e, sym) {
 ══════════════════════════════════════ */
 function buildSidebar() {
   const el = document.getElementById('notes-sidebar');
-  el.innerHTML = `<div class="notes-sidebar-label">7 НОТ — дарж дуу сонсох 🔊</div>` +
+  el.innerHTML = `<div class="notes-sidebar-label">10 НОТ — дарж дуу сонсох 🔊</div>` +
     NOTES.map(n => `
       <div class="note-item ${learnedNotes.has(n.sym)?'learned':''}"
            id="ni-${n.sym}" onclick="selectNote('${n.sym}')">
         <div class="note-dot" style="background:${n.color}">
-          ${n.sym}
+          ${L(n.sym)}
           <span class="num-badge">${n.num}</span>
         </div>
         <div class="note-item-info">
-          <div class="note-item-name">${n.sym} <span style="font-size:11px;color:var(--tx2);font-weight:400;">№${n.num}</span></div>
+          <div class="note-item-name">${L(n.sym)} <span style="font-size:11px;color:var(--tx2);font-weight:400;">№${n.num}</span></div>
           <div class="note-item-mn">${n.mn}</div>
         </div>
         <div class="note-item-check">✓</div>
@@ -853,7 +881,7 @@ function buildSidebar() {
        <div class="notes-sidebar-label">ЯВЦ</div>
        <div class="progress-row" id="prog-row"></div>
        <div style="font-size:12px; color:var(--tx2); margin-top:10px;">
-         <span id="prog-count">0</span> / 7 нот сурсан
+         <span id="prog-count">0</span> / ${NOTES.length} нот сурсан
        </div>
      </div>`;
   updateProgress();
@@ -866,7 +894,7 @@ function updateProgress() {
     <div class="prog-dot ${learnedNotes.has(n.sym)?'done':''}"
          style="background:${n.color}"
          onclick="selectNote('${n.sym}')"
-         title="${n.sym} — ${n.mn}">${n.num}</div>
+         title="${L(n.sym)} — ${n.mn}">${n.num}</div>
   `).join('');
   const cnt = document.getElementById('prog-count');
   if (cnt) cnt.textContent = learnedNotes.size;
@@ -898,7 +926,7 @@ function selectNote(sym) {
    ТООН ТЭМДЭГЛЭГЭЭ — товчнууд
 ══════════════════════════════════════ */
 function buildNumRefHTML(activeSym) {
-  return NOTES.map(n => `
+  return NOTES.filter(n => !n.high).map(n => `
     <div class="num-ref-item ${n.sym===activeSym?'active-ref':''}"
          data-num="${n.num}"
          style="color:${n.color};border-color:${n.color}55;"
@@ -944,10 +972,10 @@ function renderLearn() {
               <div class="mini-sound-btn" onclick="stopAndPlay(event,'${nn.sym}')" title="Дуу сонсох">🔊</div>
             </div>
             <div class="mini-note-circle" style="background:${nn.color}">
-              ${nn.sym}
+              ${L(nn.sym)}
               <span class="num-badge-sm">${nn.num}</span>
             </div>
-            <div class="mini-note-sym">${nn.sym}</div>
+            <div class="mini-note-sym">${L(nn.sym)}</div>
             <div class="mini-note-mn">${nn.mn}</div>
             <div class="mini-note-num">№${nn.num}</div>
           </div>
@@ -960,7 +988,7 @@ function renderLearn() {
            style="background:linear-gradient(135deg,${n.color}dd,${n.color}88);"
            onclick="playNote(${n.freq}); animatePlay(this);"
            title="Дарж дуу сонсох">
-        ${n.sym}
+        ${L(n.sym)}
         <div class="note-shine"></div>
         <div class="num-corner">${n.num}</div>
       </div>
@@ -968,7 +996,7 @@ function renderLearn() {
         <div class="note-info-header">
           <div class="note-info-name" style="color:${n.color}"
                onclick="playNote(${n.freq}); animatePlay(document.getElementById('note-big-display'));"
-               title="Дарж дуу сонсох">${n.sym}</div>
+               title="Дарж дуу сонсох">${L(n.sym)}</div>
           <div class="note-info-mn">${n.mn}</div>
           <div class="note-info-num" style="color:${n.color};border-color:${n.color}44;"
                onclick="playNote(${n.freq}); animatePlay(document.getElementById('note-big-display'));"
@@ -1002,16 +1030,16 @@ function renderLearn() {
         </div>
       </div>
       <div class="fingering-right">
-        <h3>Нүхний байрлал — ${n.sym} (${n.mn}) №${n.num}</h3>
+        <h3>Нүхний байрлал — ${L(n.sym)} (${n.mn}) №${n.num}</h3>
         <div class="holes-grid">
           ${n.fingers.map(f => `
             <div class="hole-row">
               <div class="hole-label">${f.label}</div>
-              <div class="hole-indicator ${f.closed?'hole-closed':'hole-open'}">
-                ${f.closed ? '⚫' : '⚪'}
+              <div class="hole-indicator ${f.closed==='half'?'hole-half':(f.closed?'hole-closed':'hole-open')}">
+                ${f.closed==='half' ? '◐' : (f.closed ? '⚫' : '⚪')}
               </div>
               <div style="font-size:13px; color:var(--tx2); margin-left:6px;">
-                ${f.closed ? 'Хаах' : 'Нээх'}
+                ${f.closed==='half' ? 'Хагас нээх' : (f.closed ? 'Хаах' : 'Нээх')}
               </div>
             </div>
           `).join('')}
@@ -1028,7 +1056,7 @@ function renderLearn() {
    STAFF SVG — нот тус бүр товч
 ══════════════════════════════════════ */
 function buildStaffSVG(activeNote) {
-  const positions = { C:88, D:80, E:72, F:64, G:56, A:48, B:40 };
+  const positions = { C:88, D:80, E:72, F:64, G:56, A:48, B:40, C2:32, D2:24, E2:16 };
   const w = Math.max(520, NOTES.length * 68 + 80);
   const h = 120;
   const staffTop = 30;
@@ -1055,14 +1083,16 @@ function buildStaffSVG(activeNote) {
     // Том invisible click area
     svg += `<rect x="${x-18}" y="${y-26}" width="36" height="52" fill="transparent"/>`;
     svg += `<ellipse cx="${x}" cy="${y}" rx="10" ry="7" fill="${n.color}" opacity="${alpha}" transform="rotate(-15,${x},${y})"/>`;
-    svg += `<line x1="${x+9}" y1="${y}" x2="${x+9}" y2="${y-30}" stroke="${n.color}" stroke-width="2" opacity="${alpha}"/>`;
-    svg += `<text x="${x}" y="${y+22}" text-anchor="middle" font-size="11" fill="${n.color}" font-weight="700" opacity="${alpha}">${n.sym}</text>`;
+    /* өндөр нотын иш доош */
+    if (n.high) svg += `<line x1="${x-9}" y1="${y}" x2="${x-9}" y2="${y+30}" stroke="${n.color}" stroke-width="2" opacity="${alpha}"/>`;
+    else        svg += `<line x1="${x+9}" y1="${y}" x2="${x+9}" y2="${y-30}" stroke="${n.color}" stroke-width="2" opacity="${alpha}"/>`;
+    svg += `<text x="${x}" y="${n.high ? y+44 : y+22}" text-anchor="middle" font-size="11" fill="${n.color}" font-weight="700" opacity="${alpha}">${L(n.sym)}</text>`;
     svg += `<text x="${x}" y="${y+34}" text-anchor="middle" font-size="10" fill="${n.color}" font-weight="600" opacity="${alpha * 0.7}">№${n.num}</text>`;
 
     if (isActive) {
       svg += `<ellipse cx="${x}" cy="${y}" rx="14" ry="11" fill="${n.color}" opacity="0.2" transform="rotate(-15,${x},${y})"/>`;
     }
-    svg += `<title>${n.sym} (${n.mn}) №${n.num} — Дарж дуу сонсох</title>`;
+    svg += `<title>${L(n.sym)} (${n.mn}) №${n.num} — Дарж дуу сонсох</title>`;
     svg += `</g>`;
   });
 
@@ -1079,10 +1109,11 @@ function buildRecorderSVG(note) {
   return `
   <svg width="72" height="240" viewBox="0 0 72 240"
        style="filter:drop-shadow(0 0 14px ${color}66); transition:filter .3s; pointer-events:none;">
+    <defs><linearGradient id="halfThumb" x1="0" x2="1"><stop offset="50%" stop-color="#1a0a02"/><stop offset="50%" stop-color="#f0d080"/></linearGradient></defs>
     <rect x="26" y="10" width="20" height="218" fill="#b8904a" rx="7"/>
     <rect x="29" y="0" width="14" height="18" fill="#8a6030" rx="4"/>
     <circle cx="16" cy="45" r="8"
-            fill="${f[0].closed?closed:open}"
+            fill="${f[0].closed==='half'?'url(#halfThumb)':(f[0].closed?closed:open)}"
             stroke="${f[0].closed?'#8a6030':color}" stroke-width="2"/>
     <line x1="24" y1="45" x2="26" y2="45" stroke="#8a6030" stroke-width="1.5"/>
     ${[70,96,122,146,164,182].map((cy,i)=>`
@@ -1172,7 +1203,7 @@ function showQuizQuestion() {
       <div class="quiz-note-display"
            style="background:linear-gradient(135deg,${q.color}dd,${q.color}88);"
            onclick="playNote(${q.freq})" title="Дарж дуу сонсох">
-        ${q.sym}
+        ${L(q.sym)}
         <div class="num-corner">${q.num}</div>
       </div>
 
@@ -1184,7 +1215,7 @@ function showQuizQuestion() {
         ${choices.map(c => `
           <button class="quiz-choice" id="qc-${c.sym}"
                   onclick="answerQuiz('${c.sym}', '${q.sym}')">
-            ${c.sym} <span style="font-size:11px;color:var(--ac);font-weight:800;">№${c.num}</span><br>
+            ${L(c.sym)} <span style="font-size:11px;color:var(--ac);font-weight:800;">№${c.num}</span><br>
             <span style="font-size:12px; font-weight:400; color:var(--tx2);">${c.mn}</span>
           </button>
         `).join('')}
@@ -1222,11 +1253,11 @@ function answerQuiz(chosen, correct) {
   if (isCorrect) {
     resultEl.textContent = '✅ Зөв!';
     resultEl.style.color = '#27ae60';
-    subEl.textContent = `${correct} нот — ${cNote.mn} (№${cNote.num})`;
+    subEl.textContent = `${L(correct)} нот — ${cNote.mn} (№${cNote.num})`;
   } else {
     resultEl.textContent = '❌ Буруу';
     resultEl.style.color = '#e74c3c';
-    subEl.textContent = `Зөв хариулт: ${correct} (${cNote.mn}, №${cNote.num})`;
+    subEl.textContent = `Зөв хариулт: ${L(correct)} (${cNote.mn}, №${cNote.num})`;
   }
   playNote(cNote.freq);
   nextBtn.style.display = 'inline-block';
