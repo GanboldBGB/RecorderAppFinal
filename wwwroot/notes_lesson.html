@@ -666,6 +666,33 @@ body {
 /* Staff SVG note hover */
 .staff-note-group { transition: .2s; }
 .staff-note-group:hover { transform: translateY(-3px); transform-origin: center; }
+
+/* ── Утасны дэлгэц (mobile) ── */
+@media (max-width: 760px) {
+  body { height: auto; min-height: 100vh; overflow: auto; }
+  .topbar { padding: 10px 12px; flex-wrap: wrap; gap: 8px; }
+  .topbar-title { font-size: 15px; }
+  .mode-tab { padding: 6px 12px; }
+  .main { flex-direction: column; overflow: visible; flex: none; }
+  .notes-sidebar {
+    width: 100%; flex-direction: row; overflow-x: auto; overflow-y: hidden;
+    border-right: none; border-bottom: 1px solid var(--bd); padding: 8px; gap: 6px;
+    flex: 0 0 auto; height: auto; align-items: center;
+  }
+  .notes-sidebar-label, .note-item-mn, .note-item-check { display: none; }
+  .notes-sidebar > div:last-child:not(.note-item) { display: none; }
+  .note-item { flex: 0 0 auto; padding: 6px 8px; gap: 6px; }
+  .content-area { padding: 12px; overflow: visible; min-width: 0; }
+  .content-area > * { min-width: 0; max-width: 100%; }
+  .note-hero { flex-direction: column; padding: 16px; gap: 16px; align-items: center; }
+  .note-info-name { font-size: 28px; }
+  .num-ref-label, .all-notes-label { flex-wrap: wrap; gap: 4px; }
+  .num-ref-row { flex-wrap: wrap; }
+  .all-notes-grid { grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)) !important; max-width: 100% !important; }
+  .all-notes-row { overflow: hidden; }
+  .mini-note-card { min-width: 0; }
+  img, svg, canvas { max-width: 100%; }
+}
 </style>
 </head>
 <body>
